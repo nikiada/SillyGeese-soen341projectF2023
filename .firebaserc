@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "soen341-e0993": {
+      "hosting": {
+        "house": [
+          "soen341-e0993"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "soen341-e0993"
+  }
+}
