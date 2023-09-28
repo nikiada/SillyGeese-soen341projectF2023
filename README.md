@@ -3,7 +3,7 @@
 # Project Description
 Create a convenient and efficient real estate website that can be used by 4 different types of users: homebuyers, property renters, system administrator(s), and (real-state) brokers. The project will be completed over 4 sprints. The project will be generated with Angular and using the Agile methodology. The following 3 points are the base features to be included in the website.
 1) Homebuyers/renters should be able to:
-  - Search for properties based on properties
+  - Search listings based on these properties:
       · Price range
       · Number of rooms
       · Room dimensions
