@@ -33,6 +33,88 @@ Create a convenient and efficient real estate website that can be used by 4 diff
 5) Franco G. Moro (Scrum master)
 6) Anh Vi Mac (Developer)
 
+For this project there was many options to choose from for back-end and front-end frameworks. This wiki pages explains some of the rationale for our design choices.
+
+
+Back-End:
+
+Node.js (Javascript)
+Pros:
+- Built for web development
+- Very popular (a lot of examples/documentation online.)
+
+Cons:
+-  Need to write our own API and we would have to create our own database system.
+
+Spring boot (Java)
+Pros:
+- Very Robust (everything is typed.)
+- Well supported (docs + examples)
+- Scalable (often used for enterprise scale projects.)
+
+Cons:
+- A lot of boilerplate code must be written
+- Need to write our own API and we would have to create our own database system.
+
+ASP.NET
+Pros:
+- Very Robust (everything is typed.)
+- Well supported (docs + examples)
+- Scalable (often used for enterprise scale projects.)
+
+Cons:
+- A lot of boilerplate code must be written
+- Need to write our own API and we would have to create our own database system.
+- Made by Microsoft
+
+
+Front-End:
+
+React:
+Pros:
+
+- Well documented 
+- Popular
+- Scalable
+
+Cons: 
+-  No typing 
+
+Pure JS:
+
+Pros:
+
+- Good for learning 
+- Taught by our professors
+- No third party
+
+Cons: 
+
+- Hard to debug
+- A lot of boilerplate
+- No rules
+- No Support
+
+
+Angular:
+
+Pros:
+- Easily integrated with firebase
+- Well documented (tutorials + doc)
+- embedded html
+- Team has experience with it.
+
+Cons: 
+- Routing may be difficult 
+- Need for third party.
+
+
+Final tech stack:
+
+Our plan is to simply make an angular app with a Firebase connection. This would allow us to not have a back-end framework but still have access to a persistent database.
+
+
+
 # House
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
