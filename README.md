@@ -1,4 +1,32 @@
 # SillyGeese-soen341projectF2023
+
+# Project Description
+Create a convenient and efficient real estate website that can be used by 4 different types of users: homebuyers, property renters, system administrator(s), and (real-state) brokers. The project will be completed over 4 sprints. The project will be generated with Angular and using the Agile methodology. The following 3 points are the base features to be included in the website.
+1) Homebuyers/renters should be able to:
+  - Search for properties based on properties
+      · Price range
+      · Number of rooms
+      · Room dimensions
+      · Time in the market
+      · Building type
+      · Year built
+      · Etc
+  - Request a visit for a unit from a broker
+  - Search for a broker
+  - Calculate an estimate for a monthly payment plan of a unit (feature only available for homebuyers)
+  - Save a property as a favorite
+2) Broker
+  - Submit and track an offer
+  - Request visits for their clients
+  - CRUD operations on their listings
+  - Match properties to potential buyers
+  - Manage and review offers for their listings
+  - Manage visit requests for their listings
+3) System administrators
+  - Adding and removing brokers
+
+# Group members/roles
+
 # House
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
