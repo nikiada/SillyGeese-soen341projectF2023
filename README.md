@@ -26,6 +26,12 @@ Create a convenient and efficient real estate website that can be used by 4 diff
   - Adding and removing brokers
 
 # Group members/roles
+1) Adam Oughourlian (Product owner)
+2) Niki Adamacopoulos (Developer)
+3) Mostafa Hassan (Developer)
+4) Jean Naima (Developer)
+5) Franco G. Moro (Scrum master)
+6) Anh Vi Mac (Developer)
 
 # House
 
