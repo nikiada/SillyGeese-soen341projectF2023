@@ -1,6 +1,6 @@
 # SillyGeese-soen341projectF2023
 
-# Project Description
+## Project Description
 Create a convenient and efficient real estate website that can be used by 4 different types of users: homebuyers, property renters, system administrator(s), and (real-state) brokers. The project will be completed over 4 sprints. The project will be generated with Angular and using the Agile methodology. The following 3 points are the base features to be included in the website.
 1) Homebuyers/renters should be able to:
   - Search listings based on these properties:
@@ -25,7 +25,7 @@ Create a convenient and efficient real estate website that can be used by 4 diff
 3) System administrators
   - Adding and removing brokers
 
-# Group members/roles
+## Group members/roles
 1) Adam Oughourlian (Product owner)
 2) Niki Adamacopoulos (Developer)
 3) Mostafa Hassan (Developer)
