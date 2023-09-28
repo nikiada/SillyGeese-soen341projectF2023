@@ -37,6 +37,15 @@ Create a convenient and efficient real estate website that can be used by 4 diff
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
 
+#Install Angular
+
+First install node.js with your browser.
+
+Then, with a terminal install angular and angular cli
+
+`npm install angular`
+`npm install angular-cli`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
