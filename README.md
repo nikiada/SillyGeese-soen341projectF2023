@@ -27,11 +27,11 @@ Create a convenient and efficient real estate website that can be used by 4 diff
 
 ## Group members/roles
 1) Adam Oughourlian (Product owner)
-2) Niki Adamacopoulos (Developer)
-3) Mostafa Hassan (Developer)
-4) Jean Naima (Developer)
+2) Niki Adamacopoulos (QA)
+3) Mostafa Hassan (Team leader)
+4) Jean Naima (Database manager)
 5) Franco G. Moro (Scrum master)
-6) Anh Vi Mac (Developer)
+6) Anh Vi Mac (Design analyst)
 
 For this project there was many options to choose from for back-end and front-end frameworks. This wiki pages explains some of the rationale for our design choices.
 
