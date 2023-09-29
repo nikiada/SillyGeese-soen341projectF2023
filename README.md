@@ -115,6 +115,8 @@ Our plan is to simply make an angular app with a Firebase connection. This would
 
 
 
+
+
 # House
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
@@ -151,3 +153,9 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Firebase
+
+The firebase database can be found here:https://console.firebase.google.com/u/0/project/soen341-e0993/firestore/data/~2Fbroker~2FE9dGq3AIipyCuatOeD4G
+
+email franco.g.moro@gmail.com with the email address you want to use as login in order to request modification rights.
