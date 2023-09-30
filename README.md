@@ -33,6 +33,7 @@ Create a convenient and efficient real estate website that can be used by 4 diff
 5) Franco G. Moro (Scrum master)
 6) Anh Vi Mac (Design analyst)
 
+## Project Approach and Technology
 For this project there was many options to choose from for back-end and front-end frameworks. This wiki pages explains some of the rationale for our design choices.
 
 
