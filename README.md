@@ -157,6 +157,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Firebase
 
-The firebase database can be found here:https://console.firebase.google.com/u/0/project/soen341-e0993/firestore/data/~2Fbroker~2FE9dGq3AIipyCuatOeD4G
+The firebase database can be found here: https://console.firebase.google.com/u/0/project/soen341-e0993/firestore/data/~2Fbroker~2FE9dGq3AIipyCuatOeD4G
 
 email franco.g.moro@gmail.com with the email address you want to use as login in order to request modification rights.
