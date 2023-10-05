@@ -4,7 +4,6 @@ import {LoginDialogComponent} from "./login-dialog/login-dialog.component";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Login} from "./login-dialog/login";
-import {FirebaseApi} from "./api/firebase-api";
 import firebase from "firebase/compat";
 import UserCredential = firebase.auth.UserCredential;
 
@@ -17,12 +16,9 @@ export class AppComponent {
   title = 'house';
 
   constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
-    auth.onAuthStateChanged((user) =>{
-      if(!user){
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
         this.openLoginDialog()
-      }
-      else{
-        console.log(user.uid)
       }
     })
   }
@@ -34,17 +30,17 @@ export class AppComponent {
     });
     dialogRef
       .afterClosed()
-      .subscribe((result: Login|undefined) => {
+      .subscribe((result: Login | undefined) => {
         if (!result) {
           return this.openLoginDialog();
         }
-        if (result.email != null && result.password !=null) {
+        if (result.email != null && result.password != null) {
           this.authenticate(result).catch((error) => {
             console.log(error.message)
+            window.alert(error.message)
             return this.openLoginDialog();
-          });;
-        }
-        else{
+          });
+        } else {
           return this.openLoginDialog();
         }
       });
