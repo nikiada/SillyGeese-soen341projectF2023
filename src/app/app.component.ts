@@ -6,6 +6,7 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Login} from "./login-dialog/login";
 import firebase from "firebase/compat";
 import UserCredential = firebase.auth.UserCredential;
+import {FirebaseApi} from "./api/firebase-api";
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,16 @@ import UserCredential = firebase.auth.UserCredential;
 })
 export class AppComponent {
   title = 'house';
+  firebaseApi: FirebaseApi
 
   constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
+    this.firebaseApi = new FirebaseApi(fireModule, auth)
     auth.onAuthStateChanged((user) => {
       if (!user) {
         this.openLoginDialog()
       }
     })
+
   }
 
   private openLoginDialog(): void {
@@ -35,7 +39,7 @@ export class AppComponent {
           return this.openLoginDialog();
         }
         if (result.email != null && result.password != null) {
-          this.authenticate(result).catch((error) => {
+          this.firebaseApi.authenticate(result).catch((error) => {
             console.log(error.message)
             window.alert(error.message)
             return this.openLoginDialog();
@@ -46,15 +50,9 @@ export class AppComponent {
       });
   }
 
-  private authenticate(login: Login): Promise<UserCredential> {
-    if (login.isRegistering) {
-      return this.auth.createUserWithEmailAndPassword(login.email, login.password);
-    } else {
-      return this.auth.signInWithEmailAndPassword(login.email, login.password);
-    }
-  }
+
 
   public logout() {
-    this.auth.signOut();
+    this.firebaseApi.signOut();
   }
 }
