@@ -1,0 +1,22 @@
+<div style="align-content: center">
+  <div>
+    <label>{{login.isRegistering ? "Register" : "Login"}}</label>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput cdkFocusInitial [(ngModel)]="login.email"/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="login.password"/>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="submit()">OK</button>
+    <button mat-button
+            (click)="toggleRegister()">{{login.isRegistering ? "Login Instead" : "Register Instead"}}</button>
+  </div>
+
+</div>
