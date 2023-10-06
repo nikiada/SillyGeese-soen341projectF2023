@@ -1,17 +1,30 @@
 import {UserType} from "./user-type";
+import firebase from "firebase/compat";
+import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 
-export interface IUser{
-  email: string,
-  type: UserType
+export interface IUser {
+  id?: string
+  email?: string,
+  type?: string
 }
 
 export class User implements IUser {
-  email: string;
-  type: UserType;
+  id?: string
+  email?: string;
+  type?: string;
 
-  constructor(email: string, type: UserType) {
+  constructor(id?: string, email?: string, type?: string ) {
+    this.id = id;
     this.email = email;
     this.type = type;
+  }
+
+  public static createUserFromDocumentSnapshot(id?: string, doc?: any): IUser {
+    return new User(
+      id,
+      doc.email,
+      doc.type
+    )
   }
 
 }
