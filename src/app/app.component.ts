@@ -5,8 +5,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Login} from "./login-dialog/login";
 import {FirebaseApi} from "./api/firebase-api";
-import firebase from "firebase/compat";
-import UserCredential = firebase.auth.UserCredential;
+import {User} from "./dto/user";
 
 @Component({
   selector: 'app-root',
@@ -15,16 +14,43 @@ import UserCredential = firebase.auth.UserCredential;
 })
 export class AppComponent {
   title = 'house';
+  firebaseApi: FirebaseApi
 
   constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
-    auth.onAuthStateChanged((user) =>{
-      if(!user){
+    this.firebaseApi = new FirebaseApi(fireModule, auth)
+    console.log(this.firebaseApi.getAllUsers());
+    // Check if user is logged in.
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
         this.openLoginDialog()
-      }
-      else{
+      } else {
         console.log(user.uid)
+        // This is how you get a user
+        this.firebaseApi.getUser(user.uid)
+          .then((fetchedUser) => {
+            // These then() statements should be used to set your page's variable
+            // This is necessary since stuff is async.
+
+            // This if check whether the fetchedUser is present.
+            if (fetchedUser) {
+              console.log(fetchedUser.email)
+              console.log(fetchedUser.id)
+              console.log(fetchedUser.type)
+              
+              // THIS IS HOW YOU MODIFY
+              /*if (fetchedUser.type) {
+                fetchedUser.type = fetchedUser.type === "CLIENT" ? "ADMIN" : "CLIENT"
+                this.firebaseApi.updateUser(fetchedUser)
+                  .catch((e) => console.log("Something went wrong: " + e))
+              }*/
+
+              // THIS IS HOW YOU DELETE
+              //this.firebaseApi.deleteUser(fetchedUser)
+            }
+          })
       }
     })
+
   }
 
   private openLoginDialog(): void {
@@ -34,31 +60,30 @@ export class AppComponent {
     });
     dialogRef
       .afterClosed()
-      .subscribe((result: Login|undefined) => {
+      .subscribe((result: Login | undefined) => {
         if (!result) {
           return this.openLoginDialog();
         }
-        if (result.email != null && result.password !=null) {
-          this.authenticate(result).catch((error) => {
-            console.log(error.message)
-            return this.openLoginDialog();
-          });;
-        }
-        else{
+        if (result.email != null && result.password != null) {
+          this.firebaseApi.authenticate(result).then(it => {
+
+            if (it.user) {
+              this.firebaseApi.createUser(it.user.uid, new User(it.user.uid, result.email, "CLIENT"))
+            }
+          })
+            .catch((error) => {
+              console.log(error.message)
+              window.alert(error.message)
+              return this.openLoginDialog();
+            });
+        } else {
           return this.openLoginDialog();
         }
       });
   }
 
-  private authenticate(login: Login): Promise<UserCredential> {
-    if (login.isRegistering) {
-      return this.auth.createUserWithEmailAndPassword(login.email, login.password);
-    } else {
-      return this.auth.signInWithEmailAndPassword(login.email, login.password);
-    }
-  }
 
   public logout() {
-    this.auth.signOut();
+    this.firebaseApi.signOut();
   }
 }
