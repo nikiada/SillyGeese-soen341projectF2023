@@ -7,6 +7,7 @@ import {Login} from "./login-dialog/login";
 import {FirebaseApi} from "./api/firebase-api";
 import firebase from "firebase/compat";
 import UserCredential = firebase.auth.UserCredential;
+import {provideRouter} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import UserCredential = firebase.auth.UserCredential;
 })
 export class AppComponent {
   title = 'house';
-
+  defaultElevation = 2;
+  raisedElevation = 8;
   constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
     auth.onAuthStateChanged((user) =>{
       if(!user){
@@ -61,4 +63,6 @@ export class AppComponent {
   public logout() {
     this.auth.signOut();
   }
+
+  protected readonly provideRouter = provideRouter;
 }
