@@ -1,0 +1,29 @@
+.open-form-button {
+  background-color: #915cce;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.form-container {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-form {
+  background-color: #f2dbdb;
+  padding: 30px;
+  border-radius: 5px;
+  width: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

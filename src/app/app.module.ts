@@ -14,11 +14,17 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+import { BrokerRegistrationComponent } from './broker-registration/broker-registration.component';
+import { BrokerListComponent } from './broker-list/broker-list.component';
+import { VisitButtonComponent } from './visit-button/visit-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    BrokerRegistrationComponent,
+    BrokerListComponent,
+    VisitButtonComponent,
   ],
   imports: [
     BrowserModule,
