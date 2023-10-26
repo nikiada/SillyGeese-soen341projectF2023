@@ -18,6 +18,7 @@ export class ListingsComponent implements OnInit {
   protected readonly user = user;
   firebaseApi: FirebaseApi;
   properties: Property[] = [];
+      properties12: Property[] = [];
   images = new Map<string, any[]>();
 
   async ngOnInit() {
@@ -30,8 +31,6 @@ export class ListingsComponent implements OnInit {
         img[i] = {src: img[i]}
       }
     });
-    console.log(this.images);
-
   }
 
   constructor(private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
@@ -43,11 +42,18 @@ export class ListingsComponent implements OnInit {
 
     for (const property of this.properties) {
       if (property.id != null) {
-        const urls:string[] = await lastValueFrom(this.getImagesForChosenRestaurant(property.id) ?? []);
+        let urls:string[] = await lastValueFrom(this.getImagesForChosenRestaurant(property.id) ?? []);
+        if(urls.length == 0){
+          urls =  await lastValueFrom(this.getDefaultImage())
+          console.log("AAA")
+        }
         images.set(property.id, urls);
       }
     }
     return images;
+  }
+  getDefaultImage():Observable<string[]>{
+    return this.getImagesForChosenRestaurant('default');
   }
   getImagesForChosenRestaurant(id: string): Observable<string[]> {
     return new Observable<string[]>((observer) => {
