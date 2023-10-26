@@ -391,14 +391,14 @@
         <mat-icon>home</mat-icon>
         <span>Listings</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item [routerLink]="'/brokers'">
         <mat-icon>people_outline</mat-icon>
-        <span>Connecting</span>
-      </button>
+        <span>Brokers</span>
+  </button>
   <button mat-menu-item>
         <mat-icon>videocam</mat-icon>
         <span>Let's talk</span>
-      </button>
+  </button>
   <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
@@ -437,7 +437,7 @@
   <input type="number" id="bathrooms-filter" min="1" value="1">
 </div>
 <div>
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
 
 <script>
