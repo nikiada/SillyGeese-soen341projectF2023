@@ -7,6 +7,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {FirebaseApi} from "../api/firebase-api";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Property} from "../dto/property";
+import {from, lastValueFrom, Observable, ObservedValueOf, of} from "rxjs";
 
 @Component({
   selector: 'app-listings',
@@ -23,30 +24,55 @@ export class ListingsComponent implements OnInit {
 
     this.properties = await this.firebaseApi.getAllProperties();
 
-    for (const property of this.properties) {
-      if (property.id != null) {
-        await this.getFileList(property.id)
-        console.log("TESTS " + this.images)
+    this.images = await this.loadImagesForProperties();
+    this.images.forEach((img) => {
+      for (let i = 0; i < img.length; i++) {
+        img[i] = {src: img[i]}
       }
-    }
-    console.log(this.properties[0].brokerId);
+    });
+    console.log(this.images);
+
   }
 
   constructor(private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
     iconSet.icons = {cilBed, cilBath, cilRoom};
     this.firebaseApi = new FirebaseApi(fireModule, auth);
-
   }
+  async loadImagesForProperties() {
+    const  images = new Map<string, string[]>();
 
-  async getFileList(listingId: string) {
-    const ref = this.storage.ref('images/' + listingId + '/');
-    let urls: String[] = [];
-    await ref.listAll().forEach((value) => {
-      value.items.forEach(async (file) => {
-        let url: String = await file.getDownloadURL();
-        urls.push(url)
-      })
-    })
-    this.images.set(listingId, urls);
+    for (const property of this.properties) {
+      if (property.id != null) {
+        const urls:string[] = await lastValueFrom(this.getImagesForChosenRestaurant(property.id) ?? []);
+        images.set(property.id, urls);
+      }
+    }
+    return images;
+  }
+  getImagesForChosenRestaurant(id: string): Observable<string[]> {
+    return new Observable<string[]>((observer) => {
+      const imageRef = this.storage.ref('images/' + id + '/');
+      imageRef.listAll().subscribe(
+        (listAllResult) => {
+          const imagesDownloadUrlsPromises = listAllResult.items.map((item) =>
+            item.getDownloadURL()
+          );
+          Promise.all(imagesDownloadUrlsPromises)
+            .then((downloadUrls) => {
+              observer.next(downloadUrls);
+              observer.complete();
+            })
+            .catch((error) => {
+              observer.error(error);
+            });
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    });
+  }
+  getImageUrls(id:string): any[]{
+    return this.images.get(id) || [];
   }
 }
