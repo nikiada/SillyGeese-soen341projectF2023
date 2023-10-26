@@ -5,7 +5,11 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Login} from "./login-dialog/login";
 import {FirebaseApi} from "./api/firebase-api";
+import firebase from "firebase/compat";
+import UserCredential = firebase.auth.UserCredential;
+import {provideRouter} from "@angular/router";
 import {User} from "./dto/user";
+
 
 @Component({
   selector: 'app-root',
@@ -36,7 +40,7 @@ export class AppComponent {
               console.log(fetchedUser.email)
               console.log(fetchedUser.id)
               console.log(fetchedUser.type)
-              
+
               // THIS IS HOW YOU MODIFY
               /*if (fetchedUser.type) {
                 fetchedUser.type = fetchedUser.type === "CLIENT" ? "ADMIN" : "CLIENT"
@@ -86,4 +90,6 @@ export class AppComponent {
   public logout() {
     this.firebaseApi.signOut();
   }
+
+  protected readonly provideRouter = provideRouter;
 }
