@@ -1,0 +1,26 @@
+<div *ngFor="let broker of brokers">
+    <p><strong>Name: </strong>{{ broker.name }}</p>
+    <p><strong>Email: </strong>{{ broker.email }}</p>
+    <button class="delete-broker-button" (click) ="deleteBroker(broker.uid)">Delete</button>
+    <span class="button-spacing"></span>
+    <button class="update-broker-button"(click)="updateBroker(broker.uid)">Update</button>
+    <hr>
+  </div>
+
+  <div *ngIf="isUpdating" class="overlay">
+    <div class="update-form">
+    <form (ngSubmit)="updateSelectedBroker()">
+      <label for="name">Name: </label>
+      <input type="text" id="name" name="name" [(ngModel)]="selectedBroker.name" required><br><br>
+  
+      <label for="email">Email: </label>
+      <input type="email" id="email" name="email" [(ngModel)]="selectedBroker.email" required><br><br>
+    
+      <button class="submit" type="submit">Update Broker</button>
+      <span class="button-spacing"></span>
+      <button class="cancel" type="cancel" (click)="cancelUpdate()">Cancel/Close</button>
+    </form>
+    </div>
+  </div>
+  
+  
