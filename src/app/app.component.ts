@@ -19,7 +19,7 @@ import {User} from "./dto/user";
 export class AppComponent {
   title = 'house';
   firebaseApi: FirebaseApi
-  
+
   constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
     this.firebaseApi = new FirebaseApi(fireModule, auth)
     console.log(this.firebaseApi.getAllUsers());
