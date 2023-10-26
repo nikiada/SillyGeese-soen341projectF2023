@@ -4,12 +4,16 @@ import {IUser, User} from "../dto/user";
 import firebase from "firebase/compat";
 import {Login} from "../login-dialog/login";
 import UserCredential = firebase.auth.UserCredential;
+import {Property} from "../dto/property";
+import {Observable} from "rxjs";
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
   }
 
   private readonly USER_PATH = 'user';
+  private readonly PROPERTY_PATH = 'property';
+
 
   public deleteUser(user: User) {
     // FIXME:: If necessary, we must also delete the entry in the firebase auth system.
@@ -44,6 +48,17 @@ export class FirebaseApi {
     return users;
   }
 
+  public async getAllProperties(): Promise<Property[]> {
+    let properties: Property[] = []
+    await this.firestore.collection(this.PROPERTY_PATH)
+      .get().forEach(observer =>
+        observer.docs.forEach(userDoc => {
+            properties.push(Property.createPropertyFromDocumentSnapshot(userDoc.id, userDoc.data()))
+          }
+        ))
+    return properties;
+  }
+
   public getUser(id: string): Promise<IUser | void> {
     return this.firestore.collection(this.USER_PATH)
       .doc(id).ref
@@ -64,4 +79,5 @@ export class FirebaseApi {
   signOut() {
     this.auth.signOut();
   }
+
 }

@@ -14,26 +14,45 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
-
+import {AngularFireStorageModule} from "@angular/fire/compat/storage";
+import { BrokerComponent } from './broker/broker.component';
+import { AppRoutingModule } from './app-routing.module';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatButtonModule} from "@angular/material/button";
+import { ListingsComponent } from './listings/listings.component';
+import {MatCardModule} from "@angular/material/card";
+import {FlexModule} from "@angular/flex-layout";
+import { CarouselModule } from '@coreui/angular';
+import { IconModule, IconSetService } from '@coreui/icons-angular';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    BrokerComponent,
+    ListingsComponent
   ],
-  imports: [
-    BrowserModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireAuthModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatDialogModule,
-    MatInputModule,
-    FormsModule,
-    MatFormFieldModule
-  ],
-  providers: [],
+    imports: [
+        BrowserModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        AngularFireAuthModule,
+        AngularFireStorageModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatDialogModule,
+        MatInputModule,
+        FormsModule,
+        MatFormFieldModule,
+        AppRoutingModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatCardModule,
+        FlexModule,
+        CarouselModule,
+        IconModule
+    ],
+  providers: [IconSetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

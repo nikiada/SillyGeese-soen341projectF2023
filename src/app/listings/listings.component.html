@@ -1,0 +1,68 @@
+<style>
+.content {
+display: flex;
+  margin-top: 5%;
+  padding-left: 7%;
+  padding-right: 7%;
+width: 100%;
+flex-direction: column;
+align-items: center;
+}
+
+.image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+ .mat-mdc-card-header, .mat-mdc-card-content{
+   padding: 0;!important;
+
+ }
+.mat-mdc-card-header{
+  margin-top: 10%;
+}
+.mat-mdc-card-actions{
+  padding: 0 !important;
+}
+</style>
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
+    <div class="cardtest" fxFlex="0 1 25" *ngFor="let property of properties">
+      <mat-card class="z-depth cardtest" style="border-radius: 15px; padding:7.5%" >
+        <c-carousel [interval]="0" [animate]="false" transition="crossfade">
+          <c-carousel-inner style="border-radius: 15px;">
+            <c-carousel-item *ngFor="let url of images.get(property.id || 'default')">
+              <div class="image-container">
+                <img mat-card-image style="border-radius: 15px;" [src]="url" alt="{{ property.details }}" class="d-block w-100" loading="lazy" />
+              </div>
+            </c-carousel-item>
+          </c-carousel-inner>
+          <c-carousel-indicators></c-carousel-indicators>
+          <c-carousel-control [routerLink] caption="Previous" direction="prev"></c-carousel-control>
+          <c-carousel-control [routerLink] caption="Next" direction="next"></c-carousel-control>
+        </c-carousel>
+        <mat-card-header>
+          <mat-card-title style="color: #125699; font-size: medium">{{ property.address }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="-webkit-line-clamp: 4;" fxFlex="30">
+          <div>
+            <p>{{ property.details }}.</p>
+          </div>
+          <h2>
+            {{ property.price }}$
+          </h2>
+        </mat-card-content>
+        <mat-card-actions>
+          <svg cIcon name="cilBed" size="xl" title="Bed Icons"></svg>
+          <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBedrooms}}</span>
+          <svg cIcon name="cilBath" size="xl" title="Bath Icons"></svg>
+          <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBathrooms}}</span>
+          <svg cIcon name="cilRoom" size="xl" title="Room Icons"></svg>
+          <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nRooms}}</span>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
