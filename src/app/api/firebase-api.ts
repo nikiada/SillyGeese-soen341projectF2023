@@ -38,7 +38,7 @@ export class FirebaseApi {
                         nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number) {
     return this.firestore.collection(this.PROPERTY_PATH).doc(id)
       .set({address: address, 
-        brokerId: this.auth.currentUser, 
+        brokerId: brokerId, 
         details: details,
         nBathrooms: nBathrooms, 
         nBedrooms: nBedrooms, 
@@ -94,7 +94,7 @@ export class FirebaseApi {
       .catch(() => console.log("user not found"))
   }
 
-  public updateProperty(id: string, address: string, details: string, nBathrooms: number, nBedrooms: number,
+  public updateProperty(id: string | undefined, address: string, details: string, nBathrooms: number, nBedrooms: number,
     nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number): Promise<void> {
     return this.firestore.collection(this.PROPERTY_PATH)
       .doc(id)

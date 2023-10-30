@@ -19,14 +19,15 @@ export class ListingFormComponent implements OnInit{
   protected readonly user = user;
   firebaseApi: FirebaseApi;
   newListing: boolean | undefined;
+  updatedProperty = new Property();
   constructor(public dialogRef: MatDialogRef<ListingFormComponent>, private fireModule: AngularFirestore, private auth: AngularFireAuth){
     this.firebaseApi = new FirebaseApi(fireModule, auth);
   }
 
   updateListing(form: NgForm){
-    console.log("less epic stuff");
-    this.firebaseApi.updateProperty("PropertyId", form.form.value.address, form.form.value.details, form.form.value.bathrooms, 
+    this.firebaseApi.updateProperty(this.updatedProperty.id, form.form.value.address, form.form.value.details, form.form.value.bathrooms, 
     form.form.value.bedrooms, form.form.value.rooms, form.form.value.postalcode, form.form.value.price, form.form.value.propertytype, form.form.value.yearbuilt);
+    this.closePopup();
   }
 
   closePopup() {
@@ -41,15 +42,10 @@ export class ListingFormComponent implements OnInit{
     }
   }
 
-
   createListing(form: NgForm){
-    console.log("epic stuff");
     console.log(form);
-    console.log(form.form.value.bathrooms);
-    console.log(form.form.value.bathrooms+2);
     this.firebaseApi.createProperty("PropertyId", form.form.value.address, "", form.form.value.details, form.form.value.bathrooms, 
     form.form.value.bedrooms, form.form.value.rooms, form.form.value.postalcode, form.form.value.price, form.form.value.propertytype, form.form.value.yearbuilt);
-    
     this.closePopup();
   }
   

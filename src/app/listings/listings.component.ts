@@ -91,7 +91,7 @@ export class ListingsComponent implements OnInit {
       height: '270px'
     });
     dialogRef.componentInstance.newListing = false;
-    // dialogRef.componentInstance.propBrokerId = property.brokerId;
+    dialogRef.componentInstance.updatedProperty = property;
   }
 
   openPopUp(){
