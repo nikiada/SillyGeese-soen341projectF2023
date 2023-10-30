@@ -64,11 +64,11 @@
   padding: 0 !important;
   }
 </style>
-  <div class="content" *ngIf="properties && images">
-    <button class="new-button" (click)="openPopUp()">Create new Listing</button>
-    <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
-      <div class="cardtest" fxFlex="0 1 25" *ngFor="let property of properties">
-        <ng-container *ngIf="property.id && getImageUrls(property.id)[0].src">
+<div class="content" *ngIf="properties && images">
+  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
+    <div class="cardtest" fxFlex="0 1 25" *ngFor="let property of properties">
+      <ng-container *ngIf="property.id && getImageUrls(property.id)[0].src">
+
       <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
         <c-carousel [interval]="0" >
           <c-carousel-inner style="border-radius: 15px;">

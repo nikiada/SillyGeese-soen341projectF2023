@@ -79,6 +79,12 @@ export class FirebaseApi {
     return properties;
   }
 
+  public async getAllPropertiesByPrice(minPrice:number, maxPrice:number):Promise<Property[]>{
+    return new Promise<any>((resolve)=> {
+          this.firestore.collection(this.PROPERTY_PATH, ref => ref.where('price', '<=', maxPrice).where('price', '>=', minPrice)).valueChanges().subscribe(supplier => resolve(supplier))
+        })
+  }
+
   public getUser(id: string): Promise<IUser | void> {
     return this.firestore.collection(this.USER_PATH)
       .doc(id).ref

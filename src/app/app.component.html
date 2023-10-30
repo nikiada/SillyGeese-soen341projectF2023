@@ -299,6 +299,83 @@
       visibility: hidden;
     }
   }
+
+
+  button.primary {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    background-color: #f78513; /* Match the toolbar's background color */
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  button.primary:hover {
+    background-color: #a05c04; /* Change color on hover */
+  }
+
+  input[type="text"] {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+    color: rgb(55, 57, 179);
+    box-sizing: border-box;
+    border: 1px solid rgb(76, 37, 214); /* Add a border */
+    border-radius: 4px; /* Add some border-radius for rounded corners */
+    padding: 4px; /* Add some padding for spacing */
+    /*width: 100%; /* Make it fill the available space */
+  }
+
+  input[type="text"]::placeholder {
+   color: rgb(147, 135, 225); /* Customize the placeholder color */
+  }
+
+  .mode-selector {
+    display: flex;
+  }
+
+  .mode-selector label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: rgb(255, 255, 255);
+    margin: 16px;
+  }
+
+  .mode-selector input[type="radio"] {
+    margin-right: 8px;
+    border: 2px solid #f78513;
+    border-radius: 50%; 
+    padding: 6px;
+  }
+
+  .filter-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  padding: 10px;
+}
+
+.filter-container label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #5230da;
+  margin-right: 16px;
+  padding-left: 8px;
+  padding-right: 1px;
+}
+
+.filter-container input[type="number"] {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color:#125699;
+  box-sizing: border-box;
+  border: 2px solid #5230da;
+  border-radius: 4px;
+  padding: 8px;
+  width: 50px;
+}
 </style>
 
 <!-- Toolbar -->
@@ -314,14 +391,14 @@
         <mat-icon>home</mat-icon>
         <span>Listings</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item [routerLink]="'/brokers'">
         <mat-icon>people_outline</mat-icon>
-        <span>Connecting</span>
-      </button>
+        <span>Brokers</span>
+  </button>
   <button mat-menu-item>
         <mat-icon>videocam</mat-icon>
         <span>Let's talk</span>
-      </button>
+  </button>
   <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
@@ -330,8 +407,53 @@
   </mat-menu>
   </span>
   <span class="fill-remaining-space">Application Title</span>
+
+  <span class="spacer"></span>
+
+  <div class="mode-selector">
+    <label>
+      <input type="radio" name="mode" value="broker" checked>
+      Broker
+    </label>
+    <label>
+      <input type="radio" name="mode" value="client">
+      Client
+    </label>
+  </div>
+
+  <span class="fill-remaining-space">
+    <form>
+      <input type="text" placeholder="Look for properties">
+      <button class="primary" type="button">Search</button>
+    </form>
+  </span>
+
 </mat-toolbar>
-<div>
-    <router-outlet></router-outlet>
+<div class="filter-container">
+  <label for="bedrooms-filter">Bedrooms:</label>
+  <input type="number" id="bedrooms-filter" min="1" value="1">
+
+  <label for="bathrooms-filter">Bathrooms:</label>
+  <input type="number" id="bathrooms-filter" min="1" value="1">
 </div>
+<div>
+  <router-outlet></router-outlet>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const modeSelector = document.querySelector('.mode-selector');
+    const searchInput = document.getElementById('search-input');
+
+    modeSelector.addEventListener('change', function(event) {
+      const selectedMode = event.target.value;
+
+      if (selectedMode === 'broker') {
+        searchInput.placeholder = 'Search properties for brokers';
+      } else if (selectedMode === 'client') {
+        searchInput.placeholder = 'Search properties for clients';
+      }
+    });
+  });
+</script>
 

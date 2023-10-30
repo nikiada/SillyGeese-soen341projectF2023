@@ -1,0 +1,25 @@
+<button class="open-form-button" (click)="toggleFormVisibility()">Add a new broker</button>
+
+<div class="form-container" *ngIf="isFormVisible">
+  <div class="popup-form">
+    <form (ngSubmit)="registerBroker()">
+      <h2>Register new broker</h2>
+        <label for="name">Name: </label>
+        <input type="text" id="name" name="name" [(ngModel)]="brokerName" required><br><hr>
+      
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="email" [(ngModel)]="brokerEmail" required><br><hr>
+      
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password" [(ngModel)]="brokerPassword" required><br><hr>
+      
+        <button type="submit">Register Broker</button>
+      </form>
+    
+    <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
+    <br>
+    <button (click)="closeForm()">Close</button>
+  </div>
+</div>

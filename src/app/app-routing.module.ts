@@ -4,10 +4,8 @@ import { BrokerComponent } from './broker/broker.component';
 import { ListingsComponent } from './listings/listings.component';
 import {NgModule} from "@angular/core";
 const routes: Routes = [
-  { path: 'broker', component: BrokerComponent },
-    { path: 'listings', component: ListingsComponent }
-
-
+  { path: 'brokers', component: BrokerComponent },
+  { path: 'listings', component: ListingsComponent }
 ];
 
 @NgModule({

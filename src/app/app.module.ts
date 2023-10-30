@@ -14,6 +14,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+import { BrokerRegistrationComponent } from './broker-registration/broker-registration.component';
+import { BrokerListComponent } from './broker-list/broker-list.component';
+import { VisitButtonComponent } from './visit-button/visit-button.component';
+
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import { BrokerComponent } from './broker/broker.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +33,9 @@ import { ListingFormComponent } from './listing-form/listing-form.component';
   declarations: [
     AppComponent,
     LoginDialogComponent,
+    BrokerRegistrationComponent,
+    BrokerListComponent,
+    VisitButtonComponent,
     BrokerComponent,
     ListingsComponent,
     ListingFormComponent
