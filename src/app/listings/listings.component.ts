@@ -8,6 +8,8 @@ import {FirebaseApi} from "../api/firebase-api";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Property} from "../dto/property";
 import {from, lastValueFrom, Observable, ObservedValueOf, of} from "rxjs";
+import { MatDialog } from '@angular/material/dialog';
+import { ListingFormComponent } from '../listing-form/listing-form.component';
 
 @Component({
   selector: 'app-listings',
@@ -31,10 +33,9 @@ export class ListingsComponent implements OnInit {
       }
     });
     console.log(this.images);
-
   }
 
-  constructor(private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
+  constructor(private dialog: MatDialog, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
     iconSet.icons = {cilBed, cilBath, cilRoom};
     this.firebaseApi = new FirebaseApi(fireModule, auth);
   }
@@ -74,5 +75,31 @@ export class ListingsComponent implements OnInit {
   }
   getImageUrls(id:string): any[]{
     return this.images.get(id) || [];
+  }
+  openUpdateListingForm(property: Property){
+    var dialogRef;
+      dialogRef = this.dialog.open(ListingFormComponent, {
+      width: '400px',
+      height: '270px'
+    });
+    dialogRef.componentInstance.newListing = false;
+    // dialogRef.componentInstance.propBrokerId = property.brokerId;
+  }
+
+  openPopUp(){
+    var dialogRef;
+      dialogRef = this.dialog.open(ListingFormComponent, {
+      width: '400px',
+      height: '270px'
+    }).componentInstance.newListing = true;
+  }
+
+  deleteListing(id: string){
+    let prop: Property;
+    for (prop of this.properties) {
+      if (prop.id = id) {
+        this.firebaseApi.deleteProperty(prop);
+      }
+    }
   }
 }

@@ -24,12 +24,14 @@ import {MatCardModule} from "@angular/material/card";
 import {FlexModule} from "@angular/flex-layout";
 import { CarouselModule } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { ListingFormComponent } from './listing-form/listing-form.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginDialogComponent,
     BrokerComponent,
-    ListingsComponent
+    ListingsComponent,
+    ListingFormComponent
   ],
     imports: [
         BrowserModule,
