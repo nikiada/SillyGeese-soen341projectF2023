@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {user} from "@angular/fire/auth";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {IconSetService} from '@coreui/icons-angular';
-import {cilBath, cilBed, cilRoom} from '@coreui/icons';
+import {cilBath, cilBed, cilRoom, cilListFilter} from '@coreui/icons';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {FirebaseApi} from "../api/firebase-api";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
@@ -20,6 +20,9 @@ export class ListingsComponent implements OnInit {
   properties: Property[] = [];
       properties12: Property[] = [];
   images = new Map<string, any[]>();
+  visible = false;
+  selectedOption: string = 'properties';
+
 
   async ngOnInit() {
 
@@ -34,7 +37,7 @@ export class ListingsComponent implements OnInit {
   }
 
   constructor(private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
-    iconSet.icons = {cilBed, cilBath, cilRoom};
+    iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter};
     this.firebaseApi = new FirebaseApi(fireModule, auth);
   }
   async loadImagesForProperties() {
@@ -80,5 +83,9 @@ export class ListingsComponent implements OnInit {
   }
   getImageUrls(id:string): any[]{
     return this.images.get(id) || [];
+  }
+
+  toggleCollapse(): void {
+    this.visible = !this.visible;
   }
 }

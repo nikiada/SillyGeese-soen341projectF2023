@@ -1,13 +1,5 @@
 <style>
-.content {
-display: flex;
-  margin-top: 5%;
-  padding-left: 7%;
-  padding-right: 7%;
-width: 100%;
-flex-direction: column;
-align-items: center;
-}
+
 .image-container {
   position: relative;
   padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
@@ -24,7 +16,6 @@ align-items: center;
   min-height:100%;
   min-width: 0;
 }
-
  .mat-mdc-card-header, .mat-mdc-card-content{
    padding: 0;!important;
 
@@ -35,12 +26,108 @@ align-items: center;
 .mat-mdc-card-actions{
   padding: 0 !important;
 }
-
+.listings-container{
+  border: 1px solid #333333;
+}
+.truncate {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 90%;
+}
+.filter-select{
+  display: inline-block;
+  vertical-align: middle;
+  width:7em;
+}
+#filterContainer{
+  padding-top: 3%;
+  padding-left: 10%;
+  padding-right: 10%;
+  width: 100%;
+  overflow: hidden;
+}
+#filter-button-div {
+  float: left;
+}
+#filter-select-div{
+  float: right;
+}
+#filter-collapsable-menu{
+  margin-right: 10%;
+  margin-left: 10%;
+}
+#filter-card{
+  padding: 3%;
+}
 </style>
-<div class="content" *ngIf="properties && images">
+<div id="filterContainer">
+  <div id="filter-button-div">
+    <button cButton color="light" (click)="toggleCollapse()"  class="me-1" > <svg cIcon name="cilListFilter" size="xl" title="Filter Icon"></svg></button>
+  </div>
+ <div id="filter-select-div">
+
+   Sort By:
+   <select class="filter-select" aria-label="Default select example" cSelect>
+     <option>Sort By</option>
+     <option value="1">One</option>
+     <option value="2">Two</option>
+     <option value="3">Three</option>
+   </select>
+   Order:
+   <select class="filter-select" aria-label="Default select example" cSelect>
+     <option>Sort By</option>
+     <option value="1">One</option>
+     <option value="2">Two</option>
+     <option value="3">Three</option>
+   </select>
+ </div>
+</div>
+<div id="filter-collapsable-menu" [visible]="visible" cCollapse>
+  <mat-card id="filter-card" class="mt-3 shadow">
+    <c-card-body>
+      <div class="mode-selector">
+        <c-form-check>
+          <input cFormCheckInput id="checkOne" type="radio" [(ngModel)]="selectedOption" [value]="'broker'"/>
+          <label cFormCheckLabel for="checkOne">Broker</label>
+        </c-form-check>
+        <c-form-check>
+          <input cFormCheckInput id="checktwo" type="radio" [(ngModel)]="selectedOption" [value]="'properties'"/>
+          <label cFormCheckLabel for="checktwo">Properties</label>
+        </c-form-check>
+      </div>
+      <span class="fill-remaining-space">
+    <form>
+      <input type="text"
+             [placeholder]="selectedOption === 'broker' ? 'Search for brokers...' : 'Search for properties...'">
+      <button class="primary" type="button">Search</button>
+    </form>
+  </span>
+
+      <div>
+        <label for="bedrooms-filter">Bedrooms:</label>
+        <input type="number" id="bedrooms-filter" min="1" value="1">
+
+        <label for="bathrooms-filter">Bathrooms:</label>
+        <input type="number" id="bathrooms-filter" min="1" value="1">
+      </div>
+
+      <c-input-group class="mb-3">
+        <span cInputGroupText>$</span>
+        <input aria-label="Amount (to the nearest dollar)" cFormControl />
+        <span cInputGroupText>.00</span>
+      </c-input-group>
+      <mat-slider  min="0" max="100000" step="1000" discrete="true">
+        <input matSliderStartThumb>
+        <input matSliderEndThumb>
+      </mat-slider>
+    </c-card-body>
+  </mat-card>
+</div>
+<div class="content .z-depth box" *ngIf="properties && images; else loadingPage">
   <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
     <div class="cardtest" fxFlex="0 1 25" *ngFor="let property of properties">
-      <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src">
+      <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src; else loadingPage">
 
       <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
         <c-carousel [interval]="0" >
@@ -66,7 +153,7 @@ align-items: center;
           <mat-card-title style="color: #125699; font-size: medium">{{ property.address }}</mat-card-title>
         </mat-card-header>
         <mat-card-content style="-webkit-line-clamp: 4;" fxFlex="30">
-          <div>
+          <div class="truncate">
             <p>{{ property.details }}.</p>
           </div>
           <h2>
@@ -86,3 +173,16 @@ align-items: center;
     </div>
   </div>
 </div>
+<ng-template #loadingPage>
+
+  <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%; text-align: center;">
+    <div class="d-flex justify-content-center" style="margin-bottom: 15px">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    Loading Properties...
+  </mat-card>
+
+</ng-template>
+

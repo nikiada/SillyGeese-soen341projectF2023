@@ -18,12 +18,18 @@
 }
 .content {
   display: flex;
-  margin-top: 5%;
-  padding-left: 7%;
-  padding-right: 7%;
-  width: 100%;
+  padding: 3% 7%;
+  width: 94%;
   flex-direction: column;
   align-items: center;
+  /*border-radius: 15px;*/
+  /*border: 1px solid;*/
+  min-height: 90vh;
+  margin-right:3%;
+  margin-left:3%;
+  margin-bottom: 10vh;
+  /*box-shadow: 0 6px 6px rgba(10,16,20,.15), 0 0 52px rgba(10,16,20,.12) !important;*/
+
 }
 
 .image-container img {
@@ -39,4 +45,38 @@
 
 .mat-mdc-card-actions{
   padding: 0 !important;
+}
+
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.box .row {
+  border: 1px dotted grey;
+}
+
+.box .row.header {
+  flex: 0 1 auto;
+  /* The above is shorthand for:
+  flex-grow: 0,
+  flex-shrink: 1,
+  flex-basis: auto
+  */
+}
+
+.box .row.content {
+  flex: 1 1 auto;
+}
+
+.box .row.footer {
+  flex: 0 1 40px;
 }

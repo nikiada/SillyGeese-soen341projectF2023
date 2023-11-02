@@ -346,7 +346,7 @@
   .mode-selector input[type="radio"] {
     margin-right: 8px;
     border: 2px solid #f78513;
-    border-radius: 50%; 
+    border-radius: 50%;
     padding: 6px;
   }
 
@@ -379,6 +379,7 @@
 </style>
 
 <!-- Toolbar -->
+<body>
 
 <mat-toolbar color="primary">
   <span class="fill-remaining-space">
@@ -409,51 +410,9 @@
   <span class="fill-remaining-space">Application Title</span>
 
   <span class="spacer"></span>
-
-  <div class="mode-selector">
-    <label>
-      <input type="radio" name="mode" value="broker" checked>
-      Broker
-    </label>
-    <label>
-      <input type="radio" name="mode" value="client">
-      Client
-    </label>
-  </div>
-
-  <span class="fill-remaining-space">
-    <form>
-      <input type="text" placeholder="Look for properties">
-      <button class="primary" type="button">Search</button>
-    </form>
-  </span>
-
 </mat-toolbar>
-<div class="filter-container">
-  <label for="bedrooms-filter">Bedrooms:</label>
-  <input type="number" id="bedrooms-filter" min="1" value="1">
+<router-outlet></router-outlet>
+</body>
 
-  <label for="bathrooms-filter">Bathrooms:</label>
-  <input type="number" id="bathrooms-filter" min="1" value="1">
-</div>
-<div>
-  <router-outlet></router-outlet>
-</div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const modeSelector = document.querySelector('.mode-selector');
-    const searchInput = document.getElementById('search-input');
-
-    modeSelector.addEventListener('change', function(event) {
-      const selectedMode = event.target.value;
-
-      if (selectedMode === 'broker') {
-        searchInput.placeholder = 'Search properties for brokers';
-      } else if (selectedMode === 'client') {
-        searchInput.placeholder = 'Search properties for clients';
-      }
-    });
-  });
-</script>
 
