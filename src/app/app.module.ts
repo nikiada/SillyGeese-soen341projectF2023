@@ -34,6 +34,7 @@ import {
   FormSelectDirective, InputGroupComponent, InputGroupTextDirective
 } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { ListingFormComponent } from './listing-form/listing-form.component';
 import {MatSliderModule} from "@angular/material/slider";
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatSliderModule} from "@angular/material/slider";
     BrokerListComponent,
     VisitButtonComponent,
     BrokerComponent,
-    ListingsComponent
+    ListingsComponent,
+    ListingFormComponent
   ],
   imports: [
     BrowserModule,

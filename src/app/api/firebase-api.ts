@@ -26,8 +26,28 @@ export class FirebaseApi {
       }))
   }
 
+  public deleteProperty(property: Property){
+    return this.firestore.collection(this.PROPERTY_PATH).doc(property.id).delete()
+  }
+
   public createUser(id: string, user: User) {
     return this.firestore.collection(this.USER_PATH).doc(id).set({email: user.email, type: user.type})
+  }
+
+  public createProperty(id: string, address: string, brokerId: string, details: string, nBathrooms: number, nBedrooms: number,
+                        nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number) {
+    return this.firestore.collection(this.PROPERTY_PATH).doc(id)
+      .set({address: address, 
+        brokerId: brokerId, 
+        details: details,
+        nBathrooms: nBathrooms, 
+        nBedrooms: nBedrooms, 
+        nRooms: nRooms,
+        postalCode: postalCode,
+        price: price,
+        propertyType: propertyType,
+        yearBuilt: yearBuilt
+        })
   }
 
   public updateUser(user: User): Promise<void> {
@@ -72,6 +92,22 @@ export class FirebaseApi {
         return User.createUserFromDocumentSnapshot(it.id, it.data())
       })
       .catch(() => console.log("user not found"))
+  }
+
+  public updateProperty(id: string | undefined, address: string, details: string, nBathrooms: number, nBedrooms: number,
+    nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number): Promise<void> {
+    return this.firestore.collection(this.PROPERTY_PATH)
+      .doc(id)
+      .set({address: address, 
+        details: details,
+        nBathrooms: nBathrooms, 
+        nBedrooms: nBedrooms, 
+        nRooms: nRooms,
+        postalCode: postalCode,
+        price: price,
+        propertyType: propertyType,
+        yearBuilt: yearBuilt
+        })
   }
 
   public authenticate(login: Login): Promise<UserCredential> {
