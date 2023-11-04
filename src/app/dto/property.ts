@@ -9,9 +9,9 @@ export interface IProperty {
   nBedrooms?: string;
   nRooms?: string;
   postalCode?: string;
-  price?: number;
+  price?: string;
   propertyType?: string;
-  yearBuilt?: number;
+  yearBuilt?: string;
 }
 
 export class Property implements IProperty {
@@ -23,12 +23,12 @@ export class Property implements IProperty {
   nBedrooms?: string;
   nRooms?: string;
   postalCode?: string;
-  price?: number;
+  price?: string;
   propertyType?: string;
-  yearBuilt?: number;
+  yearBuilt?: string;
 
 
-  constructor(id?: string, address?: string, brokerId?: string, details?: string,nBathrooms?: string,nBedrooms?: string,nRooms?: string,postalCode?: string,price?: number,propertyType?: string,yearBuilt?: number ) {
+  constructor(id?: string, address?: string, brokerId?: string, details?: string,nBathrooms?: string,nBedrooms?: string,nRooms?: string,postalCode?: string,price?: string,propertyType?: string,yearBuilt?: string ) {
     this.id = id;
     this.address = address;
     this.brokerId = brokerId;

@@ -41,7 +41,7 @@
   position: relative;
   padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
   }
-  
+
   .image-container img {
     position: absolute;
     top: 0;
@@ -107,18 +107,11 @@
  <div id="filter-select-div">
 
    Sort By:
-   <select class="filter-select" aria-label="Default select example" cSelect>
+   <select class="filter-select" aria-label="sort-by-select" cSelect (change)="onSortByChange($event)">
      <option>Sort By</option>
-     <option value="1">One</option>
-     <option value="2">Two</option>
-     <option value="3">Three</option>
-   </select>
-   Order:
-   <select class="filter-select" aria-label="Default select example" cSelect>
-     <option>Sort By</option>
-     <option value="1">One</option>
-     <option value="2">Two</option>
-     <option value="3">Three</option>
+     <option value="price">Price</option>
+     <option value="title">Title</option>
+     <option value="year">Year</option>
    </select>
  </div>
 </div>

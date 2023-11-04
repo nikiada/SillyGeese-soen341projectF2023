@@ -91,6 +91,25 @@ export class ListingsComponent implements OnInit {
   toggleCollapse(): void {
     this.visible = !this.visible;
   }
+  onSortByChange(select: any): void {
+    switch (select.target.value){
+      case "price":
+        this.properties.sort(function (a, b) {
+          return parseInt(a.price ?? "") - parseInt(b.price ?? "");
+        });
+        break;
+      case "title":
+        this.properties.sort((a,b) =>
+          (a.address ?? "").localeCompare(b.address ?? ""));
+        break;
+      case "year":
+        this.properties.sort(function (a, b) {
+          return parseInt(a.yearBuilt ?? "") - parseInt(b.yearBuilt ?? "");
+        });
+        break;
+    }
+  }
+
   openUpdateListingForm(property: Property){
     var dialogRef;
       dialogRef = this.dialog.open(ListingFormComponent, {
