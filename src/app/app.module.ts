@@ -30,8 +30,15 @@ import {
   CardBodyComponent,
   CardComponent,
   CarouselModule,
-  CollapseDirective, FormCheckComponent, FormCheckInputDirective, FormCheckLabelDirective, FormControlDirective,
-  FormSelectDirective, InputGroupComponent, InputGroupTextDirective
+  CollapseDirective,
+  FormCheckComponent,
+  FormCheckInputDirective,
+  FormCheckLabelDirective,
+  FormControlDirective,
+  FormLabelDirective,
+  FormSelectDirective, FormTextDirective,
+  InputGroupComponent,
+  InputGroupTextDirective
 } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { ListingFormComponent } from './listing-form/listing-form.component';
@@ -78,7 +85,9 @@ import {MatSliderModule} from "@angular/material/slider";
     InputGroupComponent,
     InputGroupTextDirective,
     FormControlDirective,
-    MatSliderModule
+    MatSliderModule,
+    FormLabelDirective,
+    FormTextDirective
   ],
   providers: [IconSetService],
   bootstrap: [AppComponent]

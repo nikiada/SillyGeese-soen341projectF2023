@@ -77,6 +77,7 @@
   display: inline-block;
   vertical-align: middle;
   width:7em;
+  margin-left: 10px;
 }
 #filterContainer{
   padding-top: 3%;
@@ -118,41 +119,68 @@
 <div id="filter-collapsable-menu" [visible]="visible" cCollapse>
   <mat-card id="filter-card" class="mt-3 shadow">
     <c-card-body>
-      <div class="mode-selector">
-        <c-form-check>
-          <input cFormCheckInput id="checkOne" type="radio" [(ngModel)]="selectedOption" [value]="'broker'"/>
-          <label cFormCheckLabel for="checkOne">Broker</label>
-        </c-form-check>
-        <c-form-check>
-          <input cFormCheckInput id="checktwo" type="radio" [(ngModel)]="selectedOption" [value]="'properties'"/>
-          <label cFormCheckLabel for="checktwo">Properties</label>
-        </c-form-check>
-      </div>
-      <span class="fill-remaining-space">
-    <form>
-      <input type="text"
-             [placeholder]="selectedOption === 'broker' ? 'Search for brokers...' : 'Search for properties...'">
-      <button class="primary" type="button">Search</button>
-    </form>
-  </span>
+      <form cForm>
+        <div class="mb-3">
+          <label cLabel for="propertySearchField">Search for Properties</label>
+          <input cFormControl id="propertySearchField">
+          <div cFormText>
+            Search for keywords or broker name
+          </div>
+        </div>
+        <div class="mb-3">
+          <label cLabel for="numRooms">Rooms:  </label>
+          <select id="numRooms" class="filter-select" cSelect>
+            <option value="any">Any</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10+">10+</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label cLabel for="numBedrooms">Bedrooms:  </label>
+          <select id="numBedrooms" class="filter-select" cSelect>
+            <option value="any">Any</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10+">10+</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label cLabel for="minPriceRange">Minimum price range</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input cFormControl id="minPriceRange" type="number" (change)="onPriceFilterChange($event)">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
 
-      <div>
-        <label for="bedrooms-filter">Bedrooms:</label>
-        <input type="number" id="bedrooms-filter" min="1" value="1">
+        <div class="mb-3">
+          <label cLabel for="maxPriceRange">Maximum price range</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input cFormControl id="maxPriceRange" type="number" (change)="onPriceFilterChange($event)">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
 
-        <label for="bathrooms-filter">Bathrooms:</label>
-        <input type="number" id="bathrooms-filter" min="1" value="1">
-      </div>
-
-      <c-input-group class="mb-3">
-        <span cInputGroupText>$</span>
-        <input aria-label="Amount (to the nearest dollar)" cFormControl />
-        <span cInputGroupText>.00</span>
-      </c-input-group>
-      <mat-slider  min="0" max="100000" step="1000" discrete="true">
-        <input matSliderStartThumb>
-        <input matSliderEndThumb>
-      </mat-slider>
+        <input cButton color="primary" type="submit" value="Search">
+      </form>
     </c-card-body>
   </mat-card>
 </div>

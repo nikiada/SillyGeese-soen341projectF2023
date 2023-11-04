@@ -10,6 +10,8 @@ import {Property} from "../dto/property";
 import {from, lastValueFrom, Observable, ObservedValueOf, of} from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
 import { ListingFormComponent } from '../listing-form/listing-form.component';
+import { DOCUMENT } from '@angular/common';
+
 
 @Component({
   selector: 'app-listings',
@@ -110,6 +112,19 @@ export class ListingsComponent implements OnInit {
     }
   }
 
+  onPriceFilterChange(input: any): void{
+    if(input.target.id =="minPriceRange" ){
+      let maxPrice = <HTMLInputElement> document.getElementById("maxPriceRange");
+      if( !(input.target.value < parseInt(maxPrice?.value))){
+          maxPrice.value = String(parseInt(input.target.value) + 1);
+      }
+    }else if(input.target.id =="maxPriceRange" ) {
+      let minPrice = <HTMLInputElement>document.getElementById("minPriceRange");
+      if (!(input.target.value > parseInt(minPrice?.value))) {
+        minPrice.value = String(parseInt(input.target.value) - 1);
+      }
+    }
+  }
   openUpdateListingForm(property: Property){
     var dialogRef;
       dialogRef = this.dialog.open(ListingFormComponent, {
