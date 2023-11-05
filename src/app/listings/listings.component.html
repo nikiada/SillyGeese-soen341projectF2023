@@ -128,8 +128,8 @@
           </div>
         </div>
         <div class="mb-3">
-          <label cLabel for="numRooms">Rooms:  </label>
-          <select id="numRooms" class="filter-select" cSelect>
+          <label cLabel for="nRooms">Rooms:  </label>
+          <select id="nRooms" class="filter-select" cSelect>
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -145,8 +145,25 @@
           </select>
         </div>
         <div class="mb-3">
-          <label cLabel for="numBedrooms">Bedrooms:  </label>
-          <select id="numBedrooms" class="filter-select" cSelect>
+          <label cLabel for="nBedrooms">Bedrooms:  </label>
+          <select id="nBedrooms" class="filter-select" cSelect>
+            <option value="any">Any</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10+">10+</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label cLabel for="nBathrooms">Bathrooms:  </label>
+          <select id="nBathrooms" class="filter-select" cSelect>
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -179,15 +196,15 @@
           </div>
         </div>
 
-        <input cButton color="primary" type="submit" value="Search">
+        <input cButton color="primary" type="submit" value="Search" (click)="onSubmitFilterForm()">
       </form>
     </c-card-body>
   </mat-card>
 </div>
-<div class="content .z-depth box" *ngIf="properties && images; else loadingPage">
+<div class="content .z-depth box" *ngIf="properties && images && !isLoading; else loadingPage">
   <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
     <div class="cardtest" fxFlex="0 1 25" *ngFor="let property of properties">
-      <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src; else loadingPage">
+      <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
       <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
         <c-carousel [interval]="0" >
           <c-carousel-inner style="border-radius: 15px;">

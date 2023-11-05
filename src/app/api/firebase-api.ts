@@ -5,7 +5,7 @@ import firebase from "firebase/compat";
 import {Login} from "../login-dialog/login";
 import UserCredential = firebase.auth.UserCredential;
 import {Property} from "../dto/property";
-import {Observable} from "rxjs";
+import {lastValueFrom, map, Observable} from "rxjs";
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
@@ -13,7 +13,7 @@ export class FirebaseApi {
 
   private readonly USER_PATH = 'user';
   private readonly PROPERTY_PATH = 'property';
-
+  private readonly BROKER_PATH = "broker"
 
   public deleteUser(user: User) {
     // FIXME:: If necessary, we must also delete the entry in the firebase auth system.
@@ -37,11 +37,11 @@ export class FirebaseApi {
   public createProperty(id: string, address: string, brokerId: string, details: string, nBathrooms: number, nBedrooms: number,
                         nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number) {
     return this.firestore.collection(this.PROPERTY_PATH).doc(id)
-      .set({address: address, 
-        brokerId: brokerId, 
+      .set({address: address,
+        brokerId: brokerId,
         details: details,
-        nBathrooms: nBathrooms, 
-        nBedrooms: nBedrooms, 
+        nBathrooms: nBathrooms,
+        nBedrooms: nBedrooms,
         nRooms: nRooms,
         postalCode: postalCode,
         price: price,
@@ -79,10 +79,40 @@ export class FirebaseApi {
     return properties;
   }
 
-  public async getAllPropertiesByPrice(minPrice:number, maxPrice:number):Promise<Property[]>{
-    return new Promise<any>((resolve)=> {
-          this.firestore.collection(this.PROPERTY_PATH, ref => ref.where('price', '<=', maxPrice).where('price', '>=', minPrice)).valueChanges().subscribe(supplier => resolve(supplier))
-        })
+
+  public getPropertiesContainingString(searchString: string){
+    return this.firestore.collection(this.PROPERTY_PATH)
+      .get()
+      .pipe(map((querySnapshot) => {
+        const properties: any[] =[];
+        querySnapshot.forEach(async (doc) => {
+          const data = <any>doc.data();
+          for(const key in data){
+            if(key === "price" || key === "nRooms" || key === "nBedrooms" || key === "nBathrooms"){
+              continue;
+            }
+            if(key === "brokerId"){
+              let brokerRef =  await this.getUser(data[key]);
+              if(brokerRef){
+                let broker = <IUser> brokerRef;
+                if(broker.name?.toUpperCase().includes(searchString.toUpperCase()) || broker.email?.toUpperCase().includes(searchString.toUpperCase())){
+                  properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
+                  //console.log(properties);
+                  break;
+                }
+              }
+
+            }else{
+              if(data.hasOwnProperty(key) && (data[key].toString().toUpperCase()).includes(searchString.toUpperCase())){
+                properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
+                break;
+              }
+            }
+
+          }
+        });
+        return properties;
+      }));
   }
 
   public getUser(id: string): Promise<IUser | void> {
@@ -98,10 +128,10 @@ export class FirebaseApi {
     nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number): Promise<void> {
     return this.firestore.collection(this.PROPERTY_PATH)
       .doc(id)
-      .set({address: address, 
+      .set({address: address,
         details: details,
-        nBathrooms: nBathrooms, 
-        nBedrooms: nBedrooms, 
+        nBathrooms: nBathrooms,
+        nBedrooms: nBedrooms,
         nRooms: nRooms,
         postalCode: postalCode,
         price: price,

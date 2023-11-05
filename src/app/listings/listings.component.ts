@@ -22,11 +22,9 @@ export class ListingsComponent implements OnInit {
   protected readonly user = user;
   firebaseApi: FirebaseApi;
   properties: Property[] = [];
-      properties12: Property[] = [];
   images = new Map<string, any[]>();
   visible = false;
-  selectedOption: string = 'properties';
-
+  isLoading:boolean = false;
 
   async ngOnInit() {
 
@@ -38,7 +36,6 @@ export class ListingsComponent implements OnInit {
         img[i] = {src: img[i]}
       }
     });
-
   }
 
 
@@ -51,7 +48,7 @@ export class ListingsComponent implements OnInit {
 
     for (const property of this.properties) {
       if (property.id != null) {
-        let urls:string[] = await lastValueFrom(this.getImagesForChosenRestaurant(property.id) ?? []);
+        let urls:string[] = await lastValueFrom(this.getImagesForListing(property.id) ?? []);
         if(urls.length == 0){
           urls =  await lastValueFrom(this.getDefaultImage())
         }
@@ -61,9 +58,9 @@ export class ListingsComponent implements OnInit {
     return images;
   }
   getDefaultImage():Observable<string[]>{
-    return this.getImagesForChosenRestaurant('default');
+    return this.getImagesForListing('default');
   }
-  getImagesForChosenRestaurant(id: string): Observable<string[]> {
+  getImagesForListing(id: string): Observable<string[]> {
     return new Observable<string[]>((observer) => {
       const imageRef = this.storage.ref('images/' + id + '/');
       imageRef.listAll().subscribe(
@@ -125,6 +122,90 @@ export class ListingsComponent implements OnInit {
       }
     }
   }
+
+  async onSubmitFilterForm() {
+    this.isLoading=true;
+    this.properties=[];
+    let searchString = <HTMLInputElement>document.getElementById("propertySearchField");
+    let propertiesResults = await (lastValueFrom(this.firebaseApi.getPropertiesContainingString(searchString.value)));
+    propertiesResults = this.applyBathroomsFilter(propertiesResults);
+    propertiesResults = this.applyBedroomFilter(propertiesResults);
+    propertiesResults = this.applyRoomsFilter(propertiesResults);
+    propertiesResults = this.applyPriceFilter(propertiesResults);
+    this.properties = propertiesResults;
+    this.isLoading=false;
+  }
+  private applyBathroomsFilter(properties: Property[]){
+    let propertiesResults :any[] = [];
+    let nBathrooms = parseInt((<HTMLInputElement>document.getElementById("nBathrooms")).value);
+
+    for( let property of properties){
+     if(!isNaN(nBathrooms)){
+        if(nBathrooms == 10 && parseInt(<string>property.nBathrooms) >= nBathrooms ){
+          propertiesResults.push(property);
+        }else if(parseInt(<string>property.nBathrooms) == nBathrooms){
+          propertiesResults.push(property);
+        }
+      }else{
+       return properties;
+     }
+    }
+    return propertiesResults;
+  }
+
+  private applyBedroomFilter(properties: Property[]){
+    let propertiesResults :any[] = [];
+    let nBedrooms = parseInt((<HTMLInputElement>document.getElementById("nBedrooms")).value);
+    for( let property of properties){
+      if(!isNaN(nBedrooms)){
+        if(nBedrooms == 10 && parseInt(<string>property.nBedrooms) >= nBedrooms ){
+          propertiesResults.push(property);
+        }else if(parseInt(<string>property.nBedrooms) == nBedrooms){
+          propertiesResults.push(property);
+        }
+      }else{
+        return properties;
+      }
+    }
+    return propertiesResults;
+
+  }
+
+
+  private applyRoomsFilter(properties: Property[]){
+    let propertiesResults :any[] = [];
+    let nRooms = parseInt((<HTMLInputElement>document.getElementById("nRooms")).value);
+    for( let property of properties){
+      if(!isNaN(nRooms)){
+        if(nRooms == 10 && parseInt(<string>property.nRooms) >= nRooms ){
+          propertiesResults.push(property);
+        }else if(parseInt(<string>property.nRooms) == nRooms){
+          propertiesResults.push(property);
+        }
+      }else{
+        return properties;
+      }
+    }
+    return propertiesResults;
+  }
+
+  private applyPriceFilter(properties: Property[]){
+    let propertiesResults :any[] = [];
+    let minPriceRange = parseInt((<HTMLInputElement>document.getElementById("minPriceRange")).value);
+    let maxPriceRange = parseInt((<HTMLInputElement>document.getElementById("maxPriceRange")).value);
+
+    for( let property of properties) {
+      if (!isNaN(minPriceRange) && !isNaN(maxPriceRange)) {
+        if (minPriceRange <= parseInt(<string>property.price) && maxPriceRange >= parseInt(<string>property.price)) {
+          propertiesResults.push(property);
+        }
+      }else {
+        return properties;
+      }
+    }
+    return propertiesResults;
+  }
+
   openUpdateListingForm(property: Property){
     var dialogRef;
       dialogRef = this.dialog.open(ListingFormComponent, {

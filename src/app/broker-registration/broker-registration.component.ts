@@ -36,9 +36,9 @@ export class BrokerRegistrationComponent {
           const userData = {
             name: this.brokerName,
             email: this.brokerEmail,
-            uid: user.uid, // Associate the user with their Firebase UID
+            type: "BROKER"
           };
-          this.firestore.collection('broker').doc(user.uid).set(userData)
+          this.firestore.collection('user').doc(user.uid).set(userData)
             .then(() => {
               this.successMessage = 'Broker registration successful!';
               this.brokerName = '';
@@ -56,6 +56,6 @@ export class BrokerRegistrationComponent {
         console.error('Error creating user:', error);
       });
   }
-  
+
 
 }
