@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { BrokerSearchComponent } from '../broker-search/broker-search.component';
 
 @Component({
   selector: 'app-broker-list',
@@ -10,6 +11,7 @@ export class BrokerListComponent implements OnInit {
   brokers: any[] = []; 
   selectedBroker: any = null;
   isUpdating: boolean = false;
+  filteredBrokers: any[] = [];
 
   constructor(private firestore: AngularFirestore) {}
 
@@ -19,6 +21,7 @@ export class BrokerListComponent implements OnInit {
       .valueChanges()
       .subscribe((brokers) => {
         this.brokers = brokers;
+        this.filteredBrokers = [...this.brokers]
       });
   }
 
@@ -79,5 +82,13 @@ cancelUpdate() {
   this.selectedBroker = null;
   this.isUpdating = false;
 }
+
+onSearch(query: string) {
+  this.filteredBrokers = this.brokers.filter(broker =>
+    broker.name.toLowerCase().includes(query.toLowerCase()) ||
+    broker.email.toLowerCase().includes(query.toLowerCase())
+  );
+}
+
 
 }

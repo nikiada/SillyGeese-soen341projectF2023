@@ -28,6 +28,7 @@ import {MatCardModule} from "@angular/material/card";
 import {FlexModule} from "@angular/flex-layout";
 import { CarouselModule } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { BrokerSearchComponent } from './broker-search/broker-search.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,8 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
     BrokerListComponent,
     VisitButtonComponent,
     BrokerComponent,
-    ListingsComponent
+    ListingsComponent,
+    BrokerSearchComponent
   ],
     imports: [
         BrowserModule,
