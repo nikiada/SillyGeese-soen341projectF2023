@@ -31,7 +31,7 @@ export class FirebaseApi {
   }
 
   public createUser(id: string, user: User) {
-    return this.firestore.collection(this.USER_PATH).doc(id).set({email: user.email, type: user.type})
+    return this.firestore.collection(this.USER_PATH).doc(id).set({email: user.email, name: user.name, type: user.type})
   }
 
   public createProperty(id: string, address: string, brokerId: string, details: string, nBathrooms: number, nBedrooms: number,

@@ -20,7 +20,7 @@ export class LoginDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<LoginDialogComponent>,
   ) {
-    this.login = {email: "", password: "", isRegistering: false};
+    this.login = {email: "", name: "", password: "", isRegistering: false};
   }
 
   public submit() {
