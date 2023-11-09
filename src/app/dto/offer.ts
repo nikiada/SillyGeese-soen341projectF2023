@@ -1,0 +1,34 @@
+import {UserType} from "./user-type";
+import firebase from "firebase/compat";
+import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
+export class Offer {
+  id?: string
+  brokerId?: string;
+  userId?: string;
+  status?: string;
+  offer?: string;
+
+  static readonly PENDING = 'pending';
+  static readonly REFUSED = 'refused';
+  static readonly ACCEPTED = 'accepted';
+
+
+  constructor(id?: string,brokerId?: string,userId?: string, status?: string, offer?: string ) {
+    this.id=id;
+    this.brokerId = brokerId;
+    this.userId = userId;
+    this.status = status;
+    this.offer = offer;
+  }
+
+  public static createUserFromDocumentSnapshot(id?: string, doc?: any): Offer {
+    return new Offer(
+      id,
+      doc.brokerId,
+      doc.userId,
+      doc.status,
+      doc.offer
+    )
+  }
+
+}

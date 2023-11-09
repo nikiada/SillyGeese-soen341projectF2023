@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {user} from "@angular/fire/auth";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {IconSetService} from '@coreui/icons-angular';
@@ -12,7 +12,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ListingFormComponent } from '../listing-form/listing-form.component';
 import { DOCUMENT } from '@angular/common';
 
-
 @Component({
   selector: 'app-listings',
   templateUrl: './listings.component.html',
@@ -25,6 +24,8 @@ export class ListingsComponent implements OnInit {
   images = new Map<string, any[]>();
   visible = false;
   isLoading:boolean = false;
+
+  @Input() productId = '';
 
   async ngOnInit() {
 
@@ -134,6 +135,7 @@ export class ListingsComponent implements OnInit {
     propertiesResults = this.applyPriceFilter(propertiesResults);
     this.properties = propertiesResults;
     this.isLoading=false;
+    this.toggleCollapse();
   }
   private applyBathroomsFilter(properties: Property[]){
     let propertiesResults :any[] = [];

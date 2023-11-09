@@ -6,6 +6,7 @@ import {Login} from "../login-dialog/login";
 import UserCredential = firebase.auth.UserCredential;
 import {Property} from "../dto/property";
 import {lastValueFrom, map, Observable} from "rxjs";
+import {Offer} from "../dto/offer";
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
@@ -13,7 +14,7 @@ export class FirebaseApi {
 
   private readonly USER_PATH = 'user';
   private readonly PROPERTY_PATH = 'property';
-  private readonly BROKER_PATH = "broker"
+  private readonly OFFER_PATH = "offers"
 
   public deleteUser(user: User) {
     // FIXME:: If necessary, we must also delete the entry in the firebase auth system.
@@ -79,7 +80,24 @@ export class FirebaseApi {
     return properties;
   }
 
+  public createOffer(offer: Offer) {
+    return this.firestore.collection(this.OFFER_PATH).doc().set({brokerId: offer.brokerId, userId: offer.userId, status: offer.status, offer: offer.offer});
+  }
 
+  public getPropertiesByBroker(brokerId: string, propertyId:string = ""){
+    return this.firestore.collection(this.PROPERTY_PATH)
+      .get()
+      .pipe(map((querySnapshot) => {
+        const properties: any[] =[];
+        querySnapshot.forEach(async (doc) => {
+          const data = <any>doc.data();
+          if(doc.id !== propertyId && data.brokerId === brokerId){
+            properties.push(Property.createPropertyFromDocumentSnapshot(doc.id,doc.data()));
+          }
+        });
+        return properties;
+      }));
+  }
   public getPropertiesContainingString(searchString: string){
     return this.firestore.collection(this.PROPERTY_PATH)
       .get()
@@ -123,7 +141,13 @@ export class FirebaseApi {
       })
       .catch(() => console.log("user not found"))
   }
-
+  public getProperty(id: string): Promise<Property>{
+    return this.firestore.collection(this.PROPERTY_PATH)
+      .doc(id).ref
+      .get().then(it => {
+        return Property.createPropertyFromDocumentSnapshot(it.id, it.data())
+      })
+  }
   public updateProperty(id: string | undefined, address: string, details: string, nBathrooms: number, nBedrooms: number,
     nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number): Promise<void> {
     return this.firestore.collection(this.PROPERTY_PATH)

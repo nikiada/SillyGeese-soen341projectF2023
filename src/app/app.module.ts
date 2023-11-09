@@ -43,6 +43,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { ListingFormComponent } from './listing-form/listing-form.component';
 import {MatSliderModule} from "@angular/material/slider";
+import { ListingDetailsComponent } from './listings/listing-details/listing-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +53,8 @@ import {MatSliderModule} from "@angular/material/slider";
     VisitButtonComponent,
     BrokerComponent,
     ListingsComponent,
-    ListingFormComponent
+    ListingFormComponent,
+    ListingDetailsComponent
   ],
   imports: [
     BrowserModule,

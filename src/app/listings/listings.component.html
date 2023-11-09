@@ -205,7 +205,7 @@
   <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
     <div class="cardtest" fxFlex="0 1 25" *ngFor="let property of properties">
       <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
-      <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
+      <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;" [routerLink]="[property.id]">
         <c-carousel [interval]="0" >
           <c-carousel-inner style="border-radius: 15px;">
             <c-carousel-item  *ngFor="let image of getImageUrls(property.id)">
