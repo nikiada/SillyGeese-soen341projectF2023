@@ -72,7 +72,7 @@ export class AppComponent {
           this.firebaseApi.authenticate(result).then(it => {
 
             if (it.user) {
-              this.firebaseApi.createUser(it.user.uid, new User(it.user.uid, result.email, "CLIENT"))
+              this.firebaseApi.createUser(it.user.uid, new User(it.user.uid, result.email, result.name,"CLIENT"))
             }
           })
             .catch((error) => {
