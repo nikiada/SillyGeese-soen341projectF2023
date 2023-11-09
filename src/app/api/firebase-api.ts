@@ -7,6 +7,7 @@ import UserCredential = firebase.auth.UserCredential;
 import {Property} from "../dto/property";
 import {lastValueFrom, map, Observable} from "rxjs";
 import {Offer} from "../dto/offer";
+import {doc} from "@angular/fire/firestore";
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
@@ -35,20 +36,10 @@ export class FirebaseApi {
     return this.firestore.collection(this.USER_PATH).doc(id).set({email: user.email, name: user.name, type: user.type})
   }
 
-  public createProperty(id: string, address: string, brokerId: string, details: string, nBathrooms: number, nBedrooms: number,
-                        nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number) {
-    return this.firestore.collection(this.PROPERTY_PATH).doc(id)
-      .set({address: address,
-        brokerId: brokerId,
-        details: details,
-        nBathrooms: nBathrooms,
-        nBedrooms: nBedrooms,
-        nRooms: nRooms,
-        postalCode: postalCode,
-        price: price,
-        propertyType: propertyType,
-        yearBuilt: yearBuilt
-        })
+  public createProperty(property: Property) {
+    const copyProperty = {...property};
+    delete copyProperty.id;
+    return this.firestore.collection(this.PROPERTY_PATH).add(Object.assign({}, copyProperty)).then((docRef) => docRef.id);
   }
 
   public updateUser(user: User): Promise<void> {
@@ -81,7 +72,7 @@ export class FirebaseApi {
   }
 
   public createOffer(offer: Offer) {
-    return this.firestore.collection(this.OFFER_PATH).doc().set({brokerId: offer.brokerId, userId: offer.userId, status: offer.status, offer: offer.offer});
+    return this.firestore.collection(this.OFFER_PATH).doc().set({brokerId: offer.brokerId, userId: offer.userId,propertyId: offer.propertyId, status: offer.status, offer: offer.offer});
   }
 
   public getPropertiesByBroker(brokerId: string, propertyId:string = ""){
@@ -148,20 +139,16 @@ export class FirebaseApi {
         return Property.createPropertyFromDocumentSnapshot(it.id, it.data())
       })
   }
-  public updateProperty(id: string | undefined, address: string, details: string, nBathrooms: number, nBedrooms: number,
-    nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number): Promise<void> {
-    return this.firestore.collection(this.PROPERTY_PATH)
-      .doc(id)
-      .set({address: address,
-        details: details,
-        nBathrooms: nBathrooms,
-        nBedrooms: nBedrooms,
-        nRooms: nRooms,
-        postalCode: postalCode,
-        price: price,
-        propertyType: propertyType,
-        yearBuilt: yearBuilt
-        })
+public updateProperty(id: string , property:Property ){
+    const brokerRef = this.firestore.collection(this.PROPERTY_PATH).doc(id);
+
+    const updatedProperty = { ...property };
+    delete updatedProperty.id;
+
+    brokerRef.update(updatedProperty)
+      .then(() => {
+          console.log('Property updated.');
+      });
   }
 
   public authenticate(login: Login): Promise<UserCredential> {

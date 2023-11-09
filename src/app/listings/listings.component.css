@@ -1,34 +1,33 @@
 
 .z-depth {
-    box-shadow: 0 6px 6px rgba(10,16,20,.15), 0 0 52px rgba(10,16,20,.12) !important;
-    transform: translate3d(0,0,0);
-    transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 6px 6px rgba(10, 16, 20, .15), 0 0 52px rgba(10, 16, 20, .12) !important;
+  transform: translate3d(0, 0, 0);
+  transition: background .4s cubic-bezier(.25, .8, .25, 1), box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
 }
 
 .z-depth:hover {
-    box-shadow: 0 8px 8px rgba(10,16,20,.24), 0 0 8px rgba(10,16,20,.12) !important;
-    transform: translate3d(0,0,0);
-    transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 8px 8px rgba(10, 16, 20, .24), 0 0 8px rgba(10, 16, 20, .12) !important;
+  transform: translate3d(0, 0, 0);
+  transition: background .4s cubic-bezier(.25, .8, .25, 1), box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
 }
+
 .text-oneline {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    min-width: 0; /* this one right here does it!*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0;
 }
+
 .content {
   display: flex;
   padding: 3% 7%;
   width: 94%;
   flex-direction: column;
   align-items: center;
-  /*border-radius: 15px;*/
-  /*border: 1px solid;*/
   min-height: 90vh;
-  margin-right:3%;
-  margin-left:3%;
+  margin-right: 3%;
+  margin-left: 3%;
   margin-bottom: 10vh;
-  /*box-shadow: 0 6px 6px rgba(10,16,20,.15), 0 0 52px rgba(10,16,20,.12) !important;*/
 
 }
 
@@ -39,11 +38,12 @@
   width: 100%;
   height: 100%;
 }
-.mat-mdc-card-header{
+
+.mat-mdc-card-header {
   margin-top: 10%;
 }
 
-.mat-mdc-card-actions{
+.mat-mdc-card-actions {
   padding: 0 !important;
 }
 
@@ -66,11 +66,6 @@ body {
 
 .box .row.header {
   flex: 0 1 auto;
-  /* The above is shorthand for:
-  flex-grow: 0,
-  flex-shrink: 1,
-  flex-basis: auto
-  */
 }
 
 .box .row.content {
@@ -79,4 +74,106 @@ body {
 
 .box .row.footer {
   flex: 0 1 40px;
+}
+
+
+.update-button {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 2px;
+  font-size: small;
+}
+
+.update-button:hover {
+  background-color: #0056b3;
+}
+
+.new-button {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 10px;
+  font-size: small;
+}
+
+.new-button:hover {
+  background-color: #0056b3;
+}
+
+.image-container {
+  position: relative;
+  padding-top: 56.25%;
+}
+
+.image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mat-mdc-card-header, .mat-mdc-card-content {
+  padding: 0 !important;
+
+}
+
+.mat-mdc-card-header {
+  margin-top: 10%;
+}
+
+.mat-mdc-card-actions {
+  padding: 0 !important;
+}
+
+.listings-container {
+  border: 1px solid #333333;
+}
+
+.truncate {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 90%;
+}
+
+.filter-select {
+  display: inline-block;
+  vertical-align: middle;
+  width: 7em;
+  margin-left: 10px;
+}
+
+#filterContainer {
+  padding-top: 3%;
+  padding-left: 10%;
+  padding-right: 10%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#filter-button-div {
+  float: left;
+}
+
+#filter-select-div {
+  float: right;
+}
+
+#filter-collapsable-menu {
+  margin-right: 10%;
+  margin-left: 10%;
+}
+
+#filter-card {
+  padding: 3%;
 }

@@ -23,6 +23,7 @@ property: Property={} ;
   images = new Map<string, any[]>();
   properties: Property[] = [];
   currentUserId:string | undefined  = "";
+  offerValue: string = "";
   offerSubmited: boolean = false;
   @Input() id = "";
   async ngOnInit() {
@@ -30,6 +31,7 @@ property: Property={} ;
       this.id = params.get("id") || '';
       if (this.id) {
         this.property = await this.firebaseApi.getProperty(this.id);
+        this.offerValue = this.property.price ?? "";
         await this.getBrokerProperties();
         this.images = await this.loadImagesForProperties();
         this.images.forEach((img) => {
@@ -41,7 +43,7 @@ property: Property={} ;
     });
   }
   constructor(private router: Router,private route: ActivatedRoute, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
-      = function() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
     this.firebaseApi = new FirebaseApi(fireModule, auth);
@@ -49,7 +51,6 @@ property: Property={} ;
     auth.onAuthStateChanged((user) => {
       this.currentUserId = user?.uid;
     });
-    console.log(this.id + "AAA")
     // route.params.subscribe(async val => {
     //   this.id = val['id'];
     //   if (this.id) {
@@ -123,7 +124,7 @@ property: Property={} ;
   }
 
   makeOffer(){
-    let offer: Offer = new Offer("", this.property.brokerId,this.currentUserId, Offer.PENDING, "200000" );
+    let offer: Offer = new Offer("", this.property.brokerId,this.currentUserId, this.property.id ,Offer.PENDING, this.offerValue );
     this.firebaseApi.createOffer(offer);
     this.offerSubmited = true;
   }

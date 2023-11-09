@@ -87,7 +87,7 @@
             <div class="mb-3">
               <label cLabel for="offer"><b>Make Offer</b></label>
               <div class="input-group">
-                <input cFormControl id="offer" type="number" value="{{property.price}}">
+                <input cFormControl id="offer" type="number" [(ngModel)]="offerValue">
                 <span class="input-group-text">$</span>
               </div>
               <br>
@@ -202,7 +202,7 @@
 </div>
 <ng-template #loadingPage>
 
-  <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%; text-align: center;">
+  <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; text-align: center;">
     <div class="d-flex justify-content-center" style="margin-bottom: 15px">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>

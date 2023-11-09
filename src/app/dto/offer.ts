@@ -5,6 +5,7 @@ export class Offer {
   id?: string
   brokerId?: string;
   userId?: string;
+  propertyId?: string;
   status?: string;
   offer?: string;
 
@@ -13,10 +14,11 @@ export class Offer {
   static readonly ACCEPTED = 'accepted';
 
 
-  constructor(id?: string,brokerId?: string,userId?: string, status?: string, offer?: string ) {
+  constructor(id?: string,brokerId?: string,userId?: string,propertyId?: string, status?: string, offer?: string ) {
     this.id=id;
     this.brokerId = brokerId;
     this.userId = userId;
+    this.propertyId = propertyId;
     this.status = status;
     this.offer = offer;
   }
@@ -26,6 +28,7 @@ export class Offer {
       id,
       doc.brokerId,
       doc.userId,
+      doc.propertyId,
       doc.status,
       doc.offer
     )

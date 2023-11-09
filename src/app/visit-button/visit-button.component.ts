@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class VisitButtonComponent {
   openCalendly() {
-    const calendlyURL = 'https://calendly.com/d/4tz-x9j-9j9';
+    const calendlyURL = 'https://calendly.com/sillygeese341/book-visit-time';
     window.open(calendlyURL, '_blank');
   }
 }

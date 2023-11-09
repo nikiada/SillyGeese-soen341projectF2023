@@ -41,6 +41,7 @@ import {
   InputGroupTextDirective
 } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { BrokerSearchComponent } from './broker-search/broker-search.component';
 import { ListingFormComponent } from './listing-form/listing-form.component';
 import {MatSliderModule} from "@angular/material/slider";
 import { ListingDetailsComponent } from './listings/listing-details/listing-details.component';
@@ -54,6 +55,7 @@ import { ListingDetailsComponent } from './listings/listing-details/listing-deta
     BrokerComponent,
     ListingsComponent,
     ListingFormComponent,
+    BrokerSearchComponent,
     ListingDetailsComponent
   ],
   imports: [
