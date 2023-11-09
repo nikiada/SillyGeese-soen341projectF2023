@@ -215,8 +215,8 @@ export class ListingsComponent implements OnInit {
   openUpdateListingForm(property: Property) {
     var dialogRef;
     dialogRef = this.dialog.open(ListingFormComponent, {
-      width: '400px',
-      height: '270px'
+      width: '48%',
+      height: '40%'
     });
     dialogRef.componentInstance.newListing = false;
     dialogRef.componentInstance.updatedProperty = property;
@@ -225,8 +225,8 @@ export class ListingsComponent implements OnInit {
   openPopUp() {
     var dialogRef;
     dialogRef = this.dialog.open(ListingFormComponent, {
-      width: '400px',
-      height: '270px'
+      width: '48%',
+      height: '40%'
     }).componentInstance.newListing = true;
   }
 

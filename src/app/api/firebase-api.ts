@@ -124,20 +124,19 @@ export class FirebaseApi {
       .catch(() => console.log("user not found"))
   }
 
-  public updateProperty(id: string | undefined, address: string, details: string, nBathrooms: number, nBedrooms: number,
-    nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number): Promise<void> {
-    return this.firestore.collection(this.PROPERTY_PATH)
-      .doc(id)
-      .set({address: address,
-        details: details,
-        nBathrooms: nBathrooms,
-        nBedrooms: nBedrooms,
-        nRooms: nRooms,
-        postalCode: postalCode,
-        price: price,
-        propertyType: propertyType,
-        yearBuilt: yearBuilt
-        })
+  public updateProperty(id: string , property:Property ){
+    const brokerRef = this.firestore.collection(this.PROPERTY_PATH).doc(id);
+
+    const updatedProperty = { ...property };
+    delete updatedProperty.id;
+
+    brokerRef.update(updatedProperty)
+      .then(() => {
+        console.log('Property updated.');
+      })
+      .catch((error) => {
+        console.error('Error updating Property:', error);
+      });
   }
 
   public authenticate(login: Login): Promise<UserCredential> {

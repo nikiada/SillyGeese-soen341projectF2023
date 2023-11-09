@@ -14,7 +14,7 @@ import { Property } from '../dto/property';
 })
 export class ListingFormComponent implements OnInit{
   async ngOnInit(): Promise<void> {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
   protected readonly user = user;
   firebaseApi: FirebaseApi;
@@ -25,8 +25,7 @@ export class ListingFormComponent implements OnInit{
   }
 
   updateListing(form: NgForm){
-    this.firebaseApi.updateProperty(this.updatedProperty.id, form.form.value.address, form.form.value.details, form.form.value.bathrooms, 
-    form.form.value.bedrooms, form.form.value.rooms, form.form.value.postalcode, form.form.value.price, form.form.value.propertytype, form.form.value.yearbuilt);
+    this.firebaseApi.updateProperty(this.updatedProperty.id ?? "", this.updatedProperty);
     this.closePopup();
   }
 
@@ -44,9 +43,9 @@ export class ListingFormComponent implements OnInit{
 
   createListing(form: NgForm){
     console.log(form);
-    this.firebaseApi.createProperty("PropertyId", form.form.value.address, "", form.form.value.details, form.form.value.bathrooms, 
+    this.firebaseApi.createProperty("PropertyId", form.form.value.address, "", form.form.value.details, form.form.value.bathrooms,
     form.form.value.bedrooms, form.form.value.rooms, form.form.value.postalcode, form.form.value.price, form.form.value.propertytype, form.form.value.yearbuilt);
     this.closePopup();
   }
-  
+
 }
