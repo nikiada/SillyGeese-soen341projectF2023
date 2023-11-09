@@ -5,17 +5,20 @@ import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 export interface IUser {
   id?: string
   email?: string,
+  name?: string,
   type?: string
 }
 
 export class User implements IUser {
   id?: string
   email?: string;
+  name?: string;
   type?: string;
 
-  constructor(id?: string, email?: string, type?: string ) {
+  constructor(id?: string, email?: string,name?: string, type?: string ) {
     this.id = id;
     this.email = email;
+    this.name = name;
     this.type = type;
   }
 
@@ -23,6 +26,7 @@ export class User implements IUser {
     return new User(
       id,
       doc.email,
+      doc.name,
       doc.type
     )
   }

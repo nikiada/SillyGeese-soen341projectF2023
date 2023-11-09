@@ -1,8 +1,10 @@
 .calendly{
-    background-color: #915cce;
+    background-color: #648ee2;
     color: #fff;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    margin-top:0px;
+    margin-left: 20px;
 }
