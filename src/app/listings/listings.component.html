@@ -1,115 +1,20 @@
-<style>
-
-  .update-button {
-    background-color: #007BFF;
-    color: #fff;
-    padding: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-right: 2px;
-    font-size: small;
-  }
-  .update-button:hover {
-    background-color: #0056b3;
-  }
-  .new-button {
-    background-color: #007BFF;
-    color: #fff;
-    padding: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 10px;
-    font-size: small;
-  }
-  .new-button:hover {
-    background-color: #0056b3;
-  }
-  .content {
-  display: flex;
-    margin-top: 5%;
-    padding-left: 7%;
-    padding-right: 7%;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  }
-  .image-container {
-  position: relative;
-  padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
-  }
-
-  .image-container img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  .mat-mdc-card-header, .mat-mdc-card-content{
-    padding: 0 !important;
-
-  }
-  .mat-mdc-card-header{
-  margin-top: 10%;
-  }
-  .mat-mdc-card-actions{
-  padding: 0 !important;
-  }
-.listings-container{
-  border: 1px solid #333333;
-}
-.truncate {
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  max-width: 90%;
-}
-.filter-select{
-  display: inline-block;
-  vertical-align: middle;
-  width:7em;
-  margin-left: 10px;
-}
-#filterContainer{
-  padding-top: 3%;
-  padding-left: 10%;
-  padding-right: 10%;
-  width: 100%;
-  overflow: hidden;
-}
-#filter-button-div {
-  float: left;
-}
-#filter-select-div{
-  float: right;
-}
-#filter-collapsable-menu{
-  margin-right: 10%;
-  margin-left: 10%;
-}
-#filter-card{
-  padding: 3%;
-}
-</style>
 <div id="filterContainer">
   <button class="new-button" (click)="openPopUp()">Create new Listing</button>
   <div id="filter-button-div">
-    <button cButton color="light" (click)="toggleCollapse()"  class="me-1" > <svg cIcon name="cilListFilter" size="xl" title="Filter Icon"></svg></button>
+    <button cButton color="light" (click)="toggleCollapse()" class="me-1">
+      <svg cIcon name="cilListFilter" size="xl" title="Filter Icon"></svg>
+    </button>
   </div>
- <div id="filter-select-div">
+  <div id="filter-select-div">
 
-   Sort By:
-   <select class="filter-select" aria-label="sort-by-select" cSelect (change)="onSortByChange($event)">
-     <option>Sort By</option>
-     <option value="price">Price</option>
-     <option value="title">Title</option>
-     <option value="year">Year</option>
-   </select>
- </div>
+    Sort By:
+    <select class="filter-select" aria-label="sort-by-select" cSelect (change)="onSortByChange($event)">
+      <option>Sort By</option>
+      <option value="price">Price</option>
+      <option value="title">Title</option>
+      <option value="year">Year</option>
+    </select>
+  </div>
 </div>
 <div id="filter-collapsable-menu" [visible]="visible" cCollapse>
   <mat-card id="filter-card" class="mt-3 shadow">
@@ -123,7 +28,7 @@
           </div>
         </div>
         <div class="mb-3">
-          <label cLabel for="nRooms">Rooms:  </label>
+          <label cLabel for="nRooms">Rooms: </label>
           <select id="nRooms" class="filter-select" cSelect>
             <option value="any">Any</option>
             <option value="0">0</option>
@@ -140,7 +45,7 @@
           </select>
         </div>
         <div class="mb-3">
-          <label cLabel for="nBedrooms">Bedrooms:  </label>
+          <label cLabel for="nBedrooms">Bedrooms: </label>
           <select id="nBedrooms" class="filter-select" cSelect>
             <option value="any">Any</option>
             <option value="0">0</option>
@@ -157,7 +62,7 @@
           </select>
         </div>
         <div class="mb-3">
-          <label cLabel for="nBathrooms">Bathrooms:  </label>
+          <label cLabel for="nBathrooms">Bathrooms: </label>
           <select id="nBathrooms" class="filter-select" cSelect>
             <option value="any">Any</option>
             <option value="0">0</option>
@@ -197,22 +102,23 @@
   </mat-card>
 </div>
 <div class="content .z-depth box" *ngIf="properties && images && !isLoading; else loadingPage">
-  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
+  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%">
     <div fxFlex="0 1 25" *ngFor="let property of properties">
-      <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
-      <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%;">
-        <c-carousel [interval]="0" >
-          <c-carousel-inner style="border-radius: 15px;">
-            <c-carousel-item  *ngFor="let image of getImageUrls(property.id)">
-              <div class="image-container">
-                <img
-                  mat-card-image
-                  style="border-radius: 15px;"
-                  [src]="image.src"
-                  alt="{{ property.details }}"
-                  class="d-block w-100"
-                  loading="lazy"
-                />
+      <ng-container
+        *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
+        <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%;">
+          <c-carousel [interval]="0">
+            <c-carousel-inner style="border-radius: 15px;">
+              <c-carousel-item *ngFor="let image of getImageUrls(property.id)">
+                <div class="image-container">
+                  <img
+                    mat-card-image
+                    style="border-radius: 15px;"
+                    [src]="image.src"
+                    alt="{{ property.details }}"
+                    class="d-block w-100"
+                    loading="lazy"
+                  />
                 </div>
               </c-carousel-item>
             </c-carousel-inner>
@@ -224,7 +130,7 @@
             <mat-card-title style="color: #125699; font-size: medium">{{ property.address }}</mat-card-title>
           </mat-card-header>
           <mat-card-content style="-webkit-line-clamp: 4;" fxFlex="30">
-          <div class="truncate">
+            <div class="truncate">
               <p>{{ property.details }}.</p>
             </div>
             <h2>
@@ -233,11 +139,14 @@
           </mat-card-content>
           <mat-card-actions>
             <svg cIcon name="cilBed" size="xl" title="Bed Icons"></svg>
-            <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBedrooms}}</span>
+            <span
+              style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBedrooms}}</span>
             <svg cIcon name="cilBath" size="xl" title="Bath Icons"></svg>
-            <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBathrooms}}</span>
+            <span
+              style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBathrooms}}</span>
             <svg cIcon name="cilRoom" size="xl" title="Room Icons"></svg>
-            <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nRooms}}</span>
+            <span
+              style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nRooms}}</span>
             <button class="update-button" (click)="openUpdateListingForm(property)">Update</button>
             <button class="update-button" (click)="deleteListing(property.id)">Delete</button>
           </mat-card-actions>
@@ -245,7 +154,7 @@
       </ng-container>
     </div>
   </div>
-  </div>
+</div>
 <ng-template #loadingPage>
 
   <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; text-align: center;">
