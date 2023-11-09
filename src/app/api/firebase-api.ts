@@ -4,9 +4,9 @@ import {IUser, User} from "../dto/user";
 import firebase from "firebase/compat";
 import {Login} from "../login-dialog/login";
 import {Property} from "../dto/property";
-import {lastValueFrom, map, Observable} from "rxjs";
+import {map} from "rxjs";
 import {Offer} from "../dto/offer";
-import {doc} from "@angular/fire/firestore";
+import UserCredential = firebase.auth.UserCredential;
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
@@ -44,7 +44,7 @@ export class FirebaseApi {
   public updateUser(user: User): Promise<void> {
     return this.firestore.collection(this.USER_PATH)
       .doc(user.id)
-      .set({email: user.email, type: user.type})
+      .set({email: user.email, type: user.type, name: user.name})
   }
 
   public getAllUsers(): User[] {
@@ -69,7 +69,15 @@ export class FirebaseApi {
         ))
     return properties;
   }
-  
+
+  public getProperty(id: string): Promise<Property>{
+    return this.firestore.collection(this.PROPERTY_PATH)
+      .doc(id).ref
+      .get().then(it => {
+        return Property.createPropertyFromDocumentSnapshot(it.id, it.data())
+      })
+  }
+
 
   public createOffer(offer: Offer) {
     return this.firestore.collection(this.OFFER_PATH).doc().set({brokerId: offer.brokerId, userId: offer.userId,propertyId: offer.propertyId, status: offer.status, offer: offer.offer});
@@ -123,23 +131,14 @@ export class FirebaseApi {
       }));
   }
 
-  public async getUser(id: string): Promise<User | void> {
-    await this.firestore.collection(this.USER_PATH)
+  public getUser(id: string): Promise<User> {
+    return this.firestore.collection(this.USER_PATH)
       .doc(id).ref
       .get().then(it => {
         return User.createUserFromDocumentSnapshot(it.id, it.data())
       })
-      .catch(() => {
-        throw Error("user not found")
-      })
   }
-  public getProperty(id: string): Promise<Property>{
-    return this.firestore.collection(this.PROPERTY_PATH)
-      .doc(id).ref
-      .get().then(it => {
-        return Property.createPropertyFromDocumentSnapshot(it.id, it.data())
-      })
-  }
+
 public updateProperty(id: string , property:Property ){
     const brokerRef = this.firestore.collection(this.PROPERTY_PATH).doc(id);
 
@@ -181,7 +180,7 @@ public updateProperty(id: string , property:Property ){
       .update({
         brokerId: offer.brokerId,
         propertyId: offer.propertyId,
-        price: offer.price,
+        price: offer.offer,
         status: offer.status,
         userId: offer.userId
       })

@@ -1,7 +1,7 @@
-<p>offers works!</p>
+<h1>My Offers</h1>
 
 <div class="offerList">
-  <div *ngFor="let offer of offers" class="flex-md-wrap">
+  <div *ngFor="let offer of dispOffers" class="flex-md-wrap">
     <div>
       <svg cIcon name="cilContact" size="xl" title="Contact Icon"></svg>
       <span class="fill-remaining-space">{{offer.userId}}</span>
@@ -12,7 +12,7 @@
     </div>
     <div>
       <svg cIcon name="cilDollar" size="xl" title="Contact Icon"></svg>
-      <span class="fill-remaining-space">{{offer.price}}$</span>
+      <span class="fill-remaining-space">{{offer.offer}} $</span>
     </div>
     <div>
       <svg cIcon name="cilTask" size="xl" title="Contact Icon"></svg>

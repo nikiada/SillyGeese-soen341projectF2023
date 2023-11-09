@@ -3,6 +3,12 @@ li {
   width: fit-content;
 }
 
+h1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .flex-md-wrap{
   border-style: groove;
   width: fit-content;

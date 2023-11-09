@@ -7,6 +7,7 @@ import {User} from "../dto/user";
 
 import {cilContact, cilHouse, cilDollar, cilTask} from '@coreui/icons'
 import {IconSetService} from "@coreui/icons-angular";
+import {Property} from "../dto/property";
 
 @Component({
   selector: 'app-offers',
@@ -17,11 +18,20 @@ export class OffersComponent implements OnInit {
 
   firebaseApi: FirebaseApi;
   offers: Offer[] = [];
+  dispOffers: Offer[] = [];
   user?: User
 
   async ngOnInit() {
     let uid = localStorage.getItem("currentUser");
     this.offers = await this.firebaseApi.getUserOffers(uid!!);
+    this.offers.forEach( async offer =>{
+      let client: User = await this.firebaseApi.getUser(offer!!.userId!!)
+      let property: Property = await this.firebaseApi.getProperty(offer!!.propertyId!!)
+      let offerCopy: Offer = offer;
+      offerCopy.userId = client.name;
+      offerCopy.propertyId = property.address
+      this.dispOffers.push(offerCopy)
+    })
     console.log(this.offers)
   }
 
