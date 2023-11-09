@@ -45,6 +45,7 @@ import { BrokerSearchComponent } from './broker-search/broker-search.component';
 import { ListingFormComponent } from './listing-form/listing-form.component';
 import {MatSliderModule} from "@angular/material/slider";
 import { ListingDetailsComponent } from './listings/listing-details/listing-details.component';
+import { OffersComponent } from './offers/offers.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { ListingDetailsComponent } from './listings/listing-details/listing-deta
     BrokerComponent,
     ListingsComponent,
     ListingFormComponent,
+    OffersComponent,
     BrokerSearchComponent,
     ListingDetailsComponent
   ],

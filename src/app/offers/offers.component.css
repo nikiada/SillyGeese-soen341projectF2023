@@ -1,0 +1,21 @@
+li {
+  border-style: groove;
+  width: fit-content;
+}
+
+.flex-md-wrap{
+  border-style: groove;
+  width: fit-content;
+}
+
+.offerList{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+tr{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

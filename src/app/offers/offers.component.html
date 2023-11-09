@@ -1,0 +1,28 @@
+<p>offers works!</p>
+
+<div class="offerList">
+  <div *ngFor="let offer of offers" class="flex-md-wrap">
+    <div>
+      <svg cIcon name="cilContact" size="xl" title="Contact Icon"></svg>
+      <span class="fill-remaining-space">{{offer.userId}}</span>
+    </div>
+    <div>
+      <svg cIcon name="cilHouse" size="xl" title="Contact Icon"></svg>
+      <a><span class="fill-remaining-space">{{offer.propertyId}}</span></a>
+    </div>
+    <div>
+      <svg cIcon name="cilDollar" size="xl" title="Contact Icon"></svg>
+      <span class="fill-remaining-space">{{offer.price}}$</span>
+    </div>
+    <div>
+      <svg cIcon name="cilTask" size="xl" title="Contact Icon"></svg>
+      <span class="fill-remaining-space">{{offer.status}}</span>
+    </div>
+    <span></span>
+    <tr *ngIf="offer.id">
+      <button cButton color="success" (click)="acceptOffer(offer)">Accept</button>
+      <button cButton color="danger" (click)="refuseOffer(offer)">Refuse</button>
+    </tr>
+  </div>
+</div>
+

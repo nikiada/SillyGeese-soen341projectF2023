@@ -28,10 +28,12 @@ export class AppComponent {
       if (!user) {
         this.openLoginDialog()
       } else {
+        localStorage.setItem("currentUser", user.uid)
         console.log(user.uid)
         // This is how you get a user
         this.firebaseApi.getUser(user.uid)
           .then((fetchedUser) => {
+            localStorage.setItem('user', JSON.stringify(fetchedUser))
             // These then() statements should be used to set your page's variable
             // This is necessary since stuff is async.
 
@@ -71,8 +73,8 @@ export class AppComponent {
         if (result.email != null && result.password != null) {
           this.firebaseApi.authenticate(result).then(it => {
 
-            if (it.user) {
-              this.firebaseApi.createUser(it.user.uid, new User(it.user.uid, result.email, result.name,"CLIENT"))
+            if (it.user && result.isRegistering) {
+              this.firebaseApi.createUser(it.user.uid, new User(it.user.uid, result.email, "CLIENT"))
             }
           })
             .catch((error) => {
