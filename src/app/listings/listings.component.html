@@ -49,11 +49,6 @@
     width: 100%;
     height: 100%;
   }
-  .cardtest{
-  width:100%;
-  min-height:100%;
-  min-width: 30%;
-  }
   .mat-mdc-card-header, .mat-mdc-card-content{
     padding: 0 !important;
 
@@ -203,9 +198,9 @@
 </div>
 <div class="content .z-depth box" *ngIf="properties && images && !isLoading; else loadingPage">
   <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
-    <div class="cardtest" fxFlex="0 1 25" *ngFor="let property of properties">
+    <div fxFlex="0 1 25" *ngFor="let property of properties">
       <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
-      <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
+      <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%;">
         <c-carousel [interval]="0" >
           <c-carousel-inner style="border-radius: 15px;">
             <c-carousel-item  *ngFor="let image of getImageUrls(property.id)">
@@ -253,7 +248,7 @@
   </div>
 <ng-template #loadingPage>
 
-  <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%; text-align: center;">
+  <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; text-align: center;">
     <div class="d-flex justify-content-center" style="margin-bottom: 15px">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>

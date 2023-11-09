@@ -14,12 +14,12 @@
         <input type="password" id="password" name="password" [(ngModel)]="brokerPassword" required><br><hr>
       
         <button type="submit">Register Broker</button>
+        <button (click)="closeForm()">Close</button>
+
       </form>
     
     <div *ngIf="successMessage" class="success-message">
         {{ successMessage }}
       </div>
-    <br>
-    <button (click)="closeForm()">Close</button>
   </div>
 </div>

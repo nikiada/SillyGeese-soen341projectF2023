@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { BrokerSearchComponent } from '../broker-search/broker-search.component';
 import {User} from "../dto/user";
 
 @Component({
@@ -11,6 +12,7 @@ export class BrokerListComponent implements OnInit {
   brokers: any[] = [];
   selectedBroker: any = null;
   isUpdating: boolean = false;
+  filteredBrokers: any[] = [];
 
   constructor(private firestore: AngularFirestore) {}
 
@@ -22,9 +24,10 @@ export class BrokerListComponent implements OnInit {
             let user = User.createUserFromDocumentSnapshot(userDoc.id, userDoc.data());
             if(user.type === "BROKER"){
               this.brokers.push(user);
+              this.filteredBrokers.push(user);
             }
           }
-        ))
+        ));
   }
 
   deleteBroker(brokerId: string) {
@@ -84,5 +87,13 @@ cancelUpdate() {
   this.selectedBroker = null;
   this.isUpdating = false;
 }
+
+onSearch(query: string) {
+  this.filteredBrokers = this.brokers.filter(broker =>
+    broker.name.toLowerCase().includes(query.toLowerCase()) ||
+    broker.email.toLowerCase().includes(query.toLowerCase())
+  );
+}
+
 
 }
