@@ -29,8 +29,10 @@ export class ListingFormComponent implements OnInit{
 
   updateListing(form: NgForm){
     this.firebaseApi.updateProperty(this.updatedProperty.id ?? "", this.updatedProperty);
-    this.deleteImages(this.updatedProperty.id ?? "");
-    this.uploadFiles(this.updatedProperty.id ?? "");
+    if(this.selectedFiles.length != 0){
+      this.deleteImages(this.updatedProperty.id ?? "");
+      this.uploadFiles(this.updatedProperty.id ?? "");
+    }
     this.closePopup();
   }
 
@@ -50,11 +52,11 @@ export class ListingFormComponent implements OnInit{
     let user = await (this.auth.currentUser);
 
    this.updatedProperty.brokerId = user?.uid;
-   this.firebaseApi.createProperty(this.updatedProperty).then((id) => {
+   await this.firebaseApi.createProperty(this.updatedProperty).then((id) => {
      console.log('New property created with ID:', id);
       this.uploadFiles(id);
+     this.closePopup();
    })
-    this.closePopup();
   }
   onFileSelect(event: any) {
     this.selectedFiles = event.target.files;

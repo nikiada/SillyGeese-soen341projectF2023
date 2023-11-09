@@ -10,6 +10,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {cilBath, cilBed, cilRoom, cilListFilter, cilBuilding, cilCalendar, cilMoney, cilGraph} from '@coreui/icons';
 import firebase from "firebase/compat";
 import {Offer} from "../../dto/offer";
+import {ListingFormComponent} from "../../listing-form/listing-form.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -42,28 +44,15 @@ property: Property={} ;
       }
     });
   }
-  constructor(private router: Router,private route: ActivatedRoute, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
+  constructor(private dialog: MatDialog, private router: Router,private route: ActivatedRoute, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
     this.firebaseApi = new FirebaseApi(fireModule, auth);
-    iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter, cilBuilding, cilCalendar, cilMoney, cilGraph};
+    iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter, cilBuilding, cilCalendar, cilMoney,cilGraph};
     auth.onAuthStateChanged((user) => {
       this.currentUserId = user?.uid;
     });
-    // route.params.subscribe(async val => {
-    //   this.id = val['id'];
-    //   if (this.id) {
-    //     this.property = await this.firebaseApi.getProperty(this.id);
-    //     await this.getBrokerProperties();
-    //     this.images = await this.loadImagesForProperties();
-    //     this.images.forEach((img) => {
-    //       for (let i = 0; i < img.length; i++) {
-    //         img[i] = {src: img[i]}
-    //       }
-    //     });
-    //   }
-    // });
   }
 
   async loadImagesForProperties() {
@@ -127,5 +116,38 @@ property: Property={} ;
     let offer: Offer = new Offer("", this.property.brokerId,this.currentUserId, this.property.id ,Offer.PENDING, this.offerValue );
     this.firebaseApi.createOffer(offer);
     this.offerSubmited = true;
+  }
+
+  openUpdateListingForm(property: Property) {
+    var dialogRef;
+    dialogRef = this.dialog.open(ListingFormComponent, {
+      width: 'fit-content',
+      height: 'fit-content'
+    });
+    dialogRef.componentInstance.newListing = false;
+    dialogRef.componentInstance.updatedProperty = property;
+  }
+
+  deleteListing(id: string) {
+
+  if(this.property.id){
+    this.firebaseApi.deleteProperty(this.property);
+    this.deleteImages(this.property.id);
+  }
+
+
+    this.router.navigateByUrl('/listings');
+  }
+
+
+  deleteImages(propertyId: string) {
+    const imageRef = this.storage.ref('images/' + propertyId + '/');
+    imageRef.listAll().subscribe(
+        (listAllResult) => {
+          listAllResult.items.map((item) =>
+              item.delete()
+          );
+        }
+    );
   }
 }

@@ -106,7 +106,7 @@
     <div fxFlex="0 1 25" *ngFor="let property of properties">
       <ng-container
         *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
-        <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%;" [routerLink]="property.id">
+        <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; width: 100%; height: 100%" [routerLink]="property.id">
           <c-carousel [interval]="0">
             <c-carousel-inner style="border-radius: 15px;">
               <c-carousel-item *ngFor="let image of getImageUrls(property.id)">
@@ -136,6 +136,8 @@
             <h2>
               {{ property.price }}$
             </h2>
+          </mat-card-content>
+          <mat-card-actions>
             <svg cIcon name="cilBed" size="xl" title="Bed Icons"></svg>
             <span
                     style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBedrooms}}</span>
@@ -145,10 +147,6 @@
             <svg cIcon name="cilRoom" size="xl" title="Room Icons"></svg>
             <span
                     style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nRooms}}</span>
-          </mat-card-content>
-          <mat-card-actions>
-            <button class="update-button" (click)="openUpdateListingForm(property)">Update</button>
-            <button class="update-button" (click)="deleteListing(property.id)">Delete</button>
           </mat-card-actions>
         </mat-card>
       </ng-container>

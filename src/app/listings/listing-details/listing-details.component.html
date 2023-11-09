@@ -96,6 +96,9 @@
             <div *ngIf="offerSubmited">
               Your offer has been submitted successfully
             </div>
+
+            <button cButton color="dark" class="update-button" (click)="openUpdateListingForm(property)">Update</button>
+            <button cButton color="danger" class="update-button" (click)="deleteListing(property.id)">Delete</button>
           </mat-card-footer>
         </mat-card>
       </ng-container>

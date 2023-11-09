@@ -9,9 +9,9 @@ export class Offer {
   status?: string;
   offer?: string;
 
-  static readonly PENDING = 'pending';
-  static readonly REFUSED = 'refused';
-  static readonly ACCEPTED = 'accepted';
+  static readonly PENDING = 'PENDING';
+  static readonly REFUSED = 'REFUSED';
+  static readonly ACCEPTED = 'ACCEPTED';
 
 
   constructor(id?: string,brokerId?: string,userId?: string,propertyId?: string, status?: string, offer?: string ) {

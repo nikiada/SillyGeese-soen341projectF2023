@@ -214,40 +214,12 @@ export class ListingsComponent implements OnInit {
     return propertiesResults;
   }
 
-  openUpdateListingForm(property: Property) {
-    var dialogRef;
-    dialogRef = this.dialog.open(ListingFormComponent, {
-      width: '48%',
-      height: '45%'
-    });
-    dialogRef.componentInstance.newListing = false;
-    dialogRef.componentInstance.updatedProperty = property;
-  }
-
   openPopUp() {
     var dialogRef;
     dialogRef = this.dialog.open(ListingFormComponent, {
-      width: '48%',
-      height: '45%'
+      width: 'fit-content',
+      height: 'fit-content'
     }).componentInstance.newListing = true;
   }
-  deleteImages(propertyId: string) {
-    const imageRef = this.storage.ref('images/' + propertyId + '/');
-    imageRef.listAll().subscribe(
-      (listAllResult) => {
-        listAllResult.items.map((item) =>
-          item.delete()
-        );
-      }
-    );
-  }
-  deleteListing(id: string) {
-    let prop: Property;
-    for (prop of this.properties) {
-      if (prop.id == id) {
-        this.firebaseApi.deleteProperty(prop);
-        this.deleteImages(id);
-      }
-    }
-  }
+
 }
