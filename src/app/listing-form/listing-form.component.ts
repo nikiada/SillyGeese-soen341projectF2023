@@ -6,6 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Property } from '../dto/property';
+import {AngularFireStorage} from "@angular/fire/compat/storage";
 
 @Component({
   selector: 'app-listing-form',
@@ -20,12 +21,16 @@ export class ListingFormComponent implements OnInit{
   firebaseApi: FirebaseApi;
   newListing: boolean | undefined;
   updatedProperty = new Property();
-  constructor(public dialogRef: MatDialogRef<ListingFormComponent>, private fireModule: AngularFirestore, private auth: AngularFireAuth){
+  selectedFiles: File[] = [];
+
+  constructor(public dialogRef: MatDialogRef<ListingFormComponent>, private fireModule: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage){
     this.firebaseApi = new FirebaseApi(fireModule, auth);
   }
 
   updateListing(form: NgForm){
     this.firebaseApi.updateProperty(this.updatedProperty.id ?? "", this.updatedProperty);
+    this.deleteImages(this.updatedProperty.id ?? "");
+    this.uploadFiles(this.updatedProperty.id ?? "");
     this.closePopup();
   }
 
@@ -41,11 +46,38 @@ export class ListingFormComponent implements OnInit{
     }
   }
 
-  createListing(form: NgForm){
-    console.log(form);
-    this.firebaseApi.createProperty("PropertyId", form.form.value.address, "", form.form.value.details, form.form.value.bathrooms,
-    form.form.value.bedrooms, form.form.value.rooms, form.form.value.postalcode, form.form.value.price, form.form.value.propertytype, form.form.value.yearbuilt);
+  async createListing(form: NgForm) {
+    let user = await (this.auth.currentUser);
+
+   this.updatedProperty.brokerId = user?.uid;
+   this.firebaseApi.createProperty(this.updatedProperty).then((id) => {
+     console.log('New property created with ID:', id);
+      this.uploadFiles(id);
+   })
     this.closePopup();
   }
+  onFileSelect(event: any) {
+    this.selectedFiles = event.target.files;
+  }
+
+  uploadFiles(propertyId: string) {
+    for (const file of this.selectedFiles) {
+      const filePath = `images/${propertyId}/${file.name}`;
+      const storageRef = this.storage.ref(filePath);
+      storageRef.put(file);
+    }
+  }
+
+  deleteImages(propertyId: string) {
+    const imageRef = this.storage.ref('images/' + propertyId + '/');
+    imageRef.listAll().subscribe(
+      (listAllResult) => {
+        listAllResult.items.map((item) =>
+          item.delete()
+        );
+      }
+    );
+  }
+
 
 }

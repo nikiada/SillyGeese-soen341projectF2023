@@ -6,6 +6,7 @@ import {Login} from "../login-dialog/login";
 import UserCredential = firebase.auth.UserCredential;
 import {Property} from "../dto/property";
 import {lastValueFrom, map, Observable} from "rxjs";
+import {doc} from "@angular/fire/firestore";
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
@@ -34,20 +35,10 @@ export class FirebaseApi {
     return this.firestore.collection(this.USER_PATH).doc(id).set({email: user.email, name: user.name, type: user.type})
   }
 
-  public createProperty(id: string, address: string, brokerId: string, details: string, nBathrooms: number, nBedrooms: number,
-                        nRooms: number,postalCode: string,price: number, propertyType: string,yearBuilt: number) {
-    return this.firestore.collection(this.PROPERTY_PATH).doc(id)
-      .set({address: address,
-        brokerId: brokerId,
-        details: details,
-        nBathrooms: nBathrooms,
-        nBedrooms: nBedrooms,
-        nRooms: nRooms,
-        postalCode: postalCode,
-        price: price,
-        propertyType: propertyType,
-        yearBuilt: yearBuilt
-        })
+  public createProperty(property: Property) {
+    const copyProperty = {...property};
+    delete copyProperty.id;
+    return this.firestore.collection(this.PROPERTY_PATH).add(Object.assign({}, copyProperty)).then((docRef) => docRef.id);
   }
 
   public updateUser(user: User): Promise<void> {

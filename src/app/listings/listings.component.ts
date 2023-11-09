@@ -216,7 +216,7 @@ export class ListingsComponent implements OnInit {
     var dialogRef;
     dialogRef = this.dialog.open(ListingFormComponent, {
       width: '48%',
-      height: '40%'
+      height: '45%'
     });
     dialogRef.componentInstance.newListing = false;
     dialogRef.componentInstance.updatedProperty = property;
@@ -226,15 +226,25 @@ export class ListingsComponent implements OnInit {
     var dialogRef;
     dialogRef = this.dialog.open(ListingFormComponent, {
       width: '48%',
-      height: '40%'
+      height: '45%'
     }).componentInstance.newListing = true;
   }
-
+  deleteImages(propertyId: string) {
+    const imageRef = this.storage.ref('images/' + propertyId + '/');
+    imageRef.listAll().subscribe(
+      (listAllResult) => {
+        listAllResult.items.map((item) =>
+          item.delete()
+        );
+      }
+    );
+  }
   deleteListing(id: string) {
     let prop: Property;
     for (prop of this.properties) {
-      if (prop.id = id) {
+      if (prop.id == id) {
         this.firebaseApi.deleteProperty(prop);
+        this.deleteImages(id);
       }
     }
   }

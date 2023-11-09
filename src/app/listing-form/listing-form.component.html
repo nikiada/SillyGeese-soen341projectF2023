@@ -35,7 +35,7 @@
           <label for="address">Address:</label>
         </div>
         <div fxFlex="70" fxFlexAlign="right">
-          <input type="text" id="address" name="address" class="form-input" required [(ngModel)]="updatedProperty.address">
+          <input cFormControl type="text" id="address" name="address" class="form-input" required [(ngModel)]="updatedProperty.address">
         </div>
         <div fxFlex="30" fxLayoutAlign="left center">
           <label for="details">Property Details:</label><br>
@@ -47,19 +47,19 @@
           <label for="bathrooms">Number of Bathrooms:</label>
         </div>
         <div fxFlex="70" fxFlexAlign="right">
-          <input type="number" id="bathrooms" name="bathrooms" class="form-input" required [(ngModel)]="updatedProperty.nBathrooms">
+          <input cFormControl type="number" id="bathrooms" name="bathrooms" class="form-input" required [(ngModel)]="updatedProperty.nBathrooms">
         </div>
         <div fxFlex="30" fxLayoutAlign="left center">
           <label for="bedrooms">Number of Bedrooms:</label>
         </div>
         <div fxFlex="70" fxFlexAlign="right">
-          <input type="number" id="bedrooms" name="bedrooms" class="form-input" required [(ngModel)]="updatedProperty.nBedrooms">
+          <input cFormControl type="number" id="bedrooms" name="bedrooms" class="form-input" required [(ngModel)]="updatedProperty.nBedrooms">
         </div>
         <div fxFlex="30" fxLayoutAlign="left center">
           <label for="rooms">Number of Rooms:</label>
         </div>
         <div fxFlex="70" fxFlexAlign="right">
-          <input type="number" id="rooms" name="rooms" class="form-input" required [(ngModel)]="updatedProperty.nRooms">
+          <input cFormControl type="number" id="rooms" name="rooms" class="form-input" required [(ngModel)]="updatedProperty.nRooms">
         </div>
 
       </div>
@@ -68,13 +68,13 @@
           <label for="postalcode">Postal Code:</label>
         </div>
         <div fxFlex="70" fxFlexAlign="right">
-          <input type="text" id="postalcode" name="postalcode" class="form-input" required [(ngModel)]="updatedProperty.postalCode">
+          <input cFormControl type="text" id="postalcode" name="postalcode" class="form-input" required [(ngModel)]="updatedProperty.postalCode">
         </div>
         <div fxFlex="30" fxLayoutAlign="left center">
           <label for="price">Price:</label>
         </div>
         <div fxFlex="70" fxFlexAlign="right">
-          <input type="number" id="price" name="price" class="form-input" required [(ngModel)]="updatedProperty.price">
+          <input cFormControl type="number" id="price" name="price" class="form-input" required [(ngModel)]="updatedProperty.price">
         </div>
         <div fxFlex="30" fxLayoutAlign="left center">
           <label for="propertytype">Property Type:</label>
@@ -92,8 +92,15 @@
           <label for="yearbuilt">Year Built:</label>
         </div>
         <div fxFlex="70" fxFlexAlign="right">
-          <input type="number" id="yearbuilt" name="yearbuilt" class="form-input" required [(ngModel)]="updatedProperty.yearBuilt">
+          <input cFormControl type="number" id="yearbuilt" name="yearbuilt" class="form-input" required [(ngModel)]="updatedProperty.yearBuilt">
         </div>
+        <div fxFlex="30" fxLayoutAlign="left center">
+          <label for="formFileMultiple">Images</label>
+        </div>
+        <div fxFlex="70" fxFlexAlign="right" >
+          <input id="formFileMultiple" multiple type="file" class="form-input" [(ngModel)]="selectedFiles" (change)="onFileSelect($event)"/>
+        </div>
+
       </div>
     </form>
     <div fxLayout="row" style="padding-top: 5%;">
