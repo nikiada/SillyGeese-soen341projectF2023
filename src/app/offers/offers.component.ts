@@ -30,6 +30,7 @@ export class OffersComponent implements OnInit {
       let offerCopy: Offer = offer;
       offerCopy.userId = client.name;
       offerCopy.propertyId = property.address
+      offerCopy.id = property.id;
       this.dispOffers.push(offerCopy)
     })
     console.log(this.offers)
