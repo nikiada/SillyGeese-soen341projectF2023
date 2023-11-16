@@ -23,7 +23,7 @@ export class Offer {
     this.offer = offer;
   }
 
-  public static createUserFromDocumentSnapshot(id?: string, doc?: any): Offer {
+  public static createOfferFromDocumentSnapshot(id?: string, doc?: any): Offer {
     return new Offer(
       id,
       doc.brokerId,

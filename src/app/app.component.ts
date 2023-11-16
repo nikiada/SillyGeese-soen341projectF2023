@@ -9,7 +9,8 @@ import firebase from "firebase/compat";
 import UserCredential = firebase.auth.UserCredential;
 import {provideRouter} from "@angular/router";
 import {User} from "./dto/user";
-
+import {cilEnvelopeClosed} from '@coreui/icons'
+import {IconSetService} from "@coreui/icons-angular";
 
 @Component({
   selector: 'app-root',
@@ -20,18 +21,21 @@ export class AppComponent {
   title = 'house';
   firebaseApi: FirebaseApi
 
-  constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
+  constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth, inconSet: IconSetService) {
     this.firebaseApi = new FirebaseApi(fireModule, auth)
+    inconSet.icons={cilEnvelopeClosed}
     console.log(this.firebaseApi.getAllUsers());
     // Check if user is logged in.
     auth.onAuthStateChanged((user) => {
       if (!user) {
         this.openLoginDialog()
       } else {
+        localStorage.setItem("currentUser", user.uid)
         console.log(user.uid)
         // This is how you get a user
         this.firebaseApi.getUser(user.uid)
           .then((fetchedUser) => {
+            localStorage.setItem('user', JSON.stringify(fetchedUser))
             // These then() statements should be used to set your page's variable
             // This is necessary since stuff is async.
 
@@ -70,9 +74,8 @@ export class AppComponent {
         }
         if (result.email != null && result.password != null) {
           this.firebaseApi.authenticate(result).then(it => {
-
-            if (it.user) {
-              this.firebaseApi.createUser(it.user.uid, new User(it.user.uid, result.email, result.name,"CLIENT"))
+            if (it.user && result.isRegistering) {
+              this.firebaseApi.createUser(it.user.uid, new User(it.user.uid, result.email, result.name, "CLIENT"))
             }
           })
             .catch((error) => {

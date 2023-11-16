@@ -3,11 +3,10 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {IUser, User} from "../dto/user";
 import firebase from "firebase/compat";
 import {Login} from "../login-dialog/login";
-import UserCredential = firebase.auth.UserCredential;
 import {Property} from "../dto/property";
-import {lastValueFrom, map, Observable} from "rxjs";
+import {map} from "rxjs";
 import {Offer} from "../dto/offer";
-import {doc} from "@angular/fire/firestore";
+import UserCredential = firebase.auth.UserCredential;
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
@@ -28,7 +27,7 @@ export class FirebaseApi {
       }))
   }
 
-  public deleteProperty(property: Property){
+  public deleteProperty(property: Property) {
     return this.firestore.collection(this.PROPERTY_PATH).doc(property.id).delete()
   }
 
@@ -45,7 +44,7 @@ export class FirebaseApi {
   public updateUser(user: User): Promise<void> {
     return this.firestore.collection(this.USER_PATH)
       .doc(user.id)
-      .set({email: user.email, type: user.type})
+      .set({email: user.email, type: user.type, name: user.name})
   }
 
   public getAllUsers(): User[] {
@@ -71,6 +70,15 @@ export class FirebaseApi {
     return properties;
   }
 
+  public getProperty(id: string): Promise<Property>{
+    return this.firestore.collection(this.PROPERTY_PATH)
+      .doc(id).ref
+      .get().then(it => {
+        return Property.createPropertyFromDocumentSnapshot(it.id, it.data())
+      })
+  }
+
+
   public createOffer(offer: Offer) {
     return this.firestore.collection(this.OFFER_PATH).doc().set({brokerId: offer.brokerId, userId: offer.userId,propertyId: offer.propertyId, status: offer.status, offer: offer.offer});
   }
@@ -93,52 +101,44 @@ export class FirebaseApi {
     return this.firestore.collection(this.PROPERTY_PATH)
       .get()
       .pipe(map((querySnapshot) => {
-        const properties: any[] =[];
+        const properties: any[] = [];
         querySnapshot.forEach(async (doc) => {
           const data = <any>doc.data();
-          for(const key in data){
-            if(key === "price" || key === "nRooms" || key === "nBedrooms" || key === "nBathrooms"){
+          for (const key in data) {
+            if (key === "price" || key === "nRooms" || key === "nBedrooms" || key === "nBathrooms") {
               continue;
             }
-            if(key === "brokerId"){
-              let brokerRef =  await this.getUser(data[key]);
-              if(brokerRef){
-                let broker = <IUser> brokerRef;
-                if(broker.name?.toUpperCase().includes(searchString.toUpperCase()) || broker.email?.toUpperCase().includes(searchString.toUpperCase())){
+            if (key === "brokerId") {
+              let brokerRef = await this.getUser(data[key]);
+              if (brokerRef) {
+                let broker = <IUser>brokerRef;
+                if (broker.name?.toUpperCase().includes(searchString.toUpperCase()) || broker.email?.toUpperCase().includes(searchString.toUpperCase())) {
                   properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
                   //console.log(properties);
                   break;
                 }
               }
 
-            }else{
-              if(data.hasOwnProperty(key) && (data[key].toString().toUpperCase()).includes(searchString.toUpperCase())){
+            } else {
+              if (data.hasOwnProperty(key) && (data[key].toString().toUpperCase()).includes(searchString.toUpperCase())) {
                 properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
                 break;
               }
             }
-
           }
         });
         return properties;
       }));
   }
 
-  public getUser(id: string): Promise<IUser | void> {
+  public getUser(id: string): Promise<User> {
     return this.firestore.collection(this.USER_PATH)
       .doc(id).ref
       .get().then(it => {
         return User.createUserFromDocumentSnapshot(it.id, it.data())
       })
-      .catch(() => console.log("user not found"))
   }
-  public getProperty(id: string): Promise<Property>{
-    return this.firestore.collection(this.PROPERTY_PATH)
-      .doc(id).ref
-      .get().then(it => {
-        return Property.createPropertyFromDocumentSnapshot(it.id, it.data())
-      })
-  }
+
 public updateProperty(id: string , property:Property ){
     const brokerRef = this.firestore.collection(this.PROPERTY_PATH).doc(id);
 
@@ -150,6 +150,7 @@ public updateProperty(id: string , property:Property ){
           console.log('Property updated.');
       });
   }
+
 
   public authenticate(login: Login): Promise<UserCredential> {
     if (login.isRegistering) {
@@ -163,4 +164,25 @@ public updateProperty(id: string , property:Property ){
     this.auth.signOut();
   }
 
+  public async getUserOffers(brokerId: string): Promise<Offer[]> {
+    let brokerOffers: Offer[] = [];
+    await this.firestore.collection(this.OFFER_PATH,
+      offer => offer.where('brokerId', '==', brokerId)
+    ).get().forEach(observer => observer.docs.forEach(offerDoc => {
+      brokerOffers.push(Offer.createOfferFromDocumentSnapshot(offerDoc.id, offerDoc.data()))
+    }))
+    return brokerOffers;
+  }
+
+  updateOffer(offer: Offer) : Promise<void> {
+    return this.firestore.collection(this.OFFER_PATH)
+      .doc(offer.id)
+      .update({
+        brokerId: offer.brokerId,
+        propertyId: offer.propertyId,
+        price: offer.offer,
+        status: offer.status,
+        userId: offer.userId
+      })
+  }
 }

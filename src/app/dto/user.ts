@@ -1,6 +1,4 @@
-import {UserType} from "./user-type";
 import firebase from "firebase/compat";
-import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 
 export interface IUser {
   id?: string

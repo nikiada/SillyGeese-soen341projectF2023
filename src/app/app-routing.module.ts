@@ -4,6 +4,8 @@ import { BrokerComponent } from './broker/broker.component';
 import { ListingsComponent } from './listings/listings.component';
 import {ListingDetailsComponent} from "./listings/listing-details/listing-details.component";
 import {NgModule} from "@angular/core";
+import {OffersComponent} from "./offers/offers.component";
+
 const routes: Routes = [
   { path: 'brokers', component: BrokerComponent },
   {
@@ -11,17 +13,18 @@ const routes: Routes = [
   },
   {
     path: 'listings/:id', component: ListingDetailsComponent
-  }
+  },
+  {path: 'offers', component: OffersComponent}
 ];
 
 @NgModule({
     declarations: [],
     imports: [
-        CommonModule,
-        RouterModule.forRoot(routes)
+      CommonModule,
+      RouterModule.forRoot(routes)
     ],
     exports: [RouterModule]
-}
-
+  }
 )
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
