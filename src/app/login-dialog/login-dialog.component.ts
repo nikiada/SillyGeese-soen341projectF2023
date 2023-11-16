@@ -1,6 +1,7 @@
 import {Component, HostListener} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {Login} from "./login";
+import { FormsModule} from "@angular/forms";
 
 
 @Component({
@@ -20,7 +21,7 @@ export class LoginDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<LoginDialogComponent>,
   ) {
-    this.login = {email: "", name: "", password: "", isRegistering: false};
+    this.login = {email: "", name: "", password: "", isRegistering: true};
   }
 
   public submit() {

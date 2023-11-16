@@ -1,3 +1,27 @@
-mat-form-field{ margin-left: 10%;}
-label{margin-left: 45%;}
-button{margin-left: 40%; margin-top: 5%}
+
+form {
+  height: fit-content;
+  width: fit-content;
+  padding: 10%;
+  margin-left: 5%;
+}
+
+c-header{
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  margin-top: 5%;
+  position: fixed;
+}
+
+
+.popup-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  background: rgba(0, 0, 0, 0);
+}

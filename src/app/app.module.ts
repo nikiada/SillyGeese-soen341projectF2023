@@ -26,7 +26,7 @@ import { ListingsComponent } from './listings/listings.component';
 import {MatCardModule} from "@angular/material/card";
 import {FlexModule} from "@angular/flex-layout";
 import {
-  ButtonDirective,
+  ButtonDirective, ButtonModule,
   CardBodyComponent,
   CardComponent,
   CarouselModule,
@@ -35,8 +35,8 @@ import {
   FormCheckInputDirective,
   FormCheckLabelDirective,
   FormControlDirective, FormDirective, FormFeedbackComponent,
-  FormLabelDirective,
-  FormSelectDirective, FormTextDirective, GutterDirective,
+  FormLabelDirective, FormModule,
+  FormSelectDirective, FormTextDirective, GridModule, HeaderModule,
   InputGroupComponent,
   InputGroupTextDirective, RowDirective
 } from '@coreui/angular';
@@ -95,9 +95,12 @@ import { OffersComponent } from './offers/offers.component';
     FormLabelDirective,
     FormTextDirective,
     FormFeedbackComponent,
-    GutterDirective,
     FormDirective,
-    RowDirective
+    RowDirective,
+    FormModule,
+    GridModule,
+    HeaderModule,
+    ButtonModule
   ],
   providers: [IconSetService],
   bootstrap: [AppComponent]
