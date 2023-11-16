@@ -11,6 +11,7 @@ import {from, lastValueFrom, Observable, ObservedValueOf, of} from "rxjs";
 import {MatDialog} from '@angular/material/dialog';
 import {ListingFormComponent} from '../listing-form/listing-form.component';
 import {DOCUMENT} from '@angular/common';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-listings',
@@ -24,27 +25,33 @@ export class ListingsComponent implements OnInit {
   images = new Map<string, any[]>();
   visible = false;
   isLoading: boolean = false;
-
+  currentUserId:string | undefined  = "";
   @Input() productId = '';
 
   async ngOnInit() {
-
-    this.properties = await this.firebaseApi.getAllProperties();
-
+    if(this.router.url === "/listings"){
+      await this.getBrokerProperties();
+    }else{
+      this.properties = await this.firebaseApi.getAllProperties();
+    }
     this.images = await this.loadImagesForProperties();
     this.images.forEach((img) => {
       for (let i = 0; i < img.length; i++) {
         img[i] = {src: img[i]}
       }
     });
+
   }
 
 
-  constructor(private dialog: MatDialog, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
+  constructor(private dialog: MatDialog, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth, private router: Router) {
     iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter,cilBookmark};
     this.firebaseApi = new FirebaseApi(fireModule, auth);
   }
 
+  async getBrokerProperties() {
+    this.properties = await lastValueFrom(this.firebaseApi.getPropertiesByBroker(localStorage.getItem("currentUser")??""));
+  }
   async loadImagesForProperties() {
     const images = new Map<string, string[]>();
 
