@@ -63,8 +63,8 @@ export class AppComponent {
 
   private openLoginDialog(): void {
     var dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '270px',
-      height: '270px'
+      width: '30%',
+      height: '80%'
     });
     dialogRef
       .afterClosed()

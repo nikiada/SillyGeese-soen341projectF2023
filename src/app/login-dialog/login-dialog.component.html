@@ -1,25 +1,27 @@
-<div style="align-content: center">
-  <div>
-    <label>{{login.isRegistering ? "Register" : "Login"}}</label>
-  </div>
-  <div>
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput cdkFocusInitial [(ngModel)]="login.email"/>
-    </mat-form-field>
-    <mat-form-field *ngIf="login.isRegistering">
-      <mat-label>Name</mat-label>
-      <input matInput [(ngModel)]="login.name"/>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input matInput [(ngModel)]="login.password"/>
-    </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="submit()">OK</button>
-    <button mat-button
-            (click)="toggleRegister()">{{login.isRegistering ? "Login Instead" : "Register Instead"}}</button>
-  </div>
-
+<div class="popup-container">
+  <c-header>
+    <c-header-brand>{{login.isRegistering ? "Register" : "Login"}}</c-header-brand>
+  </c-header>
+  <form cform>
+    <c-row class="mb-3">
+      <label cLabel for="input-email" id="input-email" >Email</label>
+      <input [(ngModel)]="login.email" cFormControl sizing="lg"/>
+    </c-row>
+    <c-row [hidden]="!login.isRegistering">
+      <label cLabel for="input-name">Name</label>
+      <input cFormControl [(ngModel)]="login.name" sizing="lg" id="input-name"/>
+    </c-row>
+    <c-row>
+      <label cLabel for="input-password" >Password</label>
+      <input type="password" cFormControl [(ngModel)]="login.password" aria-describedby="passwordHelpBlock-2" sizing="lg" id="input-password"/>
+      <span [hidden]="!login.isRegistering" cFormText id="passwordHelpBlock-2">
+        Your password must at least be 6 characters long.
+      </span>
+    </c-row>
+    <c-row>
+      <button cButton color="primary" (click)="submit()">Submit</button>
+      <button cButton color="link" class="swapView"
+        (click)="toggleRegister()">{{login.isRegistering ? "Login Instead" : "Register Instead"}}</button>
+    </c-row>
+  </form>
 </div>
