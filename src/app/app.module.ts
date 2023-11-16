@@ -38,7 +38,7 @@ import {
   FormLabelDirective, FormModule,
   FormSelectDirective, FormTextDirective, GridModule, HeaderModule,
   InputGroupComponent,
-  InputGroupTextDirective
+  InputGroupTextDirective, ListGroupModule
 } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { BrokerSearchComponent } from './broker-search/broker-search.component';
@@ -98,7 +98,8 @@ import { OffersComponent } from './offers/offers.component';
     FormModule,
     GridModule,
     HeaderModule,
-    ButtonModule
+    ButtonModule,
+    ListGroupModule
   ],
   providers: [IconSetService],
   bootstrap: [AppComponent]
