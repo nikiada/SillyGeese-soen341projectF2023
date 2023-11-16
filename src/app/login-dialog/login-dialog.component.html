@@ -5,15 +5,15 @@
   <form cform>
     <c-row class="mb-3">
       <label cLabel for="input-email" id="input-email" >Email</label>
-      <input [(ngModel)]="login.email" cFormControl sizing="lg"/>
+      <input name="email" [(ngModel)]="login.email" cFormControl sizing="lg"/>
     </c-row>
     <c-row [hidden]="!login.isRegistering">
       <label cLabel for="input-name">Name</label>
-      <input cFormControl [(ngModel)]="login.name" sizing="lg" id="input-name"/>
+      <input name="name" cFormControl [(ngModel)]="login.name" sizing="lg" id="input-name"/>
     </c-row>
     <c-row>
       <label cLabel for="input-password" >Password</label>
-      <input type="password" cFormControl [(ngModel)]="login.password" aria-describedby="passwordHelpBlock-2" sizing="lg" id="input-password"/>
+      <input name="password" type="password" cFormControl [(ngModel)]="login.password" aria-describedby="passwordHelpBlock-2" sizing="lg" id="input-password"/>
       <span [hidden]="!login.isRegistering" cFormText id="passwordHelpBlock-2">
         Your password must at least be 6 characters long.
       </span>
