@@ -27,7 +27,18 @@ property: Property={} ;
   currentUserId:string | undefined  = "";
   offerValue: string = "";
   offerSubmited: boolean = false;
+  mortgageSalePrice = undefined;
+  mortgageDownPayment = undefined;
+  mortgageIntrestRate = undefined;
+  mortgageLoanTerm = undefined;
+  mortgageSalePriceValid = true;
+  mortgageDownPaymentValid = true;
+  mortgageIntrestRateValid = true;
+  mortgageLoanTermValid = true;
+  mortgageResult:string | undefined = undefined;
+
   @Input() id = "";
+
   async ngOnInit() {
     this.route.paramMap.subscribe(async (params) => {
       this.id = params.get("id") || '';
@@ -150,4 +161,18 @@ property: Property={} ;
         }
     );
   }
+  calculateMortgage(){
+    if(!this.mortgageSalePrice) this.mortgageSalePriceValid = false
+    if(!this.mortgageDownPayment) this.mortgageDownPaymentValid = false
+    if(!this.mortgageLoanTerm) this.mortgageLoanTermValid = false
+    if(!this.mortgageIntrestRate) this.mortgageIntrestRateValid = false
+    if(this.mortgageSalePriceValid && this.mortgageDownPaymentValid && this.mortgageLoanTermValid && this.mortgageIntrestRateValid) {
+      let p = this.mortgageSalePrice!! - this.mortgageDownPayment!!;
+      let r = (this.mortgageIntrestRate!! / 100) / 12;
+      let n = this.mortgageLoanTerm!! * 12;
+      this.mortgageResult = (p * ( (r * Math.pow(( 1 + r),n)) / (Math.pow(( 1 + r),n) - 1))).toFixed(2);
+    }
+  }
+
+  protected readonly undefined = undefined;
 }

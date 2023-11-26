@@ -166,34 +166,40 @@
               <mat-card-title><b>Mortgage</b></mat-card-title>
             </mat-card-header>
               <mat-card-content>
-                <form>
+                <form (ngSubmit)="calculateMortgage()">
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="salePrice" type="number" required placeholder="Sale Price">
+                    <input cFormControl [ngClass]="{'input-error': !mortgageSalePriceValid}" id="salePrice" type="number" [min]="mortgageDownPayment ? mortgageDownPayment : 0" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageSalePrice" [placeholder]="mortgageSalePriceValid ? 'Sale Price' : 'Requried'"[ngModelOptions]="{standalone: true}">
                     <span class="input-group-text">
                       <svg cIcon name="cilMoney" size="xl" title="Bed Icons"></svg>
                     </span>
                   </div>
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="downPayment" type="number" required placeholder="Down Payment">
+                    <input cFormControl [ngClass]="{'input-error': !mortgageDownPaymentValid} "id="downPayment" type="number" [max]="mortgageSalePrice? mortgageSalePrice : 1000000000000" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageDownPayment" [placeholder]="mortgageDownPaymentValid ? 'Down Payment' : 'Required'" [ngModelOptions]="{standalone: true}">
                     <span class="input-group-text">
                       <svg cIcon name="cilMoney" size="xl" title="Bed Icons"></svg>
                     </span>
                   </div>
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="loanTerm" type="number" required placeholder="Loan Term (Years)">
+                    <input cFormControl [ngClass]="{'input-error': !mortgageLoanTermValid}" id="loanTerm" type="number" min="0" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageLoanTerm" [placeholder]="mortgageLoanTermValid ? 'Loan Term (Years)' : 'Required'" [ngModelOptions]="{standalone: true}">
                     <span class="input-group-text">
                     <svg cIcon name="cilCalendar" size="xl" title="Bed Icons"></svg>
                   </span>
                   </div>
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="rate" type="number" required placeholder="Interest Rate">
+                    <input cFormControl [ngClass]="{'input-error': !mortgageIntrestRateValid}"  id=" rate" name="rate" type="number" min="0" step=".01" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageIntrestRate" [placeholder]="mortgageIntrestRateValid ? 'Interest Rate (Percent)': 'Required'" [ngModelOptions]="{standalone: true}">
+
                     <span class="input-group-text">
                     <svg cIcon name="cilGraph" size="xl" title="Bed Icons"></svg>
+
                   </span>
-                  </div>
+
+                                 </div>
                   <button cButton class="me-1" color="dark" type="submit">
                     Calculate
                   </button>
+                  <div *ngIf="mortgageResult">
+                    Payments of {{mortgageResult}} per month
+                  </div>
                 </form>
               </mat-card-content>
             </mat-card>

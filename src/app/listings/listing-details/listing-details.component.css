@@ -129,3 +129,11 @@ body {
 .features{
   padding-bottom: 5%;
 }
+input::placeholder {
+  color: var(--placeHolder-color);
+}
+.input-error {
+  border: red 1px solid;
+  --placeHolder-color: red;
+}
+

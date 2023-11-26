@@ -34,11 +34,11 @@ import {
   FormCheckComponent,
   FormCheckInputDirective,
   FormCheckLabelDirective,
-  FormControlDirective,
+  FormControlDirective, FormDirective, FormFeedbackComponent,
   FormLabelDirective, FormModule,
   FormSelectDirective, FormTextDirective, GridModule, HeaderModule,
   InputGroupComponent,
-  InputGroupTextDirective, ListGroupModule
+  InputGroupTextDirective, ListGroupModule, RowDirective
 } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { BrokerSearchComponent } from './broker-search/broker-search.component';
@@ -94,7 +94,9 @@ import { OffersComponent } from './offers/offers.component';
     MatSliderModule,
     FormLabelDirective,
     FormTextDirective,
-    FormModule,
+    FormFeedbackComponent,
+    FormDirective,
+    RowDirective,
     FormModule,
     GridModule,
     HeaderModule,
