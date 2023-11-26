@@ -20,23 +20,23 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./listing-details.component.css']
 })
 export class ListingDetailsComponent {
-property: Property={} ;
+  property: Property = {};
   firebaseApi: FirebaseApi;
   images = new Map<string, any[]>();
   properties: Property[] = [];
-  currentUserId:string | undefined  = "";
+  currentUserId: string | undefined = "";
   offerValue: string = "";
   offerSubmited: boolean = false;
   mortgageSalePrice = undefined;
   mortgageDownPayment = undefined;
   mortgageIntrestRate = undefined;
   mortgageLoanTerm = undefined;
-  mortgageSalePriceValid = true;
-  mortgageDownPaymentValid = true;
-  mortgageIntrestRateValid = true;
-  mortgageLoanTermValid = true;
-  mortgageResult:string | undefined = undefined;
-
+  isMortgageSalePriceValid = true;
+  isMortgageDownPaymentValid = true;
+  isMortgageIntrestRateValid = true;
+  isMortgageLoanTermValid = true;
+  mortgageResult: string | undefined = undefined;
+  readonly MAX_MORTGAGE_SALEPRICE_DEFAULT = 1000000000000;
   @Input() id = "";
 
   async ngOnInit() {
@@ -55,43 +55,46 @@ property: Property={} ;
       }
     });
   }
-  constructor(private dialog: MatDialog, private router: Router,private route: ActivatedRoute, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+
+  constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
     this.firebaseApi = new FirebaseApi(fireModule, auth);
-    iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter, cilBuilding, cilCalendar, cilMoney,cilGraph};
+    iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter, cilBuilding, cilCalendar, cilMoney, cilGraph};
     auth.onAuthStateChanged((user) => {
       this.currentUserId = user?.uid;
     });
   }
 
   async loadImagesForProperties() {
-    const  images = new Map<string, string[]>();
+    const images = new Map<string, string[]>();
 
 
-      if (this.property?.id != null) {
-        let urls:string[] = await lastValueFrom(this.getImagesForListing(this.property.id) ?? []);
-        if(urls.length == 0){
-          urls =  await lastValueFrom(this.getDefaultImage())
-        }
-        images.set(this.property.id, urls);
+    if (this.property?.id != null) {
+      let urls: string[] = await lastValueFrom(this.getImagesForListing(this.property.id) ?? []);
+      if (urls.length == 0) {
+        urls = await lastValueFrom(this.getDefaultImage())
       }
+      images.set(this.property.id, urls);
+    }
 
     for (const property of this.properties) {
       if (property.id != null) {
-        let urls:string[] = await lastValueFrom(this.getImagesForListing(property.id) ?? []);
-        if(urls.length == 0){
-          urls =  await lastValueFrom(this.getDefaultImage())
+        let urls: string[] = await lastValueFrom(this.getImagesForListing(property.id) ?? []);
+        if (urls.length == 0) {
+          urls = await lastValueFrom(this.getDefaultImage())
         }
         images.set(property.id, urls);
       }
     }
     return images;
   }
-  getDefaultImage():Observable<string[]>{
+
+  getDefaultImage(): Observable<string[]> {
     return this.getImagesForListing('default');
   }
+
   getImagesForListing(id: string): Observable<string[]> {
     return new Observable<string[]>((observer) => {
       const imageRef = this.storage.ref('images/' + id + '/');
@@ -115,7 +118,8 @@ property: Property={} ;
       );
     });
   }
-  getImageUrls(id:string): any[]{
+
+  getImageUrls(id: string): any[] {
     return this.images.get(id) || [];
   }
 
@@ -123,8 +127,8 @@ property: Property={} ;
     this.properties = await lastValueFrom(this.firebaseApi.getPropertiesByBroker(this.property.brokerId ?? "", this.property.id ?? ""));
   }
 
-  makeOffer(){
-    let offer: Offer = new Offer("", this.property.brokerId,this.currentUserId, this.property.id ,Offer.PENDING, this.offerValue );
+  makeOffer() {
+    let offer: Offer = new Offer("", this.property.brokerId, this.currentUserId, this.property.id, Offer.PENDING, this.offerValue);
     this.firebaseApi.createOffer(offer);
     this.offerSubmited = true;
   }
@@ -141,10 +145,10 @@ property: Property={} ;
 
   deleteListing(id: string) {
 
-  if(this.property.id){
-    this.firebaseApi.deleteProperty(this.property);
-    this.deleteImages(this.property.id);
-  }
+    if (this.property.id) {
+      this.firebaseApi.deleteProperty(this.property);
+      this.deleteImages(this.property.id);
+    }
 
 
     this.router.navigateByUrl('/listings');
@@ -154,23 +158,24 @@ property: Property={} ;
   deleteImages(propertyId: string) {
     const imageRef = this.storage.ref('images/' + propertyId + '/');
     imageRef.listAll().subscribe(
-        (listAllResult) => {
-          listAllResult.items.map((item) =>
-              item.delete()
-          );
-        }
+      (listAllResult) => {
+        listAllResult.items.map((item) =>
+          item.delete()
+        );
+      }
     );
   }
-  calculateMortgage(){
-    if(!this.mortgageSalePrice) this.mortgageSalePriceValid = false
-    if(!this.mortgageDownPayment) this.mortgageDownPaymentValid = false
-    if(!this.mortgageLoanTerm) this.mortgageLoanTermValid = false
-    if(!this.mortgageIntrestRate) this.mortgageIntrestRateValid = false
-    if(this.mortgageSalePriceValid && this.mortgageDownPaymentValid && this.mortgageLoanTermValid && this.mortgageIntrestRateValid) {
+
+  calculateMortgage() {
+    if (!this.mortgageSalePrice) this.isMortgageSalePriceValid = false
+    if (!this.mortgageDownPayment) this.isMortgageDownPaymentValid = false
+    if (!this.mortgageLoanTerm) this.isMortgageLoanTermValid = false
+    if (!this.mortgageIntrestRate) this.isMortgageIntrestRateValid = false
+    if (this.isMortgageSalePriceValid && this.isMortgageDownPaymentValid && this.isMortgageLoanTermValid && this.isMortgageIntrestRateValid) {
       let p = this.mortgageSalePrice!! - this.mortgageDownPayment!!;
       let r = (this.mortgageIntrestRate!! / 100) / 12;
       let n = this.mortgageLoanTerm!! * 12;
-      this.mortgageResult = (p * ( (r * Math.pow(( 1 + r),n)) / (Math.pow(( 1 + r),n) - 1))).toFixed(2);
+      this.mortgageResult = (p * ((r * Math.pow((1 + r), n)) / (Math.pow((1 + r), n) - 1))).toFixed(2);
     }
   }
 

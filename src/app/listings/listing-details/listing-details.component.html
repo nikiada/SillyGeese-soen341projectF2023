@@ -1,14 +1,16 @@
 <div class="content .z-depth box" *ngIf="property && images; else loadingPage">
-  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" >
-    <div fxFlex="0 1 70" class="cardtest"  >
-      <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src else loadingPage">
-        <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;" >
+  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%">
+    <div fxFlex="0 1 70" class="cardtest">
+      <ng-container
+        *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src else loadingPage">
+        <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
           <mat-card-header>
-            <mat-card-title style="color: #125699; font-size: large"><h1><b>{{ property.address }}</b></h1></mat-card-title>
+            <mat-card-title style="color: #125699; font-size: large"><h1><b>{{ property.address }}</b></h1>
+            </mat-card-title>
           </mat-card-header>
-          <c-carousel [interval]="0" >
+          <c-carousel [interval]="0">
             <c-carousel-inner style="border-radius: 15px;">
-              <c-carousel-item  *ngFor="let image of getImageUrls(property.id)">
+              <c-carousel-item *ngFor="let image of getImageUrls(property.id)">
                 <div class="image-container">
                   <img
                     mat-card-image
@@ -38,12 +40,12 @@
                   <b> Property type </b>
                 </div>
                 <div style="padding-right: 5%" fxFlex="50" fxLayoutAlign="end">
-                   <p> {{ property.propertyType }} </p>
+                  <p> {{ property.propertyType }} </p>
                 </div>
               </div>
               <div fxFlex="0 1 50">
                 <div style="" fxFlex="50" fxLayoutAlign="start">
-                  <svg  style="margin-right: 5%" cIcon name="cilCalendar" size="xl" title="Bed Icons"></svg>
+                  <svg style="margin-right: 5%" cIcon name="cilCalendar" size="xl" title="Bed Icons"></svg>
                   <b> Year Built </b>
                 </div>
                 <div style="padding-right: 5%" fxFlex="50" fxLayoutAlign="end">
@@ -104,105 +106,127 @@
       </ng-container>
     </div>
     <div fxFlex="0 1 30">
-    <div fxLayout="column"  fxLayoutGap="3% grid" style="">
-      <div fxFlex="0 1 70" style="">
-        <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src else loadingPage">
-          <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
-            <mat-card-header>
-              <mat-card-title style="font-size: large;">Broker Properties</mat-card-title>
-            </mat-card-header>
-            <mat-card-content style="-webkit-line-clamp: 4;">
-              <div fxLayout="column" class="cardtest" style="padding-bottom: 5%;" *ngFor="let property of properties">
-                <ng-container *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src; else loadingPage">
-                  <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;" [routerLink]="'../'+[property.id]">
-                    <c-carousel [interval]="0" >
-                      <c-carousel-inner style="border-radius: 15px;">
-                        <c-carousel-item  *ngFor="let image of getImageUrls(property.id)">
-                          <div class="image-container">
-                            <img
-                              mat-card-image
-                              style="border-radius: 15px;"
-                              [src]="image.src"
-                              alt="{{ property.details }}"
-                              class="d-block w-100"
-                              loading="lazy"
-                            />
-                          </div>
-                        </c-carousel-item>
-                      </c-carousel-inner>
-                      <c-carousel-indicators></c-carousel-indicators>
-                      <c-carousel-control [routerLink] caption="Previous" direction="prev"></c-carousel-control>
-                      <c-carousel-control [routerLink] caption="Next" direction="next"></c-carousel-control>
-                    </c-carousel>
-                    <mat-card-header>
-                      <mat-card-title style="color: #125699; font-size: medium">{{ property.address }}</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content style="-webkit-line-clamp: 4;" fxFlex="30">
-                      <div class="truncate">
-                        <p>{{ property.details }}.</p>
-                      </div>
-                      <h2>
-                        {{ property.price }}$
-                      </h2>
-                    </mat-card-content>
-                    <mat-card-actions>
-                      <svg cIcon name="cilBed" size="xl" title="Bed Icons"></svg>
-                      <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBedrooms}}</span>
-                      <svg cIcon name="cilBath" size="xl" title="Bath Icons"></svg>
-                      <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBathrooms}}</span>
-                      <svg cIcon name="cilRoom" size="xl" title="Room Icons"></svg>
-                      <span style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nRooms}}</span>
-                    </mat-card-actions>
-                  </mat-card>
-                </ng-container>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </ng-container>
-      </div>
-        <div fxFlex="0 1 30" style="">
+      <div fxLayout="column" fxLayoutGap="3% grid" style="">
+        <div fxFlex="0 1 70" style="">
+          <ng-container
+            *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src else loadingPage">
             <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
+              <mat-card-header>
+                <mat-card-title style="font-size: large;">Broker Properties</mat-card-title>
+              </mat-card-header>
+              <mat-card-content style="-webkit-line-clamp: 4;">
+                <div fxLayout="column" class="cardtest" style="padding-bottom: 5%;" *ngFor="let property of properties">
+                  <ng-container
+                    *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src; else loadingPage">
+                    <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;"
+                              [routerLink]="'../'+[property.id]">
+                      <c-carousel [interval]="0">
+                        <c-carousel-inner style="border-radius: 15px;">
+                          <c-carousel-item *ngFor="let image of getImageUrls(property.id)">
+                            <div class="image-container">
+                              <img
+                                mat-card-image
+                                style="border-radius: 15px;"
+                                [src]="image.src"
+                                alt="{{ property.details }}"
+                                class="d-block w-100"
+                                loading="lazy"
+                              />
+                            </div>
+                          </c-carousel-item>
+                        </c-carousel-inner>
+                        <c-carousel-indicators></c-carousel-indicators>
+                        <c-carousel-control [routerLink] caption="Previous" direction="prev"></c-carousel-control>
+                        <c-carousel-control [routerLink] caption="Next" direction="next"></c-carousel-control>
+                      </c-carousel>
+                      <mat-card-header>
+                        <mat-card-title
+                          style="color: #125699; font-size: medium">{{ property.address }}</mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content style="-webkit-line-clamp: 4;" fxFlex="30">
+                        <div class="truncate">
+                          <p>{{ property.details }}.</p>
+                        </div>
+                        <h2>
+                          {{ property.price }}$
+                        </h2>
+                      </mat-card-content>
+                      <mat-card-actions>
+                        <svg cIcon name="cilBed" size="xl" title="Bed Icons"></svg>
+                        <span
+                          style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBedrooms}}</span>
+                        <svg cIcon name="cilBath" size="xl" title="Bath Icons"></svg>
+                        <span
+                          style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nBathrooms}}</span>
+                        <svg cIcon name="cilRoom" size="xl" title="Room Icons"></svg>
+                        <span
+                          style="margin-left: 8px; margin-right: 8px; font-size: 14px; font-weight: bold">{{property.nRooms}}</span>
+                      </mat-card-actions>
+                    </mat-card>
+                  </ng-container>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+        </div>
+        <div fxFlex="0 1 30" style="">
+          <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
             <mat-card-header>
               <mat-card-title><b>Mortgage</b></mat-card-title>
             </mat-card-header>
-              <mat-card-content>
-                <form (ngSubmit)="calculateMortgage()">
-                  <div class="input-group mortgageForm">
-                    <input cFormControl [ngClass]="{'input-error': !mortgageSalePriceValid}" id="salePrice" type="number" [min]="mortgageDownPayment ? mortgageDownPayment : 0" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageSalePrice" [placeholder]="mortgageSalePriceValid ? 'Sale Price' : 'Requried'"[ngModelOptions]="{standalone: true}">
-                    <span class="input-group-text">
+            <mat-card-content>
+              <form (ngSubmit)="calculateMortgage()">
+                <div class="input-group mortgageForm">
+                  <input cFormControl [ngClass]="{'input-error': !mortgageSalePriceValid}" id="salePrice" type="number"
+                         [min]="mortgageDownPayment ? mortgageDownPayment : 0" oninput="validity.valid||(value='')"
+                         required [(ngModel)]="mortgageSalePrice"
+                         [placeholder]="mortgageSalePriceValid ? 'Sale Price' : 'Requried'"
+                         [ngModelOptions]="{standalone: true}">
+                  <span class="input-group-text">
                       <svg cIcon name="cilMoney" size="xl" title="Bed Icons"></svg>
                     </span>
-                  </div>
-                  <div class="input-group mortgageForm">
-                    <input cFormControl [ngClass]="{'input-error': !mortgageDownPaymentValid} "id="downPayment" type="number" [max]="mortgageSalePrice? mortgageSalePrice : 1000000000000" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageDownPayment" [placeholder]="mortgageDownPaymentValid ? 'Down Payment' : 'Required'" [ngModelOptions]="{standalone: true}">
-                    <span class="input-group-text">
+                </div>
+                <div class="input-group mortgageForm">
+                  <input cFormControl [ngClass]="{'input-error': !mortgageDownPaymentValid} " id="downPayment"
+                         type="number" [max]="mortgageSalePrice? mortgageSalePrice : MAX_MORTGAGE_SALEPRICE_DEFAULT"
+                         oninput="validity.valid||(value='')" required [(ngModel)]="mortgageDownPayment"
+                         [placeholder]="mortgageDownPaymentValid ? 'Down Payment' : 'Required'"
+                         [ngModelOptions]="{standalone: true}">
+                  <span class="input-group-text">
                       <svg cIcon name="cilMoney" size="xl" title="Bed Icons"></svg>
                     </span>
-                  </div>
-                  <div class="input-group mortgageForm">
-                    <input cFormControl [ngClass]="{'input-error': !mortgageLoanTermValid}" id="loanTerm" type="number" min="0" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageLoanTerm" [placeholder]="mortgageLoanTermValid ? 'Loan Term (Years)' : 'Required'" [ngModelOptions]="{standalone: true}">
-                    <span class="input-group-text">
+                </div>
+                <div class="input-group mortgageForm">
+                  <input cFormControl [ngClass]="{'input-error': !mortgageLoanTermValid}" id="loanTerm" type="number"
+                         min="0" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageLoanTerm"
+                         [placeholder]="mortgageLoanTermValid ? 'Loan Term (Years)' : 'Required'"
+                         [ngModelOptions]="{standalone: true}">
+                  <span class="input-group-text">
                     <svg cIcon name="cilCalendar" size="xl" title="Bed Icons"></svg>
                   </span>
-                  </div>
-                  <div class="input-group mortgageForm">
-                    <input cFormControl [ngClass]="{'input-error': !mortgageIntrestRateValid}"  id=" rate" name="rate" type="number" min="0" step=".01" oninput="validity.valid||(value='')" required [(ngModel)]="mortgageIntrestRate" [placeholder]="mortgageIntrestRateValid ? 'Interest Rate (Percent)': 'Required'" [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="input-group mortgageForm">
+                  <input cFormControl [ngClass]="{'input-error': !mortgageIntrestRateValid}" id=" rate" name="rate"
+                         type="number" min="0" step=".01" oninput="validity.valid||(value='')" required
+                         [(ngModel)]="mortgageIntrestRate"
+                         [placeholder]="mortgageIntrestRateValid ? 'Interest Rate (Percent)': 'Required'"
+                         [ngModelOptions]="{standalone: true}">
 
-                    <span class="input-group-text">
+                  <span class="input-group-text">
                     <svg cIcon name="cilGraph" size="xl" title="Bed Icons"></svg>
 
                   </span>
 
-                                 </div>
-                  <button cButton class="me-1" color="dark" type="submit">
-                    Calculate
-                  </button>
-                  <div *ngIf="mortgageResult">
-                    Payments of {{mortgageResult}} per month
-                  </div>
-                </form>
-              </mat-card-content>
-            </mat-card>
+                </div>
+                <button cButton class="me-1" color="dark" type="submit">
+                  Calculate
+                </button>
+                <div *ngIf="mortgageResult">
+                  Payments of {{mortgageResult}} per month
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
 
