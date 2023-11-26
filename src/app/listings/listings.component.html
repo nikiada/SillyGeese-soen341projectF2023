@@ -29,7 +29,7 @@
         </div>
         <div class="mb-3">
           <label cLabel for="nRooms">Rooms: </label>
-          <select id="nRooms" class="filter-select" cSelect   >
+          <select id="nRooms" class="filter-select" cSelect  [(ngModel)]="nRooms" [ngModelOptions]="{standalone: true}" >
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -46,7 +46,7 @@
         </div>
         <div class="mb-3">
           <label cLabel for="nBedrooms">Bedrooms: </label>
-          <select id="nBedrooms" class="filter-select" cSelect>
+          <select id="nBedrooms" class="filter-select" cSelect [(ngModel)]="nBedrooms" [ngModelOptions]="{standalone: true}">
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -82,7 +82,7 @@
           <label cLabel for="minPriceRange">Minimum price range</label>
           <div class="input-group">
             <span class="input-group-text">$</span>
-            <input cFormControl id="minPriceRange" type="number" (change)="onPriceFilterChange($event)">
+            <input cFormControl id="minPriceRange" type="number" (change)="onPriceFilterChange($event)" [(ngModel)]="minPriceRange" [ngModelOptions]="{standalone: true}">
             <span class="input-group-text">.00</span>
           </div>
         </div>
@@ -91,7 +91,7 @@
           <label cLabel for="maxPriceRange">Maximum price range</label>
           <div class="input-group">
             <span class="input-group-text">$</span>
-            <input cFormControl id="maxPriceRange" type="number" (change)="onPriceFilterChange($event)">
+            <input cFormControl id="maxPriceRange" type="number" (change)="onPriceFilterChange($event)" [(ngModel)]="maxPriceRange" [ngModelOptions]="{standalone: true}">
             <span class="input-group-text">.00</span>
           </div>
         </div>

@@ -25,18 +25,22 @@ export class ListingsComponent implements OnInit {
   images = new Map<string, any[]>();
   visible = false;
   isLoading: boolean = false;
-  currentUserId:string | undefined  = "";
+  currentUserId: string | undefined = "";
   isMainPage = false;
   nBathrooms = "any";
-  filterValue= "";
+  nBedrooms = "any";
+  nRooms = "any";
+  minPriceRange="";
+  maxPriceRange="";
+  filterValue = "";
 
   @Input() productId = '';
 
   async ngOnInit() {
-    if(this.router.url === "/listings"){
+    if (this.router.url === "/listings") {
       await this.getBrokerProperties();
       this.isMainPage = false;
-    }else{
+    } else {
       this.properties = await this.firebaseApi.getAllProperties();
       this.isMainPage = true;
     }
@@ -51,13 +55,14 @@ export class ListingsComponent implements OnInit {
 
 
   constructor(private dialog: MatDialog, private storage: AngularFireStorage, public iconSet: IconSetService, private db: AngularFirestore, private fireModule: AngularFirestore, private auth: AngularFireAuth, private router: Router) {
-    iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter,cilBookmark};
+    iconSet.icons = {cilBed, cilBath, cilRoom, cilListFilter, cilBookmark};
     this.firebaseApi = new FirebaseApi(fireModule, auth);
   }
 
   async getBrokerProperties() {
-    this.properties = await lastValueFrom(this.firebaseApi.getPropertiesByBroker(localStorage.getItem("currentUser")??""));
+    this.properties = await lastValueFrom(this.firebaseApi.getPropertiesByBroker(localStorage.getItem("currentUser") ?? ""));
   }
+
   async loadImagesForProperties() {
     const images = new Map<string, string[]>();
 
@@ -147,14 +152,13 @@ export class ListingsComponent implements OnInit {
     this.properties = [];
     console.log(this.filterValue);
     let propertiesResults = await this.firebaseApi.getPropertiesContainingString(this.filterValue);
-      console.log(propertiesResults)
-      console.log(propertiesResults.length)
-      propertiesResults = this.applyBathroomsFilter(propertiesResults);
-      // properties = this.applyBedroomFilter(properties);
-      // properties = this.applyRoomsFilter(properties);
-      // properties = this.applyPriceFilter(properties);
-      this.properties = propertiesResults;
-
+    console.log(propertiesResults)
+    console.log(propertiesResults.length)
+    propertiesResults = this.applyBathroomsFilter(propertiesResults);
+    propertiesResults = this.applyBedroomFilter(propertiesResults);
+    propertiesResults = this.applyRoomsFilter(propertiesResults);
+    propertiesResults = this.applyPriceFilter(propertiesResults);
+    this.properties = propertiesResults;
 
 
     this.isLoading = false;
@@ -170,29 +174,26 @@ export class ListingsComponent implements OnInit {
     }
     let nBathrooms = parseInt(this.nBathrooms);
     for (let property of properties) {
-      console.log("AAAAA")
-
       if (nBathrooms == 10 && parseInt(property.nBathrooms!) >= nBathrooms) {
-          propertiesResults.push(property);
-        } else if (parseInt(property.nBathrooms!) == nBathrooms) {
-          propertiesResults.push(property);
-        }
+        propertiesResults.push(property);
+      } else if (parseInt(property.nBathrooms!) == nBathrooms) {
+        propertiesResults.push(property);
+      }
     }
     return propertiesResults;
   }
 
   private applyBedroomFilter(properties: Property[]) {
     let propertiesResults: any[] = [];
-    let nBedrooms = parseInt((<HTMLInputElement>document.getElementById("nBedrooms")).value);
+    let nBedrooms = parseInt(this.nBedrooms);
+    if (this.nBedrooms == "any") {
+      return properties;
+    }
     for (let property of properties) {
-      if (!isNaN(nBedrooms)) {
-        if (nBedrooms == 10 && parseInt(<string>property.nBedrooms) >= nBedrooms) {
-          propertiesResults.push(property);
-        } else if (parseInt(<string>property.nBedrooms) == nBedrooms) {
-          propertiesResults.push(property);
-        }
-      } else {
-        return properties;
+      if (nBedrooms == 10 && parseInt(<string>property.nBedrooms) >= nBedrooms) {
+        propertiesResults.push(property);
+      } else if (parseInt(<string>property.nBedrooms) == nBedrooms) {
+        propertiesResults.push(property);
       }
     }
     return propertiesResults;
@@ -202,16 +203,15 @@ export class ListingsComponent implements OnInit {
 
   private applyRoomsFilter(properties: Property[]) {
     let propertiesResults: any[] = [];
-    let nRooms = parseInt((<HTMLInputElement>document.getElementById("nRooms")).value);
+    let nRooms = parseInt(this.nRooms);
+    if (this.nRooms == "any") {
+      return properties;
+    }
     for (let property of properties) {
-      if (!isNaN(nRooms)) {
-        if (nRooms == 10 && parseInt(<string>property.nRooms) >= nRooms) {
-          propertiesResults.push(property);
-        } else if (parseInt(<string>property.nRooms) == nRooms) {
-          propertiesResults.push(property);
-        }
-      } else {
-        return properties;
+      if (nRooms == 10 && parseInt(<string>property.nRooms) >= nRooms) {
+        propertiesResults.push(property);
+      } else if (parseInt(<string>property.nRooms) == nRooms) {
+        propertiesResults.push(property);
       }
     }
     return propertiesResults;
@@ -219,8 +219,8 @@ export class ListingsComponent implements OnInit {
 
   private applyPriceFilter(properties: Property[]) {
     let propertiesResults: any[] = [];
-    let minPriceRange = parseInt((<HTMLInputElement>document.getElementById("minPriceRange")).value);
-    let maxPriceRange = parseInt((<HTMLInputElement>document.getElementById("maxPriceRange")).value);
+    let minPriceRange = parseInt(this.minPriceRange);
+    let maxPriceRange = parseInt(this.maxPriceRange);
 
     for (let property of properties) {
       if (!isNaN(minPriceRange) && !isNaN(maxPriceRange)) {
