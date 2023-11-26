@@ -166,34 +166,37 @@
               <mat-card-title><b>Mortgage</b></mat-card-title>
             </mat-card-header>
               <mat-card-content>
-                <form>
+                <form (submit)="submitMortgageCalculator()">
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="salePrice" type="number" required placeholder="Sale Price">
+                    <input cFormControl id="salePrice" type="number" name="salePrice" [(ngModel)]="mortgageData.salePrice" required placeholder="Sale Price">
                     <span class="input-group-text">
                       <svg cIcon name="cilMoney" size="xl" title="Bed Icons"></svg>
                     </span>
                   </div>
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="downPayment" type="number" required placeholder="Down Payment">
+                    <input cFormControl id="downPayment" type="number" name="downPayment" [(ngModel)]="mortgageData.downPayment" required placeholder="Down Payment">
                     <span class="input-group-text">
                       <svg cIcon name="cilMoney" size="xl" title="Bed Icons"></svg>
                     </span>
                   </div>
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="loanTerm" type="number" required placeholder="Loan Term (Years)">
+                    <input cFormControl id="loanTerm" type="number" name="loanTerm" [(ngModel)]="mortgageData.loanTerm" required placeholder="Loan Term (Years)">
                     <span class="input-group-text">
                     <svg cIcon name="cilCalendar" size="xl" title="Bed Icons"></svg>
                   </span>
                   </div>
                   <div class="input-group mortgageForm">
-                    <input cFormControl id="rate" type="number" required placeholder="Interest Rate">
+                    <input cFormControl id="rate" type="number" name="rate" [(ngModel)]="mortgageData.rate" required placeholder="Interest Rate">
                     <span class="input-group-text">
                     <svg cIcon name="cilGraph" size="xl" title="Bed Icons"></svg>
                   </span>
                   </div>
                   <button cButton class="me-1" color="dark" type="submit">
                     Calculate
-                  </button>
+                  </button><br>
+                  <div *ngIf="isButtonClicked">
+                    <p>Mortgage: {{calculatedMortgage}}$/month</p>
+                  </div>
                 </form>
               </mat-card-content>
             </mat-card>

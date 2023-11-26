@@ -20,6 +20,14 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./listing-details.component.css']
 })
 export class ListingDetailsComponent {
+  mortgageData = {
+    salePrice: null,
+    downPayment: null,
+    loanTerm: null,
+    rate: null
+  }
+  calculatedMortgage = "";
+  isButtonClicked = false;
 property: Property={} ;
   firebaseApi: FirebaseApi;
   images = new Map<string, any[]>();
@@ -134,8 +142,6 @@ property: Property={} ;
     this.firebaseApi.deleteProperty(this.property);
     this.deleteImages(this.property.id);
   }
-
-
     this.router.navigateByUrl('/listings');
   }
 
@@ -149,5 +155,28 @@ property: Property={} ;
           );
         }
     );
+  }
+  
+  submitMortgageCalculator(){
+    var salePrice = 0;
+    var downPayment = 0;
+    var loanTerm = 0;
+    var rate = 0;
+
+    if(this.mortgageData.salePrice != null && this.mortgageData.downPayment != null && this.mortgageData.loanTerm != null && this.mortgageData.rate != null){
+      salePrice = this.mortgageData.salePrice;
+      downPayment =this.mortgageData.downPayment;
+      loanTerm = this.mortgageData.loanTerm;
+      rate = this.mortgageData.rate;
+    }
+    this.calculatedMortgage = this.calculateMortgage(salePrice, downPayment, loanTerm, rate)
+    this.isButtonClicked = true;
+  }
+
+  calculateMortgage(salePrice: number, downPayment: number, loanTerm: number, interestRate: number): string{
+    const P = salePrice - downPayment;
+    const n = loanTerm*12;
+    const r = interestRate/100/12;
+    return Number(P*(r*Math.pow((1+r),n)/(Math.pow((1+r),n)-1))).toFixed(2);
   }
 }
