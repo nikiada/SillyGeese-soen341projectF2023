@@ -107,7 +107,7 @@
       <ng-container
         *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
         <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; width: 100%; height: 100%" [routerLink]="isMainPage ? 'listings/' + property.id : property.id">
-          <c-carousel [interval]="0">
+          <c-carousel [interval]="0" (click)="$event.stopPropagation()">
             <c-carousel-inner style="border-radius: 15px;">
               <c-carousel-item *ngFor="let image of getImageUrls(property.id)">
                 <div class="image-container">
