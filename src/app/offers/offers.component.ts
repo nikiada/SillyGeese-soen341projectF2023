@@ -18,22 +18,24 @@ export class OffersComponent implements OnInit {
 
   firebaseApi: FirebaseApi;
   offers: Offer[] = [];
-  dispOffers: Offer[] = [];
+  properties: Map<string, Property> = new Map<string, Property>();
+  clients: Map<string, User> = new Map<string, Property>();
   user?: User
 
   async ngOnInit() {
     let uid = localStorage.getItem("currentUser");
     this.offers = await this.firebaseApi.getUserOffers(uid!!);
-    this.offers.forEach( async offer =>{
-      let client: User = await this.firebaseApi.getUser(offer!!.userId!!)
-      let property: Property = await this.firebaseApi.getProperty(offer!!.propertyId!!)
-      let offerCopy: Offer = offer;
-      offerCopy.userId = client.name;
-      offerCopy.propertyId = property.address
-      offerCopy.id = property.id;
-      this.dispOffers.push(offerCopy)
+    this.offers.forEach(async offer => {
+      if(offer){
+        let client: User = await this.firebaseApi.getUser(offer!!.userId!!)
+        let property: Property = await this.firebaseApi.getProperty(offer!!.propertyId!!)
+        this.properties.set(offer.id!!, property)   //[] = property
+        this.clients.set(offer.id!!, client)//[] = client
+      }
+      else{
+        console.log("unexpected")
+      }
     })
-    console.log(this.offers)
   }
 
   constructor(private storage: AngularFirestore, private auth: AngularFireAuth, inconSet: IconSetService) {
@@ -41,15 +43,17 @@ export class OffersComponent implements OnInit {
     inconSet.icons = {cilContact, cilHouse, cilDollar, cilTask};
   }
 
-  acceptOffer(offer: Offer){
+  acceptOffer(offer: Offer) {
     offer.status = "ACCEPTED";
     this.firebaseApi.updateOffer(offer)
-      .then(() =>window.alert("Offer accepted!"))
+      .then(() => window.alert("Offer accepted!"))
       .catch((e) => window.alert("Error: " + e));
   }
 
-  refuseOffer(offer: Offer){
+  refuseOffer(offer: Offer) {
     offer.status = "REJECTED";
-    this.firebaseApi.updateOffer(offer).then(() =>window.alert("Offer rejected!"));
+    this.firebaseApi.updateOffer(offer)
+      .then(() => window.alert("Offer rejected!"))
+      .catch((e) => window.alert("Error: " + e));
   }
 }
