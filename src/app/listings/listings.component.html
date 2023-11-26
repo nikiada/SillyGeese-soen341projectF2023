@@ -22,14 +22,14 @@
       <form cForm>
         <div class="mb-3">
           <label cLabel for="propertySearchField">Search for Properties</label>
-          <input cFormControl id="propertySearchField">
+          <input cFormControl id="propertySearchField" [(ngModel)]="filterValue" [ngModelOptions]="{standalone: true}" >
           <div cFormText>
             Search for keywords or broker name
           </div>
         </div>
         <div class="mb-3">
           <label cLabel for="nRooms">Rooms: </label>
-          <select id="nRooms" class="filter-select" cSelect>
+          <select id="nRooms" class="filter-select" cSelect   >
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -63,7 +63,7 @@
         </div>
         <div class="mb-3">
           <label cLabel for="nBathrooms">Bathrooms: </label>
-          <select id="nBathrooms" class="filter-select" cSelect>
+          <select id="nBathrooms" class="filter-select" cSelect [(ngModel)]="nBathrooms" [ngModelOptions]="{standalone: true}">
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -106,7 +106,7 @@
     <div fxFlex="0 1 25" *ngFor="let property of properties">
       <ng-container
         *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
-        <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; width: 100%; height: 100%" [routerLink]="property.id">
+        <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; width: 100%; height: 100%" [routerLink]="isMainPage ? 'listings/' + property.id : property.id">
           <c-carousel [interval]="0">
             <c-carousel-inner style="border-radius: 15px;">
               <c-carousel-item *ngFor="let image of getImageUrls(property.id)">

@@ -26,13 +26,19 @@ export class ListingsComponent implements OnInit {
   visible = false;
   isLoading: boolean = false;
   currentUserId:string | undefined  = "";
+  isMainPage = false;
+  nBathrooms = "any";
+  filterValue= "";
+
   @Input() productId = '';
 
   async ngOnInit() {
     if(this.router.url === "/listings"){
       await this.getBrokerProperties();
+      this.isMainPage = false;
     }else{
       this.properties = await this.firebaseApi.getAllProperties();
+      this.isMainPage = true;
     }
     this.images = await this.loadImagesForProperties();
     this.images.forEach((img) => {
@@ -139,31 +145,38 @@ export class ListingsComponent implements OnInit {
   async onSubmitFilterForm() {
     this.isLoading = true;
     this.properties = [];
-    let searchString = <HTMLInputElement>document.getElementById("propertySearchField");
-    let propertiesResults = await (lastValueFrom(this.firebaseApi.getPropertiesContainingString(searchString.value)));
-    propertiesResults = this.applyBathroomsFilter(propertiesResults);
-    propertiesResults = this.applyBedroomFilter(propertiesResults);
-    propertiesResults = this.applyRoomsFilter(propertiesResults);
-    propertiesResults = this.applyPriceFilter(propertiesResults);
-    this.properties = propertiesResults;
+    console.log(this.filterValue);
+    let propertiesResults = await this.firebaseApi.getPropertiesContainingString(this.filterValue);
+      console.log(propertiesResults)
+      console.log(propertiesResults.length)
+      propertiesResults = this.applyBathroomsFilter(propertiesResults);
+      // properties = this.applyBedroomFilter(properties);
+      // properties = this.applyRoomsFilter(properties);
+      // properties = this.applyPriceFilter(properties);
+      this.properties = propertiesResults;
+
+
+
     this.isLoading = false;
     this.toggleCollapse();
   }
 
   private applyBathroomsFilter(properties: Property[]) {
+    console.log(properties)
+    console.log(properties.length)
     let propertiesResults: any[] = [];
-    let nBathrooms = parseInt((<HTMLInputElement>document.getElementById("nBathrooms")).value);
-
+    if (this.nBathrooms == "any") {
+      return properties;
+    }
+    let nBathrooms = parseInt(this.nBathrooms);
     for (let property of properties) {
-      if (!isNaN(nBathrooms)) {
-        if (nBathrooms == 10 && parseInt(<string>property.nBathrooms) >= nBathrooms) {
+      console.log("AAAAA")
+
+      if (nBathrooms == 10 && parseInt(property.nBathrooms!) >= nBathrooms) {
           propertiesResults.push(property);
-        } else if (parseInt(<string>property.nBathrooms) == nBathrooms) {
+        } else if (parseInt(property.nBathrooms!) == nBathrooms) {
           propertiesResults.push(property);
         }
-      } else {
-        return properties;
-      }
     }
     return propertiesResults;
   }
