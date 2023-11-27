@@ -11,6 +11,7 @@ import {provideRouter} from "@angular/router";
 import {User} from "./dto/user";
 import {cilEnvelopeClosed} from '@coreui/icons'
 import {IconSetService} from "@coreui/icons-angular";
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ export class AppComponent {
   firebaseApi: FirebaseApi
 
   constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth, inconSet: IconSetService) {
+
     this.firebaseApi = new FirebaseApi(fireModule, auth)
     inconSet.icons={cilEnvelopeClosed}
     console.log(this.firebaseApi.getAllUsers());
@@ -59,6 +61,36 @@ export class AppComponent {
       }
     })
 
+  }
+
+  isBrokerOrAdmin(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.auth.onAuthStateChanged((user) => {
+        if (user) {
+          this.fireModule
+            .collection('user')
+            .doc(user.uid)
+            .get()
+            .pipe(
+              map((doc) => {
+                let userData: User = User.createUserFromDocumentSnapshot(user.uid, doc.data()); 
+                return userData?.type === 'BROKER' || userData?.type === 'ADMIN';
+              })
+            )
+            .subscribe((isBrokerOrAdmin) => {
+              if (isBrokerOrAdmin) {
+                resolve(true);
+              } else {
+                console.log('Access denied. User is not a broker or admin.');
+                resolve(false);
+              }
+            });
+        } else {
+          console.log('Access denied. User is not authenticated.');
+          resolve(false);
+        }
+      });
+    });
   }
 
   private openLoginDialog(): void {

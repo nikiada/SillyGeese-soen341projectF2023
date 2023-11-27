@@ -392,10 +392,12 @@
         <mat-icon>home</mat-icon>
         <span>Listings</span>
   </button>
+  <ng-container *ngIf="isBrokerOrAdmin()">
       <button mat-menu-item [routerLink]="'/offers'">
         <mat-icon>book</mat-icon>
         <span>My Offers</span>
   </button>
+</ng-container>
   <button mat-menu-item [routerLink]="'/brokers'">
         <mat-icon>people_outline</mat-icon>
         <span>Brokers</span>
