@@ -153,7 +153,7 @@ public updateProperty(id: string , property:Property ){
   public async getUserOffers(brokerId: string): Promise<Offer[]> {
     let brokerOffers: Offer[] = [];
     await this.firestore.collection(this.OFFER_PATH,
-      offer => offer.where('brokerId', '==', brokerId)
+      offer => offer.where('brokerId', '==', brokerId).where('status', '!=' ,Offer.ACCEPTED)
     ).get().forEach(observer => observer.docs.forEach(offerDoc => {
       brokerOffers.push(Offer.createOfferFromDocumentSnapshot(offerDoc.id, offerDoc.data()))
     }))
@@ -171,4 +171,5 @@ public updateProperty(id: string , property:Property ){
         userId: offer.userId
       })
   }
+
 }
