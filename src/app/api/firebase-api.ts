@@ -8,7 +8,6 @@ import {from, map, Observable, switchMap} from "rxjs";
 import {Offer} from "../dto/offer";
 import UserCredential = firebase.auth.UserCredential;
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
