@@ -1,28 +1,70 @@
-<h1>My Offers</h1>
-
-<div class="offerList">
-  <div *ngFor="let offer of dispOffers" class="flex-md-wrap">
-    <div>
-      <svg cIcon name="cilContact" size="xl" title="Contact Icon"></svg>
-      <span class="fill-remaining-space">{{offer.userId}}</span>
-    </div>
-    <div>
-      <svg cIcon name="cilHouse" size="xl" title="Contact Icon"></svg>
-      <a><span class="fill-remaining-space">{{offer.propertyId}}</span></a>
-    </div>
-    <div>
-      <svg cIcon name="cilDollar" size="xl" title="Contact Icon"></svg>
-      <span class="fill-remaining-space">{{offer.offer}} $</span>
-    </div>
-    <div>
-      <svg cIcon name="cilTask" size="xl" title="Contact Icon"></svg>
-      <span class="fill-remaining-space">{{offer.status}}</span>
-    </div>
-    <span></span>
-    <tr *ngIf="offer.id">
-      <button cButton color="success" (click)="acceptOffer(offer)">Accept</button>
-      <button cButton color="danger" (click)="refuseOffer(offer)">Refuse</button>
-    </tr>
-  </div>
+<div class="page-title text-dark">
+  Offers
 </div>
+<c-container class="offerList" class="flex-md-wrap" *ngIf="offers && offers.length != 0 else noOffers">
+  <c-card *ngFor="let offer of offers" class="offer">
+    <c-row>
+      <c-col>
+        <div>
+          <c-row>
+            <c-col [sm]="2">
+              <svg cIcon name="cilContact" size="xxl" title="Contact Icon"></svg>
+
+            </c-col>
+            <c-col [sm]="10">
+              <li cListGroupItem class="fill-remaining-space">{{clients.get(offer.id!!)?.name}}</li>
+            </c-col>
+          </c-row>
+        </div>
+        <div>
+          <c-row>
+            <c-col [sm]="2">
+              <svg cIcon name="cilHouse" size="xxl" title="Contact Icon"></svg>
+            </c-col>
+            <c-col [sm]="10">
+              <a href="/listings/{{properties.get(offer.id!!)?.id}}">
+                <li cListGroupItem class="fill-remaining-space">{{properties.get(offer.id!!)?.address}}</li>
+              </a>
+            </c-col>
+          </c-row>
+
+        </div>
+        <div>
+          <c-row>
+            <c-col [sm]="2">
+              <svg cIcon name="cilDollar" size="xxl" title="Contact Icon"></svg>
+
+            </c-col>
+            <c-col [sm]="10">
+              <li cListGroupItem class="fill-remaining-space">{{offer.offer}} $</li>
+            </c-col>
+          </c-row>
+
+        </div>
+        <div>
+          <c-row>
+            <c-col [sm]="2">
+              <svg cIcon name="cilTask" size="xxl" title="Contact Icon"></svg>
+            </c-col>
+            <c-col [sm]="10">
+              <li cListGroupItem class="fill-remaining-space">{{offer.status}}</li>
+            </c-col>
+          </c-row>
+
+        </div>
+      </c-col>
+      <c-col *ngIf="offer.id" class="buttons">
+        <button cButton color="success" (click)="acceptOffer(offer)">Accept</button>
+        <button cButton color="danger" (click)="refuseOffer(offer)">Refuse</button>
+      </c-col>
+    </c-row>
+
+  </c-card>
+</c-container>
+
+<ng-template #noOffers>
+  <div class="noOffers page-title text-dark">
+    There is currently no offers...
+  </div>
+</ng-template>
 

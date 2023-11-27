@@ -26,7 +26,7 @@ import { ListingsComponent } from './listings/listings.component';
 import {MatCardModule} from "@angular/material/card";
 import {FlexModule} from "@angular/flex-layout";
 import {
-  ButtonDirective,
+  ButtonDirective, ButtonModule,
   CardBodyComponent,
   CardComponent,
   CarouselModule,
@@ -34,11 +34,11 @@ import {
   FormCheckComponent,
   FormCheckInputDirective,
   FormCheckLabelDirective,
-  FormControlDirective,
-  FormLabelDirective,
-  FormSelectDirective, FormTextDirective,
+  FormControlDirective, FormDirective, FormFeedbackComponent,
+  FormLabelDirective, FormModule,
+  FormSelectDirective, FormTextDirective, GridModule, HeaderModule,
   InputGroupComponent,
-  InputGroupTextDirective
+  InputGroupTextDirective, ListGroupModule, RowDirective
 } from '@coreui/angular';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { BrokerSearchComponent } from './broker-search/broker-search.component';
@@ -46,6 +46,7 @@ import { ListingFormComponent } from './listing-form/listing-form.component';
 import {MatSliderModule} from "@angular/material/slider";
 import { ListingDetailsComponent } from './listings/listing-details/listing-details.component';
 import { OffersComponent } from './offers/offers.component';
+import {MatListModule} from "@angular/material/list";
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,7 +94,16 @@ import { OffersComponent } from './offers/offers.component';
     FormControlDirective,
     MatSliderModule,
     FormLabelDirective,
-    FormTextDirective
+    FormTextDirective,
+    FormFeedbackComponent,
+    FormDirective,
+    RowDirective,
+    FormModule,
+    GridModule,
+    HeaderModule,
+    ButtonModule,
+    ListGroupModule,
+    MatListModule
   ],
   providers: [IconSetService],
   bootstrap: [AppComponent]

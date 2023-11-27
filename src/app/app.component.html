@@ -200,7 +200,7 @@
   }
 
   .terminal pre {
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
     color: white;
     padding: 0 1rem 1rem;
     margin: 0;
@@ -244,16 +244,16 @@
     align-items: center;
     font-size: 12px;
     padding: 3px 10px;
-    border: 1px solid rgba(27,31,35,.2);
+    border: 1px solid rgba(27, 31, 35, .2);
     border-radius: 3px;
-    background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
     margin-left: 4px;
     font-weight: 600;
   }
 
   .github-star-badge:hover {
-    background-image: linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%);
-    border-color: rgba(27,31,35,.35);
+    background-image: linear-gradient(-180deg, #f0f3f6, #e6ebf1 90%);
+    border-color: rgba(27, 31, 35, .35);
     background-position: -.5em;
   }
 
@@ -273,7 +273,7 @@
 
   /* Responsive Styles */
   @media screen and (max-width: 767px) {
-    .card-container > *:not(.circle-link) ,
+    .card-container > *:not(.circle-link),
     .terminal {
       width: 100%;
     }
@@ -329,7 +329,7 @@
   }
 
   input[type="text"]::placeholder {
-   color: rgb(147, 135, 225); /* Customize the placeholder color */
+    color: rgb(147, 135, 225); /* Customize the placeholder color */
   }
 
   .mode-selector {
@@ -351,65 +351,71 @@
   }
 
   .filter-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-  padding: 10px;
-}
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+    padding: 10px;
+  }
 
-.filter-container label {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 14px;
-  color: #5230da;
-  margin-right: 16px;
-  padding-left: 8px;
-  padding-right: 1px;
-}
+  .filter-container label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #5230da;
+    margin-right: 16px;
+    padding-left: 8px;
+    padding-right: 1px;
+  }
 
-.filter-container input[type="number"] {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 14px;
-  color:#125699;
-  box-sizing: border-box;
-  border: 2px solid #5230da;
-  border-radius: 4px;
-  padding: 8px;
-  width: 50px;
-}
+  .filter-container input[type="number"] {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #125699;
+    box-sizing: border-box;
+    border: 2px solid #5230da;
+    border-radius: 4px;
+    padding: 8px;
+    width: 50px;
+  }
 </style>
 
 <!-- Toolbar -->
 <body>
-
-<mat-toolbar color="primary">
+<mat-toolbar class="text-white bg-dark" style="display:flex;justify-content:center;align-items:center;">
+  <div style="display:flex;justify-content:center;align-items:center; width:100%">
   <span class="fill-remaining-space">
-    <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" (mouseover)="menuTrigger.openMenu()">
-      <mat-icon>menu</mat-icon>
+    <mat-menu>
+    </mat-menu>
+  </span>
+    <mat-list-item>
+      <button mat-menu-item class="text-white " [routerLink]="'/'">
+        <mat-icon style="color:white">home</mat-icon>
+        Home
+      </button>
+    </mat-list-item>
+    <mat-list-item *ngIf="isBroker">
+      <button mat-menu-item class="text-white" [routerLink]="'/listings'">
+        <mat-icon style="color:white">list icon</mat-icon>
+        My Listings
+      </button>
+    </mat-list-item>
+    <mat-list-item *ngIf="isBroker">
+      <button mat-menu-item class="text-white" [routerLink]="'/offers'">
+        <mat-icon style="color:white">book</mat-icon>
+        Offers
+      </button>
+    </mat-list-item>
+    <mat-list-item *ngIf="isAdmin">
+      <button mat-menu-item class="text-white" [routerLink]="'/brokers'">
+        <mat-icon style="color:white">people_outline</mat-icon>
+        Brokers
+      </button>
+    </mat-list-item>
+  </div>
+  <mat-list-item>
+    <button mat-menu-item class="text-white" (click)="logout()">
+      <mat-icon style="color:white">exit_to_app</mat-icon>
     </button>
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-    <span (mouseleave)="menuTrigger.closeMenu()">
-      <button mat-menu-item [routerLink]="'/listings'">
-        <mat-icon>home</mat-icon>
-        <span>Listings</span>
-  </button>
-      <button mat-menu-item [routerLink]="'/offers'">
-        <mat-icon>book</mat-icon>
-        <span>My Offers</span>
-  </button>
-  <button mat-menu-item [routerLink]="'/brokers'">
-        <mat-icon>people_outline</mat-icon>
-        <span>Brokers</span>
-  </button>
-  <button mat-menu-item (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon>
-        <span>Logout</span>
-  </button>
-  </span>
-  </mat-menu>
-  </span>
-  <span class="fill-remaining-space">Application Title</span>
-
-  <span class="spacer"></span>
+  </mat-list-item>
 </mat-toolbar>
 <router-outlet></router-outlet>
 </body>

@@ -1,6 +1,9 @@
-<div id="filterContainer">
-  <button class="new-button" (click)="openPopUp()">Create new Listing</button>
-  <div id="filter-button-div">
+<div class="page-title text-dark" *ngIf="!isMainPage">
+  My Listings
+</div>
+<div id="filterContainer" >
+  <button cButton color="dark" (click)="openPopUp()" *ngIf="!isMainPage">Create new Listing</button>
+  <div id="filter-button-div" *ngIf="isMainPage">
     <button cButton color="light" (click)="toggleCollapse()" class="me-1">
       <svg cIcon name="cilListFilter" size="xl" title="Filter Icon"></svg>
     </button>
@@ -22,14 +25,14 @@
       <form cForm>
         <div class="mb-3">
           <label cLabel for="propertySearchField">Search for Properties</label>
-          <input cFormControl id="propertySearchField">
+          <input cFormControl id="propertySearchField" [(ngModel)]="filterValue" [ngModelOptions]="{standalone: true}" >
           <div cFormText>
             Search for keywords or broker name
           </div>
         </div>
         <div class="mb-3">
           <label cLabel for="nRooms">Rooms: </label>
-          <select id="nRooms" class="filter-select" cSelect>
+          <select id="nRooms" class="filter-select" cSelect  [(ngModel)]="nRooms" [ngModelOptions]="{standalone: true}" >
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -46,7 +49,7 @@
         </div>
         <div class="mb-3">
           <label cLabel for="nBedrooms">Bedrooms: </label>
-          <select id="nBedrooms" class="filter-select" cSelect>
+          <select id="nBedrooms" class="filter-select" cSelect [(ngModel)]="nBedrooms" [ngModelOptions]="{standalone: true}">
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -63,7 +66,7 @@
         </div>
         <div class="mb-3">
           <label cLabel for="nBathrooms">Bathrooms: </label>
-          <select id="nBathrooms" class="filter-select" cSelect>
+          <select id="nBathrooms" class="filter-select" cSelect [(ngModel)]="nBathrooms" [ngModelOptions]="{standalone: true}">
             <option value="any">Any</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -82,7 +85,7 @@
           <label cLabel for="minPriceRange">Minimum price range</label>
           <div class="input-group">
             <span class="input-group-text">$</span>
-            <input cFormControl id="minPriceRange" type="number" (change)="onPriceFilterChange($event)">
+            <input cFormControl id="minPriceRange" type="number" (change)="onPriceFilterChange($event)" [(ngModel)]="minPriceRange" [ngModelOptions]="{standalone: true}">
             <span class="input-group-text">.00</span>
           </div>
         </div>
@@ -91,7 +94,7 @@
           <label cLabel for="maxPriceRange">Maximum price range</label>
           <div class="input-group">
             <span class="input-group-text">$</span>
-            <input cFormControl id="maxPriceRange" type="number" (change)="onPriceFilterChange($event)">
+            <input cFormControl id="maxPriceRange" type="number" (change)="onPriceFilterChange($event)" [(ngModel)]="maxPriceRange" [ngModelOptions]="{standalone: true}">
             <span class="input-group-text">.00</span>
           </div>
         </div>
@@ -102,12 +105,12 @@
   </mat-card>
 </div>
 <div class="content .z-depth box" *ngIf="properties && images && !isLoading; else loadingPage">
-  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%">
+  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" *ngIf="properties.length != 0; else noProperties">
     <div fxFlex="0 1 25" *ngFor="let property of properties">
       <ng-container
         *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
-        <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; width: 100%; height: 100%" [routerLink]="property.id">
-          <c-carousel [interval]="0">
+        <mat-card class="z-depth" style="border-radius: 15px; padding: 7.5%; width: 100%; height: 100%" [routerLink]="isMainPage ? 'listings/' + property.id : property.id">
+          <c-carousel [interval]="0" (click)="$event.stopPropagation()">
             <c-carousel-inner style="border-radius: 15px;">
               <c-carousel-item *ngFor="let image of getImageUrls(property.id)">
                 <div class="image-container">
@@ -164,4 +167,7 @@
     Loading Properties...
   </mat-card>
 
+</ng-template>
+<ng-template #noProperties>
+    There is currently no properties...
 </ng-template>
