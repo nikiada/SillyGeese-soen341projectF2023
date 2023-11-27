@@ -183,4 +183,6 @@ export class ListingDetailsComponent {
       this.mortgageResult = (p * ((r * Math.pow((1 + r), n)) / (Math.pow((1 + r), n) - 1))).toFixed(2);
     }
   }
+
+  protected readonly localStorage = localStorage;
 }
