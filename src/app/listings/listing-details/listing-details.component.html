@@ -39,7 +39,7 @@
                   <svg cIcon name="cilBuilding" size="xl" title="Bed Icons"></svg>
                   <b> Property type </b>
                 </div>
-                <div style="padding-right: 5%" fxFlex="50" fxLayoutAlign="end">
+                <div style="padding-right: 10%" fxFlex="50" fxLayoutAlign="end">
                   <p> {{ property.propertyType }} </p>
                 </div>
               </div>
@@ -48,7 +48,7 @@
                   <svg style="margin-right: 5%" cIcon name="cilCalendar" size="xl" title="Bed Icons"></svg>
                   <b> Year Built </b>
                 </div>
-                <div style="padding-right: 5%" fxFlex="50" fxLayoutAlign="end">
+                <div style="padding-right: 10%" fxFlex="50" fxLayoutAlign="end">
                   <p> {{ property.yearBuilt }} </p>
                 </div>
               </div>
@@ -57,7 +57,7 @@
                   <svg cIcon name="cilRoom" size="xl" title="Bed Icons"></svg>
                   <b> Rooms </b>
                 </div>
-                <div style="padding-right: 5%" fxFlex="50" fxLayoutAlign="end">
+                <div style="padding-right: 10%" fxFlex="50" fxLayoutAlign="end">
                   <p> {{ property.nRooms }} </p>
                 </div>
               </div>
@@ -66,7 +66,7 @@
                   <svg style="margin-right: 5%" cIcon name="cilBed" size="xl" title="Bed Icons"></svg>
                   <b> Bedroom </b>
                 </div>
-                <div style="padding-right: 5%" fxFlex="50" fxLayoutAlign="end">
+                <div style="padding-right: 10%" fxFlex="50" fxLayoutAlign="end">
                   <p> {{ property.nBedrooms }} </p>
                 </div>
               </div>
@@ -75,9 +75,12 @@
                   <svg cIcon name="cilBath" size="xl" title="Bed Icons"></svg>
                   <b> Bathroom </b>
                 </div>
-                <div style="padding-right: 5%" fxFlex="50" fxLayoutAlign="end">
+                <div style="padding-right: 10%" fxFlex="50" fxLayoutAlign="end">
                   <p> {{ property.nBathrooms }} </p>
                 </div>
+                <br>
+                <br>
+                <br>
               </div>
             </div>
           </mat-card-content>
@@ -107,20 +110,34 @@
     </div>
     <div fxFlex="0 1 30">
       <div fxLayout="column" fxLayoutGap="3% grid" style="">
-        <div fxFlex="0 1 70" style="">
+        <div fxFlex="0 1 30" style="">
+          <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;" *ngIf="broker.name else loadingPage">
+            <mat-card-header>
+              <mat-card-title style="font-size: large;">Broker</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              Name: {{broker.name}}<br>
+              Email: <a [href]="'mailto:' + broker.email" target="_top"> {{broker.email}}</a>
+
+              <br><br>
+              <app-visit-button></app-visit-button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div fxFlex="0 1 40" style="">
           <ng-container
-            *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src else loadingPage">
+            *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && broker else loadingPage">
             <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;">
               <mat-card-header>
-                <mat-card-title style="font-size: large;">Broker Properties</mat-card-title>
+                <mat-card-title style="font-size: large;">Other Properties by {{broker.name}}</mat-card-title>
               </mat-card-header>
-              <mat-card-content style="-webkit-line-clamp: 4;">
+              <mat-card-content style="-webkit-line-clamp: 4;" *ngIf="properties.length!=0 else noProperties">
                 <div fxLayout="column" class="cardtest" style="padding-bottom: 5%;" *ngFor="let property of properties">
                   <ng-container
                     *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src; else loadingPage">
                     <mat-card class="z-depth cardtest" style="border-radius: 15px; padding: 7.5%;"
                               [routerLink]="'../'+[property.id]">
-                      <c-carousel [interval]="0">
+                      <c-carousel [interval]="0" (click)="$event.stopPropagation()">
                         <c-carousel-inner style="border-radius: 15px;">
                           <c-carousel-item *ngFor="let image of getImageUrls(property.id)">
                             <div class="image-container">
@@ -244,4 +261,8 @@
     Loading Properties...
   </mat-card>
 
+</ng-template>
+
+<ng-template #noProperties>
+  There is currently no properties...
 </ng-template>

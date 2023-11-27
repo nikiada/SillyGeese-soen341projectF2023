@@ -4,7 +4,7 @@ import {IUser, User} from "../dto/user";
 import firebase from "firebase/compat";
 import {Login} from "../login-dialog/login";
 import {Property} from "../dto/property";
-import {map} from "rxjs";
+import {from, map, Observable, switchMap} from "rxjs";
 import {Offer} from "../dto/offer";
 import UserCredential = firebase.auth.UserCredential;
 
@@ -97,46 +97,32 @@ export class FirebaseApi {
         return properties;
       }));
   }
-  public getPropertiesContainingString(searchString: string){
-    return this.firestore.collection(this.PROPERTY_PATH)
-      .get()
-      .pipe(map((querySnapshot) => {
-        const properties: any[] = [];
-        querySnapshot.forEach(async (doc) => {
-          const data = <any>doc.data();
-          for (const key in data) {
-            if (key === "price" || key === "nRooms" || key === "nBedrooms" || key === "nBathrooms") {
-              continue;
-            }
-            if (key === "brokerId") {
-              let brokerRef = await this.getUser(data[key]);
-              if (brokerRef) {
-                let broker = <IUser>brokerRef;
-                if (broker.name?.toUpperCase().includes(searchString.toUpperCase()) || broker.email?.toUpperCase().includes(searchString.toUpperCase())) {
-                  properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
-                  //console.log(properties);
-                  break;
-                }
-              }
 
-            } else {
-              if (data.hasOwnProperty(key) && (data[key].toString().toUpperCase()).includes(searchString.toUpperCase())) {
-                properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
-                break;
-              }
-            }
-          }
-        });
-        return properties;
-      }));
+  public async getPropertiesContainingString(searchString: string) {
+    const allProperties = await this.getAllProperties();
+    const results:Property[] = [];
+    searchString = searchString.toUpperCase();
+    for(let fullProperty of allProperties){
+      let property = { ...fullProperty};
+      delete property.nRooms;
+      delete property.nBathrooms;
+      delete property.nBedrooms;
+      delete property.price;
+
+      let broker = await this.getUser(property.brokerId!);
+      if(JSON.stringify(property).toUpperCase().includes(searchString) || broker.name?.toUpperCase().includes(searchString)){
+        results.push(fullProperty);
+      }
+    }
+    console.log(results);
+    return results;
   }
 
-  public getUser(id: string): Promise<User> {
-    return this.firestore.collection(this.USER_PATH)
+  public async getUser(id: string): Promise<User> {
+    const it = await this.firestore.collection(this.USER_PATH)
       .doc(id).ref
-      .get().then(it => {
-        return User.createUserFromDocumentSnapshot(it.id, it.data())
-      })
+      .get();
+    return User.createUserFromDocumentSnapshot(it.id, it.data());
   }
 
 public updateProperty(id: string , property:Property ){

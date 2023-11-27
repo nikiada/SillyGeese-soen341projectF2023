@@ -12,6 +12,7 @@ import firebase from "firebase/compat";
 import {Offer} from "../../dto/offer";
 import {ListingFormComponent} from "../../listing-form/listing-form.component";
 import {MatDialog} from "@angular/material/dialog";
+import {User} from "../../dto/user";
 
 
 @Component({
@@ -27,6 +28,7 @@ export class ListingDetailsComponent {
   currentUserId: string | undefined = "";
   offerValue: string = "";
   offerSubmited: boolean = false;
+  broker : User = {};
   mortgageSalePrice = undefined;
   mortgageDownPayment = undefined;
   mortgageIntrestRate = undefined;
@@ -44,6 +46,7 @@ export class ListingDetailsComponent {
       this.id = params.get("id") || '';
       if (this.id) {
         this.property = await this.firebaseApi.getProperty(this.id);
+        this.broker = await this.firebaseApi.getUser(this.property.brokerId!);
         this.offerValue = this.property.price ?? "";
         await this.getBrokerProperties();
         this.images = await this.loadImagesForProperties();
@@ -124,7 +127,11 @@ export class ListingDetailsComponent {
   }
 
   async getBrokerProperties() {
-    this.properties = await lastValueFrom(this.firebaseApi.getPropertiesByBroker(this.property.brokerId ?? "", this.property.id ?? ""));
+    let properties = await lastValueFrom(this.firebaseApi.getPropertiesByBroker(this.property.brokerId ?? "", this.property.id ?? ""));
+    if(properties.length > 1){
+      this.properties.push(properties[0]);
+      this.properties.push(properties[1]);
+    }
   }
 
   makeOffer() {
@@ -149,8 +156,6 @@ export class ListingDetailsComponent {
       this.firebaseApi.deleteProperty(this.property);
       this.deleteImages(this.property.id);
     }
-
-
     this.router.navigateByUrl('/listings');
   }
 
@@ -178,6 +183,4 @@ export class ListingDetailsComponent {
       this.mortgageResult = (p * ((r * Math.pow((1 + r), n)) / (Math.pow((1 + r), n) - 1))).toFixed(2);
     }
   }
-
-  protected readonly undefined = undefined;
 }
