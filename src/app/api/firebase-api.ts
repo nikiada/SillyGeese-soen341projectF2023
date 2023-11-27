@@ -7,6 +7,11 @@ import {Property} from "../dto/property";
 import {from, map, Observable, switchMap} from "rxjs";
 import {Offer} from "../dto/offer";
 import UserCredential = firebase.auth.UserCredential;
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
 
 export class FirebaseApi {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
@@ -77,7 +82,6 @@ export class FirebaseApi {
         return Property.createPropertyFromDocumentSnapshot(it.id, it.data())
       })
   }
-
 
   public createOffer(offer: Offer) {
     return this.firestore.collection(this.OFFER_PATH).doc().set({brokerId: offer.brokerId, userId: offer.userId,propertyId: offer.propertyId, status: offer.status, offer: offer.offer});
@@ -172,4 +176,26 @@ public updateProperty(id: string , property:Property ){
       })
   }
 
+  public registerBroker(brokerEmail: string, brokerPassword: string, brokerName: string): Promise<void> {
+    return this.auth.createUserWithEmailAndPassword(brokerEmail, brokerPassword)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        if (user) {
+          const userData = {
+            name: brokerName,
+            email: brokerEmail,
+            type: "BROKER"
+          };
+
+          return this.firestore.collection(this.USER_PATH).doc(user.uid).set(userData);
+        } else {
+          console.error('User is null. Cannot set data.');
+          return Promise.reject('User is null. Cannot set data.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error creating user:', error);
+        return Promise.reject(error);
+      });
+  }
 }
