@@ -48,6 +48,9 @@ export class OffersComponent implements OnInit {
     this.firebaseApi.updateOffer(offer)
       .then(() => window.alert("Offer accepted!"))
       .catch((e) => window.alert("Error: " + e));
+    this.firebaseApi.getProperty(offer.propertyId!).then((property)=>
+    this.firebaseApi.deleteProperty(property));
+
   }
 
   refuseOffer(offer: Offer) {

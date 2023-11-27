@@ -49,4 +49,12 @@ tr{
   padding-top: 5%;
   font-size: xx-large
 }
+.noOffers{
+  display:flex;
+  width: 100%;
+  justify-content: center;
+  align-content: center;
+  padding-top: 5%;
+  font-size: large !important;
+}
 

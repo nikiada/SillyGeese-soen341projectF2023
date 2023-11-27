@@ -20,6 +20,8 @@ import {IconSetService} from "@coreui/icons-angular";
 export class AppComponent {
   title = 'house';
   firebaseApi: FirebaseApi
+  isBroker = false;
+  isAdmin = false;
 
   constructor(private dialog: MatDialog, private fireModule: AngularFirestore, private auth: AngularFireAuth, inconSet: IconSetService) {
     this.firebaseApi = new FirebaseApi(fireModule, auth)
@@ -35,6 +37,8 @@ export class AppComponent {
         // This is how you get a user
         this.firebaseApi.getUser(user.uid)
           .then((fetchedUser) => {
+            this.isBroker = (fetchedUser.type == "BROKER")
+            this.isAdmin = (fetchedUser.type == "ADMIN")
             localStorage.setItem('user', JSON.stringify(fetchedUser))
             // These then() statements should be used to set your page's variable
             // This is necessary since stuff is async.

@@ -1,7 +1,7 @@
 <div class="page-title text-dark">
   Offers
 </div>
-<c-container class="offerList" class="flex-md-wrap">
+<c-container class="offerList" class="flex-md-wrap" *ngIf="offers && offers.length != 0 else noOffers">
   <c-card *ngFor="let offer of offers" class="offer">
     <c-row>
       <c-col>
@@ -61,4 +61,10 @@
 
   </c-card>
 </c-container>
+
+<ng-template #noOffers>
+  <div class="noOffers page-title text-dark">
+    There is currently no offers...
+  </div>
+</ng-template>
 

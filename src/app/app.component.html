@@ -392,19 +392,19 @@
         Home
       </button>
     </mat-list-item>
-    <mat-list-item>
+    <mat-list-item *ngIf="isBroker">
       <button mat-menu-item class="text-white" [routerLink]="'/listings'">
         <mat-icon style="color:white">list icon</mat-icon>
         My Listings
       </button>
     </mat-list-item>
-    <mat-list-item>
+    <mat-list-item *ngIf="isBroker">
       <button mat-menu-item class="text-white" [routerLink]="'/offers'">
         <mat-icon style="color:white">book</mat-icon>
         Offers
       </button>
     </mat-list-item>
-    <mat-list-item>
+    <mat-list-item *ngIf="isAdmin">
       <button mat-menu-item class="text-white" [routerLink]="'/brokers'">
         <mat-icon style="color:white">people_outline</mat-icon>
         Brokers

@@ -101,9 +101,10 @@
             <div *ngIf="offerSubmited">
               Your offer has been submitted successfully
             </div>
-
-            <button cButton color="dark" class="update-button" (click)="openUpdateListingForm(property)">Update</button>
-            <button cButton color="danger" class="update-button" (click)="deleteListing(property.id)">Delete</button>
+            <div class="broker-buttons-container" *ngIf="property.brokerId == localStorage.getItem('currentUser')">
+              <button cButton color="dark" class="update-button" (click)="openUpdateListingForm(property)">Update</button>
+              <button cButton style="margin-left: auto" color="danger" class="update-button" (click)="deleteListing(property.id)">Delete</button>
+            </div>
           </mat-card-footer>
         </mat-card>
       </ng-container>
