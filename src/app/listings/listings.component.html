@@ -1,6 +1,9 @@
-<div id="filterContainer">
-  <button class="new-button" (click)="openPopUp()">Create new Listing</button>
-  <div id="filter-button-div">
+<div class="page-title text-dark" *ngIf="!isMainPage">
+  My Listings
+</div>
+<div id="filterContainer" >
+  <button cButton color="dark" (click)="openPopUp()" *ngIf="!isMainPage">Create new Listing</button>
+  <div id="filter-button-div" *ngIf="isMainPage">
     <button cButton color="light" (click)="toggleCollapse()" class="me-1">
       <svg cIcon name="cilListFilter" size="xl" title="Filter Icon"></svg>
     </button>
@@ -102,7 +105,7 @@
   </mat-card>
 </div>
 <div class="content .z-depth box" *ngIf="properties && images && !isLoading; else loadingPage">
-  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%">
+  <div fxLayout="row wrap" fxLayoutGap="3% grid" style="width: 100%" *ngIf="properties.length != 0; else noProperties">
     <div fxFlex="0 1 25" *ngFor="let property of properties">
       <ng-container
         *ngIf="property.id && getImageUrls(property.id) && getImageUrls(property.id)[0] && getImageUrls(property.id)[0].src && !isLoading; else loadingPage">
@@ -164,4 +167,7 @@
     Loading Properties...
   </mat-card>
 
+</ng-template>
+<ng-template #noProperties>
+    There is currently no properties...
 </ng-template>

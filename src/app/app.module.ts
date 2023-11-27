@@ -46,6 +46,7 @@ import { ListingFormComponent } from './listing-form/listing-form.component';
 import {MatSliderModule} from "@angular/material/slider";
 import { ListingDetailsComponent } from './listings/listing-details/listing-details.component';
 import { OffersComponent } from './offers/offers.component';
+import {MatListModule} from "@angular/material/list";
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,7 +102,8 @@ import { OffersComponent } from './offers/offers.component';
     GridModule,
     HeaderModule,
     ButtonModule,
-    ListGroupModule
+    ListGroupModule,
+    MatListModule
   ],
   providers: [IconSetService],
   bootstrap: [AppComponent]

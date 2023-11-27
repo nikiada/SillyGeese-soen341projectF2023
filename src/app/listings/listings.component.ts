@@ -26,7 +26,7 @@ export class ListingsComponent implements OnInit {
   visible = false;
   isLoading: boolean = false;
   currentUserId: string | undefined = "";
-  isMainPage = false;
+  isMainPage = true;
   nBathrooms = "any";
   nBedrooms = "any";
   nRooms = "any";
@@ -159,8 +159,6 @@ export class ListingsComponent implements OnInit {
     propertiesResults = this.applyRoomsFilter(propertiesResults);
     propertiesResults = this.applyPriceFilter(propertiesResults);
     this.properties = propertiesResults;
-
-
     this.isLoading = false;
     this.toggleCollapse();
   }

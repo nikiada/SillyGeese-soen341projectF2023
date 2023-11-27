@@ -17,7 +17,16 @@
   white-space: nowrap;
   min-width: 0;
 }
-
+.page-title {
+  font-family: var(--mat-toolbar-title-text-font);
+  line-height: var(--mat-toolbar-title-text-line-height);
+  font-weight: var(--mat-toolbar-title-text-weight);
+  letter-spacing: var(--mat-toolbar-title-text-tracking);
+  width: 100%;
+  text-align: center;
+  padding-top: 5%;
+  font-size: xx-large
+}
 .content {
   display: flex;
   padding: 3% 7%;
