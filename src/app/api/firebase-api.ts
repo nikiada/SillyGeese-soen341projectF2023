@@ -116,39 +116,6 @@ export class FirebaseApi {
     }
     console.log(results);
     return results;
-
-    // return this.firestore.collection(this.PROPERTY_PATH)
-    //   .get()
-    //   .pipe(map((querySnapshot) => {
-    //     const properties: any[] = [];
-    //     querySnapshot.forEach(async (doc) => {
-    //       const data = <any>doc.data();
-    //       for (const key in data) {
-    //         if (key === "price" || key === "nRooms" || key === "nBedrooms" || key === "nBathrooms") {
-    //           continue;
-    //         }
-    //         if (key === "brokerId") {
-    //           let brokerRef = await this.getUser(data[key]);
-    //           if (brokerRef) {
-    //             let broker = <IUser>brokerRef;
-    //             if (broker.name?.toUpperCase().includes(searchString.toUpperCase()) || broker.email?.toUpperCase().includes(searchString.toUpperCase())) {
-    //               properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
-    //               break;
-    //             }
-    //           }
-    //
-    //         } else {
-    //           if (data.hasOwnProperty(key) && (data[key].toString().toUpperCase()).includes(searchString.toUpperCase())) {
-    //             properties.push(Property.createPropertyFromDocumentSnapshot(doc.id, doc.data()));
-    //             break;
-    //           }
-    //         }
-    //       }
-    //     });
-    //     console.log(properties);
-    //     console.log(properties.length)
-    //     return properties;
-    //   }));
   }
 
   public async getUser(id: string): Promise<User> {
