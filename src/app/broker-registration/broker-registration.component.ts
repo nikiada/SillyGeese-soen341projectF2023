@@ -1,7 +1,7 @@
-// broker-registration.component.ts
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FirebaseApi } from "../api/firebase-api";
 
 @Component({
   selector: 'app-broker-registration',
@@ -14,47 +14,44 @@ export class BrokerRegistrationComponent {
   brokerPassword: string = '';
   successMessage: string = '';
   isFormVisible: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private auth: AngularFireAuth,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private firebaseApi: FirebaseApi
   ) {}
 
+  /**
+   * Toggles the visibility of the registration form.
+   */
   toggleFormVisibility() {
     this.isFormVisible = !this.isFormVisible;
+    console.log('Form visibility toggled:', this.isFormVisible);
   }
 
+  /**
+   * Closes the registration form.
+   */
   closeForm() {
     this.isFormVisible = false;
+    console.log('Form closed');
   }
 
+  /**
+   * Registers a new broker using the provided name, email, and password.
+   * Displays success or error messages accordingly.
+   */
   registerBroker() {
-    this.auth.createUserWithEmailAndPassword(this.brokerEmail, this.brokerPassword)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        if (user) {
-          const userData = {
-            name: this.brokerName,
-            email: this.brokerEmail,
-            type: "BROKER"
-          };
-          this.firestore.collection('user').doc(user.uid).set(userData)
-            .then(() => {
-              this.successMessage = 'Broker registration successful!';
-              this.brokerName = '';
-              this.brokerEmail = '';
-              this.brokerPassword = '';
-            })
-            .catch((error) => {
-              console.error('Error setting user data in Firestore:', error);
-            });
-        } else {
-          console.error('User is null. Cannot set data.');
-        }
+    this.firebaseApi.registerBroker(this.brokerEmail, this.brokerPassword, this.brokerName)
+      .then(() => {
+        this.successMessage = 'Broker registration successful!';
+        this.brokerName = '';
+        this.brokerEmail = '';
+        this.brokerPassword = '';
       })
       .catch((error) => {
-        console.error('Error creating user:', error);
+        this.errorMessage = `Error registering broker: ${error}`;
       });
   }
-
 }
